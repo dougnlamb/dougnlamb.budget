@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="IFund and IBudgetItem both take transactions.  &#xD;&#xA;&#xD;&#xA;Maybe an IBudgetItem is just a special kind of IFund.">
+    <Position X="6.375" Y="3.833" Height="1.177" Width="1.7" />
+  </Comment>
+  <Interface Name="dougnlamb.budget.IBudgetItem">
+    <Position X="4" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAABAAAAAAAgAAASAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>budget\IBudgetItem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dougnlamb.budget.ITransaction">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAABABAAAAAAAAABAAAAAAAAAAAAAIAEAAAAAA=</HashCode>
+      <FileName>budget\ITransaction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="BudgetItems" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="dougnlamb.budget.IAccount">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAACAAABAAAAAAAgAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>budget\IAccount.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dougnlamb.budget.IBudget">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQACAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>budget\IBudget.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="BudgetItems" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="dougnlamb.budget.IFund">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAABAAAAAAAiAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>budget\IFund.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
