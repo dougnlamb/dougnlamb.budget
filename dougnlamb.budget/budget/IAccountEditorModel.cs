@@ -1,8 +1,10 @@
 ﻿namespace dougnlamb.budget {
     public interface IAccountEditorModel {
-        int oid { get; set; }
+        int oid { get; }
 
         string Name { get; set; }
+
+        IUser Owner { get; set; }
         ICurrency DefaultCurrency { get; set; }
     }
 }

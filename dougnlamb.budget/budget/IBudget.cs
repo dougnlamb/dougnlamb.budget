@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.budget {
     public interface IBudget : IBaseObject {
-        int oid { get; set; }
+        int oid { get; }
         IUser Owner { get; }
 
         string Name { get; }

@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="budget\Account.cs" />
+    <Compile Include="budget\AccountEditorModel.cs" />
+    <Compile Include="budget\Budget.cs" />
+    <Compile Include="budget\BudgetEditorModel.cs" />
     <Compile Include="budget\IAccount.cs" />
     <Compile Include="budget\IAccountEditorModel.cs" />
     <Compile Include="budget\IAllocation.cs" />
@@ -56,6 +60,9 @@
     <Compile Include="budget\ITransactionEditorModel.cs" />
     <Compile Include="budget\IUser.cs" />
     <Compile Include="budget\IUserAccess.cs" />
+    <Compile Include="budget\IUserEditorModel.cs" />
+    <Compile Include="budget\User.cs" />
+    <Compile Include="budget\UserEditorModel.cs" />
     <Compile Include="core\collections\AllItemsList.cs" />
     <Compile Include="core\collections\IPagedList.cs" />
     <Compile Include="budget\ITransaction.cs" />

@@ -2,7 +2,7 @@
 
 namespace dougnlamb.budget {
     public interface IBudgetItemEditorModel {
-        int oid { get; set; }
+        int oid { get; }
 
         string Name { get; set; }
         IMoney Amount { get; set; }

@@ -2,14 +2,17 @@
 
 namespace dougnlamb.budget {
     public interface IUser {
-        string UserId { get; set; }
-        string DisplayName { get; set; }
-        string Email { get; set; }
+        string UserId { get; }
+        string DisplayName { get; }
+        string Email { get; }
 
         IObservable<IAccount> Accounts { get; }
         IObservable<IBudget> Budgets { get; }
 
-        IAccount CreateAccount(string name);
-        IBudget CreateBudget(string name, DateTime startDate, DateTime endDate);
+        IAccountEditorModel CreateAccount();
+        IBudgetEditorModel CreateBudget();
+
+        IUserEditorModel Edit(IUser editingUser);
+        void Save(IUser savingUser, IUserEditorModel model);
     }
 }

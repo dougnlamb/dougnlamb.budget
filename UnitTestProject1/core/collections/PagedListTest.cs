@@ -11,7 +11,7 @@ namespace test.core.collections {
         public void Test() {
             TestPagedList list = new TestPagedList(27);
 
-            foreach(int x in list.AllItems) {
+            foreach (int x in list.AllItems) {
                 Trace.WriteLine(x);
             }
             list.PageSize = 10;
@@ -50,7 +50,17 @@ namespace test.core.collections {
                 }
             }
         }
-        private void testPageContents(TestPagedList list) { 
+
+        [TestMethod]
+        public void TestAllItems() {
+            TestPagedList list = new TestPagedList(27);
+
+            foreach (int x in list.AllItems) {
+                Trace.WriteLine(x);
+            }
+        }
+
+        private void testPageContents(TestPagedList list) {
             for (int page = 0; page < list.PageCount; page++) {
                 IReadOnlyList<int> currentPage = list[page];
                 for (int idx = 0; idx < currentPage.Count; idx++) {
