@@ -11,7 +11,7 @@ namespace dougnlamb.core.collections {
         int PageCount { get; }
         int TotalItemCount { get; }
 
-        IList<T> Items(int pageId);
-
+        IReadOnlyList<T> this[int pageIndex] { get; }
+        IReadOnlyList<T> AllItems { get; }
     }
 }

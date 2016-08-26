@@ -10,6 +10,10 @@ namespace test.core.collections {
         [TestMethod]
         public void Test() {
             TestPagedList list = new TestPagedList(27);
+
+            foreach(int x in list.AllItems) {
+                Trace.WriteLine(x);
+            }
             list.PageSize = 10;
             Assert.AreEqual(3, list.PageCount);
             testPageContents(list);
@@ -40,7 +44,7 @@ namespace test.core.collections {
             Assert.AreEqual(3, strList.PageCount);
 
             for (int page = 0; page < strList.PageCount; page++) {
-                IList<string> currentPage = strList.Items(page);
+                IReadOnlyList<string> currentPage = strList[page];
                 for (int idx = 0; idx < currentPage.Count; idx++) {
                     Trace.WriteLine(currentPage[idx]);
                 }
@@ -48,7 +52,7 @@ namespace test.core.collections {
         }
         private void testPageContents(TestPagedList list) { 
             for (int page = 0; page < list.PageCount; page++) {
-                IList<int> currentPage = list.Items(page);
+                IReadOnlyList<int> currentPage = list[page];
                 for (int idx = 0; idx < currentPage.Count; idx++) {
                     Assert.AreEqual(idx + (page * list.PageSize) + 1, currentPage[idx]);
                     Trace.WriteLine(currentPage[idx]);

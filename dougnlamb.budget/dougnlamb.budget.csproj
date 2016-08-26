@@ -46,6 +46,7 @@
     <Compile Include="budget\IBudgetItem.cs" />
     <Compile Include="budget\IBudgetPeriod.cs" />
     <Compile Include="budget\IFund.cs" />
+    <Compile Include="core\collections\AllItemsList.cs" />
     <Compile Include="core\collections\IPagedList.cs" />
     <Compile Include="budget\ITransaction.cs" />
     <Compile Include="budget\IUser.cs" />

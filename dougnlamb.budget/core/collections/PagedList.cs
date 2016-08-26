@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.core.collections {
     public class PagedList<T> : IPagedList<T> {
-        IList<T> mList;
+        private List<T> mList;
 
         public PagedList(IList<T> list) {
-            mList = list;
+            mList = new List<T>(list);
         }
 
         public int PageCount {
             get {
-                return (mList.Count + (PageSize -1)) / PageSize;
+                return (mList.Count + (PageSize - 1)) / PageSize;
             }
         }
 
-        public int PageSize {get; set; }
+        public int PageSize { get; set; }
 
         public int TotalItemCount {
             get {
@@ -26,8 +26,20 @@ namespace dougnlamb.core.collections {
             }
         }
 
-        public IList<T> Items(int pageId) {
-            return new List<T>(mList.Skip<T>((pageId) * PageSize).Take(PageSize));
+        private IReadOnlyList<T> mAllItems = null;
+        public IReadOnlyList<T> AllItems {
+            get {
+                if (mAllItems == null) {
+                    mAllItems = new AllPagedItemsList<T>(this);
+                }
+                return mAllItems;
+            }
+        }
+
+        public IReadOnlyList<T> this[int pageIndex] {
+            get {
+                return new List<T>(mList.Skip<T>((pageIndex) * PageSize).Take(PageSize));
+            }
         }
     }
 }

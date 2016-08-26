@@ -10,18 +10,18 @@ namespace dougnlamb.core.collections {
 
         public TestPagedList(int count) {
             mInts = new List<int>();
-            for(int idx = 1; idx <=count; idx++) {
+            for (int idx = 1; idx <= count; idx++) {
                 mInts.Add(idx);
             }
         }
 
         public int PageCount {
             get {
-                return (mInts.Count + (PageSize -1)) / PageSize;
+                return (mInts.Count + (PageSize - 1)) / PageSize;
             }
         }
 
-        public int PageSize {get; set; }
+        public int PageSize { get; set; }
 
         public int TotalItemCount {
             get {
@@ -29,8 +29,16 @@ namespace dougnlamb.core.collections {
             }
         }
 
-        public IList<int> Items(int pageId) {
-            return new List<int>(mInts.Skip((pageId) * PageSize).Take(PageSize));
+        public IReadOnlyList<int> AllItems {
+            get {
+                return mInts;
+            }
+        }
+
+        public IReadOnlyList<int> this[int pageIndex] {
+            get {
+                return new List<int>(mInts.Skip((pageIndex) * PageSize).Take(PageSize));
+            }
         }
     }
 }
