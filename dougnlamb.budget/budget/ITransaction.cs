@@ -1,17 +1,31 @@
-﻿using System;
+﻿using dougnlamb.core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace dougnlamb.budget {
-    public interface ITransaction {
-        DateTime TransactionDate { get; set; }
-        Decimal TransactionAmount { get; set; }
-        IBudgetItem[] BudgetItems { get; set; }
+    public interface ITransaction : IBaseObject {
+        int oid { get; }
 
-        IUser ReportedBy { get; set; }
-        DateTime ReportedDate { get; set; }
-        int oid { get; set; }
+        DateTime TransactionDate { get; }
+        IMoney TransactionAmount { get; }
+
+        IObservable<IAllocation> Allocations { get; }
+        IAllocation CreateAllocation(IBudgetItem budgetItem, IMoney amount);
+
+        IUser ReportedBy { get;  }
+        DateTime ReportedDate { get; }
+
+        string Note { get; set; }
+
+        bool IsAllocated { get; }
+        IMoney GetAllocationDiscrepency();
+
+        bool IsCleared { get; }
+        void ReportCleared(IUser user);
+        void ReportCleared(IMoney updatedAmount, IUser user);
+        DateTime ClearedDate { get; }
     }
 }

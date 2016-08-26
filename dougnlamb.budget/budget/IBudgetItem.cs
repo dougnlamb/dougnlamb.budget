@@ -1,16 +1,38 @@
-﻿using System;
+﻿using dougnlamb.core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace dougnlamb.budget {
-    public interface IBudgetItem {
-        Decimal Amount { get; set; }
-        Decimal Balance { get; set; }
+    public interface IBudgetItem : IBaseObject {
+        int oid { get; }
+        string Name { get; }
+        void UpdateName(string name, IUser user);
 
-        string Notes { get; set; }
-        string Name { get; set; }
-        int oid { get; set; }
+        IBudget Budget { get; }
+
+        IMoney Amount { get; }
+        void UpdateAmount(IMoney amount, IUser user);
+
+        IMoney Balance { get; }
+
+        IObservable<IAllocation> Allocations { get; }
+
+        string Notes { get; }
+        void UpdateNotes(string notes, IUser user);
+
+        DateTime ReminderDate { get; }
+        void UpdateReminderDate(DateTime reminderDate, IUser user);
+
+        DateTime DueDate { get; }
+        void UpdateDueDate(DateTime dueDate, IUser user);
+
+        bool IsClosed { get; }
+        void Close(IUser user);
+
+        DateTime ClosedDate { get; }
+        IUser ClosedBy { get; }
     }
 }

@@ -6,36 +6,30 @@
   <Interface Name="dougnlamb.budget.IBudgetItem">
     <Position X="4" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAABAAAAAAAgAAASAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAIBAACBAAAgAAASAAAAAAEAAAAAAAAAAgAA=</HashCode>
       <FileName>budget\IBudgetItem.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="dougnlamb.budget.ITransaction">
     <Position X="0.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAABABAAAAAAAAABAAAAAAAAAAAAAIAEAAAAAA=</HashCode>
+      <HashCode>AAAAAAAABIBAAAABAAAABAAAEAACAAAAAAIAEAEAAAA=</HashCode>
       <FileName>budget\ITransaction.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="BudgetItems" />
-    </ShowAsAssociation>
   </Interface>
   <Interface Name="dougnlamb.budget.IAccount">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACAAACAAABAAAAAAAgAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AACAAACAAABAEAAAAAgAIAQAAAAAAAAAAAgAAAACAAA=</HashCode>
       <FileName>budget\IAccount.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="dougnlamb.budget.IBudget">
     <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQACAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AAAAQACAAABAAAAAACAAAAQAAAAAAEAAAAAAAAAAAAI=</HashCode>
       <FileName>budget\IBudget.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="BudgetItems" />
-    </ShowAsAssociation>
   </Interface>
   <Interface Name="dougnlamb.budget.IFund">
     <Position X="7" Y="1.75" Width="1.5" />
