@@ -27,5 +27,8 @@ namespace dougnlamb.budget {
         void ReportCleared(IUser user);
         void ReportCleared(IMoney updatedAmount, IUser user);
         DateTime ClearedDate { get; }
+
+        ITransactionEditorModel Edit(IUser user);
+        void Save(IUser user, ITransactionEditorModel model);
     }
 }

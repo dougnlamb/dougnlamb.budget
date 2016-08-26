@@ -42,18 +42,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="budget\IAccount.cs" />
+    <Compile Include="budget\IAccountEditorModel.cs" />
     <Compile Include="budget\IAllocation.cs" />
+    <Compile Include="budget\IAllocationEditorModel.cs" />
     <Compile Include="budget\IBudget.cs" />
+    <Compile Include="budget\IBudgetEditorModel.cs" />
     <Compile Include="budget\IBudgetItem.cs" />
+    <Compile Include="budget\IBudgetItemEditorModel.cs" />
     <Compile Include="budget\IBudgetPeriod.cs" />
     <Compile Include="budget\ICurrency.cs" />
     <Compile Include="budget\IFund.cs" />
     <Compile Include="budget\IMoney.cs" />
+    <Compile Include="budget\ITransactionEditorModel.cs" />
+    <Compile Include="budget\IUser.cs" />
     <Compile Include="budget\IUserAccess.cs" />
     <Compile Include="core\collections\AllItemsList.cs" />
     <Compile Include="core\collections\IPagedList.cs" />
     <Compile Include="budget\ITransaction.cs" />
-    <Compile Include="budget\IUser.cs" />
     <Compile Include="core\collections\PagedList.cs" />
     <Compile Include="core\IBaseObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BudgetDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="core\security\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

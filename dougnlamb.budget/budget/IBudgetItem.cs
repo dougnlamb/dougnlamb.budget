@@ -34,5 +34,8 @@ namespace dougnlamb.budget {
 
         DateTime ClosedDate { get; }
         IUser ClosedBy { get; }
+
+        IBudgetItemEditorModel Edit(IUser user);
+        void Save(IUser user, IBudgetItemEditorModel model);
     }
 }

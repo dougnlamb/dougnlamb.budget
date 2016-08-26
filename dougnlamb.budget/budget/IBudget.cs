@@ -13,15 +13,18 @@ namespace dougnlamb.budget {
         IUser Owner { get; }
 
         string Name { get; }
-        void UpdateName(string name, IUser user);
 
         IBudgetPeriod Period { get; }
-        IObservable<IBudgetItem> BudgetItems { get; }
 
+        IObservable<IBudgetItem> BudgetItems { get; }
         IBudgetItem AddBudgetItem(IMoney amount, string name, string notes, IUser creatingUser);
+
         void AddUserAccess(IUser user, UserAccessMode accessMode);
 
         bool IsClosed { get; }
         void Close(IUser user);
+
+        IBudgetEditorModel Edit(IUser user);
+        void Save(IUser user, IBudgetEditorModel model);
     }
 }

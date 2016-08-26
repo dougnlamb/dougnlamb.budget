@@ -13,9 +13,9 @@ namespace dougnlamb.budget {
         string Name { get; }
 
         ICurrency DefaultCurrency { get; }
-        void UpdateDefaultCurrency(ICurrency currency, IUser user);
 
         ITransaction AddTransaction(IMoney amount, IUser reportingUser, string notes);
+        IAllocation AddAllocatedTransaction(IMoney amount, IBudgetItem budgetItem, IUser reportingUser, string notes);
 
         IPagedList<ITransaction> Transactions { get; }
         IPagedList<ITransaction> GetTransactionsSince(DateTime date);
@@ -25,5 +25,8 @@ namespace dougnlamb.budget {
 
         IReadOnlyList<IUserAccess> UserAccessList { get; }
         IUserAccess AddUserAccess(IUser user, UserAccessMode accessMode);
+
+        IAccountEditorModel Edit(IUser user);
+        void Save(IUser user, IAccountEditorModel model);
     }
 }
