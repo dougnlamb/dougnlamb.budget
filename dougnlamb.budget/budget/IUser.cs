@@ -1,7 +1,10 @@
-﻿using System;
+﻿using dougnlamb.core;
+using dougnlamb.core.security;
+using System;
 
 namespace dougnlamb.budget {
-    public interface IUser {
+    public interface IUser : IBaseObject {
+        int oid { get; }
         string UserId { get; }
         string DisplayName { get; }
         string Email { get; }
@@ -9,10 +12,10 @@ namespace dougnlamb.budget {
         IObservable<IAccount> Accounts { get; }
         IObservable<IBudget> Budgets { get; }
 
-        IAccountEditorModel CreateAccount();
-        IBudgetEditorModel CreateBudget();
+        IAccountEditorModel CreateAccount(ISecurityContext securityContext);
+        IBudgetEditorModel CreateBudget(ISecurityContext securityContext);
 
-        IUserEditorModel Edit(IUser editingUser);
-        void Save(IUser savingUser, IUserEditorModel model);
+        IUserEditorModel Edit(ISecurityContext securityContext);
+        void Save(ISecurityContext securityContext, IUserEditorModel model);
     }
 }

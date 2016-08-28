@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core;
+using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace dougnlamb.budget {
         DateTime ClosedDate { get; }
         IUser ClosedBy { get; }
 
-        IBudgetItemEditorModel Edit(IUser user);
-        void Save(IUser user, IBudgetItemEditorModel model);
+        IBudgetItemEditorModel Edit(ISecurityContext securityContext);
+        void Save(ISecurityContext securityContext, IBudgetItemEditorModel model);
     }
 }

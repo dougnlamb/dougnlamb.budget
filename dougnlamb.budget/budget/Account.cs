@@ -4,16 +4,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using dougnlamb.core.collections;
+using dougnlamb.budget.dao;
+using dougnlamb.core.security;
 
 namespace dougnlamb.budget {
     public class Account : IAccount {
+        private bool mIsLoaded;
+
+        public Account() {
+            mIsLoaded = true;
+        }
+
+        public Account(int oid) {
+            mIsLoaded = false;
+            this.oid = oid;
+        }
+
         public int oid { get; internal set; }
 
-        public string Name { get; internal set; }
+        private string mName;
+        public string Name {
+            get {
+                Load();
+                return mName;
+            }
+            internal set {
+                mName = value;
+            }
+        }
 
-        public IUser Owner { get; internal set; }
+        private IUser mOwner;
+        public IUser Owner {
+            get {
+                Load();
+                return mOwner;
+            }
+            internal set {
+                mOwner = value;
+            }
+        }
 
-        public ICurrency DefaultCurrency { get; internal set; }
+        private ICurrency mDefaultCurrency;
+        public ICurrency DefaultCurrency {
+            get {
+                Load();
+                return mDefaultCurrency;
+            }
+            internal set {
+                mDefaultCurrency = value;
+            }
+        }
 
         public IMoney Balance {
             get {
@@ -27,15 +67,29 @@ namespace dougnlamb.budget {
             }
         }
 
-        public DateTime CreatedBy {
+        public static IAccountDao GetDao() {
+            return new AccountDao();
+        }
+
+        private IUser mCreatedBy;
+        public IUser CreatedBy {
             get {
-                throw new NotImplementedException();
+                Load();
+                return mCreatedBy;
+            }
+            internal set {
+                mCreatedBy = value;
             }
         }
 
+        private DateTime mCreatedDate;
         public DateTime CreatedDate {
             get {
-                throw new NotImplementedException();
+                Load();
+                return mCreatedDate;
+            }
+            internal set {
+                mCreatedDate = value;
             }
         }
 
@@ -45,15 +99,25 @@ namespace dougnlamb.budget {
             }
         }
 
+        private IUser mUpdatedBy;
         public IUser UpdatedBy {
             get {
-                throw new NotImplementedException();
+                Load();
+                return mUpdatedBy;
+            }
+            internal set {
+                mUpdatedBy = value;
             }
         }
 
+        private DateTime mUpdatedDate;
         public DateTime UpdatedDate {
             get {
-                throw new NotImplementedException();
+                Load();
+                return mUpdatedDate;
+            }
+            internal set {
+                mUpdatedDate = value;
             }
         }
 
@@ -87,12 +151,75 @@ namespace dougnlamb.budget {
             throw new NotImplementedException();
         }
 
-        public IAccountEditorModel Edit(IUser editingUser) {
-            return new AccountEditorModel(editingUser, this);
+        public IAccountEditorModel Edit(ISecurityContext securityContext) {
+            return new AccountEditorModel(securityContext, this);
         }
 
-        public void Save(IUser savingUser, IAccountEditorModel model) {
-            throw new NotImplementedException();
+        // Using the editor model to update properties before the save.
+        public void Save(ISecurityContext securityContext, IAccountEditorModel model) {
+            if (this.oid != model.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            Account acct = new Account() {
+                oid = this.oid,
+                Name = model.Name,
+                Owner = model.Owner,
+                DefaultCurrency = model.DefaultCurrency,
+                CreatedBy = this.CreatedBy,
+                CreatedDate = this.CreatedDate,
+                // TODO: Fix UpdatedBy
+                //UpdatedBy = model.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+
+            this.oid = GetDao().Save(securityContext, acct);
+            if(acct.oid == 0) {
+                acct.oid = this.oid;
+            }
+
+            RefreshFrom(acct);
+        }
+
+        public void Refresh(ISecurityContext securityContext) {
+            IAccount account = GetDao().Retrieve(securityContext, this.oid);
+            RefreshFrom(account);
+        }
+
+        private void RefreshFrom(IAccount account) {
+            if (this.oid != account.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            this.Name = account.Name;
+            this.Owner = account.Owner;
+            this.CreatedBy = account.CreatedBy;
+            this.CreatedDate = account.CreatedDate;
+            this.UpdatedBy = account.UpdatedBy;
+            this.UpdatedDate = account.UpdatedDate;
+            this.DefaultCurrency = account.DefaultCurrency;
+        }
+
+        private void Load() {
+            if (!mIsLoaded) {
+                if (this.oid > 0) {
+                    Refresh();
+                }
+
+                mIsLoaded = true;
+            }
+        }
+
+        private void Refresh() {
+            IAccount account = GetDao().Retrieve(null, this.oid);
+            this.Name = account.Name;
+            this.Owner = account.Owner;
+            this.DefaultCurrency = account.DefaultCurrency;
+
+            this.CreatedBy = account.CreatedBy;
+            this.CreatedDate = account.CreatedDate;
+            this.UpdatedBy = account.UpdatedBy;
+            this.UpdatedDate = account.UpdatedDate;
         }
     }
 }

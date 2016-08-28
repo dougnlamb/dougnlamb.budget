@@ -1,5 +1,6 @@
 ﻿using dougnlamb.core;
 using dougnlamb.core.collections;
+using dougnlamb.core.security;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace dougnlamb.budget {
         bool IsClosed { get; }
         void Close(IUser user);
 
-        IBudgetEditorModel Edit(IUser user);
-        void Save(IUser user, IBudgetEditorModel model);
+        IBudgetEditorModel Edit(ISecurityContext securityContext);
+        void Save(ISecurityContext securityContext, IBudgetEditorModel model);
     }
 }

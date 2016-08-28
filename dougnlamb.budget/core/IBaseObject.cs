@@ -11,7 +11,7 @@ namespace dougnlamb.core {
         bool CanUpdate(IUser user);
 
         DateTime CreatedDate { get; }
-        DateTime CreatedBy { get; }
+        IUser CreatedBy { get; }
 
         DateTime UpdatedDate { get; }
         IUser UpdatedBy { get;  }

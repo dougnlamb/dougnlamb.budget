@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core;
+using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace dougnlamb.budget {
 
         void UpdateAllocation(ICurrency amount, string notes, IUser user);
 
-        IAllocationEditorModel Edit(IUser user);
-        void Save(IUser user, IAllocationEditorModel model);
+        IAllocationEditorModel Edit(ISecurityContext securityContext);
+        void Save(ISecurityContext securityContext, IAllocationEditorModel model);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using dougnlamb.core;
 using dougnlamb.core.collections;
+using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,9 @@ namespace dougnlamb.budget {
         IReadOnlyList<IUserAccess> UserAccessList { get; }
         IUserAccess AddUserAccess(IUser user, UserAccessMode accessMode);
 
-        IAccountEditorModel Edit(IUser user);
-        void Save(IUser user, IAccountEditorModel model);
+        IAccountEditorModel Edit(ISecurityContext securityContext);
+        void Save(ISecurityContext securityContext, IAccountEditorModel model);
+
+        void Refresh(ISecurityContext securityContext);
     }
 }

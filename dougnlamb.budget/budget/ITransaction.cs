@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core;
+using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace dougnlamb.budget {
         void ReportCleared(IMoney updatedAmount, IUser user);
         DateTime ClearedDate { get; }
 
-        ITransactionEditorModel Edit(IUser user);
-        void Save(IUser user, ITransactionEditorModel model);
+        ITransactionEditorModel Edit(ISecurityContext securityContext);
+        void Save(ISecurityContext securityContext, ITransactionEditorModel model);
     }
 }

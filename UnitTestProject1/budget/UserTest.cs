@@ -16,7 +16,7 @@ namespace test.budget.budget {
             model.DisplayName = "Doug";
             model.Email = "dougnlamb@gmail.com";
 
-            usr.Save(usr, model);
+            model.Save(null);
 
             Assert.AreEqual(model.DisplayName, usr.DisplayName);
             Assert.AreEqual(model.Email, usr.Email);
@@ -24,10 +24,24 @@ namespace test.budget.budget {
         }
 
         [TestMethod]
-        public void CreateAccountTest() {
-            IUser usr = new User();
-            IAccountEditorModel model = usr.CreateAccount();
-            model.Name = "Bubba";
+        public void RetrieveUserTest() {
+            IUser usr = User.GetDao().Retrieve(null, 1000);
+
+            Assert.AreEqual(1000, usr.oid);
+            Assert.AreEqual("bubba", usr.UserId);
+            Assert.AreEqual("Bubba Gump", usr.DisplayName);
+            Assert.AreEqual("bubba@example.com", usr.Email);
         }
+
+        [TestMethod]
+        public void LazyLoadUserTest() {
+            IUser usr = new User(1000);
+
+            Assert.AreEqual(1000, usr.oid);
+            Assert.AreEqual("bubba", usr.UserId);
+            Assert.AreEqual("Bubba Gump", usr.DisplayName);
+            Assert.AreEqual("bubba@example.com", usr.Email);
+        }
+
     }
 }

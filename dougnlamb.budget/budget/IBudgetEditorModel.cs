@@ -1,8 +1,12 @@
-﻿namespace dougnlamb.budget {
+﻿using dougnlamb.core.security;
+
+namespace dougnlamb.budget {
     public interface IBudgetEditorModel {
         int oid { get; }
 
         string Name { get; set; }
         IBudgetPeriod Period { get; set; }
+
+        IBudget Save(ISecurityContext securityContext);
     }
 }
