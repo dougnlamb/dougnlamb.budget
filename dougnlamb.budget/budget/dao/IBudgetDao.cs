@@ -11,6 +11,6 @@ namespace dougnlamb.budget.dao {
 
         IBudget Retrieve(ISecurityContext securityContext, int oid);
         IPagedList<IBudget> Find(ISecurityContext securityContext, string name);
-        void Save(ISecurityContext securityContext, IBudget budget);
+        int Save(ISecurityContext securityContext, IBudget budget);
     }
 }

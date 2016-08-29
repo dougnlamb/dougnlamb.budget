@@ -17,6 +17,12 @@ namespace test.budget.budget {
             IAccount account = model.Save(null);
 
             Assert.AreEqual(model.Name, account.Name);
+
+            Assert.IsTrue(account.oid > 0);
+            IAccount a = Account.GetDao().Retrieve(null, account.oid);
+
+            Assert.AreEqual(account.oid, a.oid);
+            Assert.AreEqual(account.Name, a.Name);
         }
 
 

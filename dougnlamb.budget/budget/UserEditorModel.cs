@@ -22,9 +22,15 @@ namespace dougnlamb.budget {
         public string Email { get; set;}
 
         public IUser Save(ISecurityContext securityContext) {
-            if(mUser == null) {
-                mUser = User.GetDao().Retrieve(securityContext, this.oid);
+            if (mUser == null) {
+                if (this.oid > 0) {
+                    mUser = User.GetDao().Retrieve(securityContext, this.oid);
+                }
+                else {
+                    mUser = new User();
+                }
             }
+
             mUser.Save(securityContext, this);
 
             return mUser;

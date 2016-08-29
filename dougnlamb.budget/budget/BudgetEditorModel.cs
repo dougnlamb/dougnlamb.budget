@@ -14,12 +14,19 @@ namespace dougnlamb.budget {
 
         public int oid { get; internal set; }
         public string Name { get; set; }
+        public IUser Owner { get; set; }
         public IBudgetPeriod Period { get; set; }
 
         public IBudget Save(ISecurityContext securityContext) {
-            if(mBudget == null) {
-                mBudget = Budget.GetDao().Retrieve(securityContext, this.oid);
+            if (mBudget == null) {
+                if (this.oid > 0) {
+                    mBudget = Budget.GetDao().Retrieve(securityContext, this.oid);
+                }
+                else {
+                    mBudget = new Budget();
+                }
             }
+
             mBudget.Save(securityContext, this);
 
             return mBudget;

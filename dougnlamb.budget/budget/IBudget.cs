@@ -14,7 +14,7 @@ namespace dougnlamb.budget {
         IUser Owner { get; }
 
         string Name { get; }
-
+        // TODO: Add DefaultCurrency
         IBudgetPeriod Period { get; }
 
         IObservable<IBudgetItem> BudgetItems { get; }

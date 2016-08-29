@@ -17,6 +17,12 @@ namespace test.budget.budget {
             IBudget budget = model.Save(null);
 
             Assert.AreEqual(model.Name, budget.Name);
+            Assert.IsTrue(budget.oid > 0);
+
+            IBudget b = Budget.GetDao().Retrieve(null,budget.oid);
+
+            Assert.AreEqual(budget.oid, b.oid);
+            Assert.AreEqual(budget.Name, b.Name);
         }
 
 

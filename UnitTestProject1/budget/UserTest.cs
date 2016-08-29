@@ -16,10 +16,17 @@ namespace test.budget.budget {
             model.DisplayName = "Doug";
             model.Email = "dougnlamb@gmail.com";
 
-            model.Save(null);
+            usr = model.Save(null);
 
             Assert.AreEqual(model.DisplayName, usr.DisplayName);
             Assert.AreEqual(model.Email, usr.Email);
+
+            Assert.IsTrue(usr.oid > 0);
+            IUser u = User.GetDao().Retrieve(null, usr.oid);
+
+            Assert.AreEqual(usr.oid, u.oid);
+            Assert.AreEqual(usr.DisplayName, u.DisplayName);
+            Assert.AreEqual(usr.Email, u.Email);
 
         }
 

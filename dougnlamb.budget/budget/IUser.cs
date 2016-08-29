@@ -9,6 +9,8 @@ namespace dougnlamb.budget {
         string DisplayName { get; }
         string Email { get; }
 
+        //TODO: Add Default Currency.
+
         IObservable<IAccount> Accounts { get; }
         IObservable<IBudget> Budgets { get; }
 

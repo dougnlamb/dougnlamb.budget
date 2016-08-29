@@ -13,14 +13,17 @@ namespace dougnlamb.budget.dao {
         }
 
         public IBudget Retrieve(ISecurityContext securityContext, int oid) {
-            return new Budget {
-                oid = oid,
-                Name = "Bubba's budget",
-            };
+            return MockDatabase.RetrieveBudget(oid);
         }
 
-        public void Save(ISecurityContext securityContext, IBudget budget) {
-            throw new NotImplementedException();
+        public int Save(ISecurityContext securityContext, IBudget budget) {
+            if(budget.oid == 0 ) {
+                return MockDatabase.InsertBudget(budget);
+            }
+            else {
+                MockDatabase.UpdateBudget(budget);
+                return budget.oid;
+            }
         }
     }
 }

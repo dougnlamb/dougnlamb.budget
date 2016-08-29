@@ -5,6 +5,6 @@ namespace dougnlamb.budget.dao {
     public interface IUserDao {
         IPagedList<IUser> Find(ISecurityContext securityContext, string name);
         IUser Retrieve(ISecurityContext securityContext, int oid);
-        void Save(ISecurityContext securityContext, IUser user);
+        int Save(ISecurityContext securityContext, IUser user);
     }
 }

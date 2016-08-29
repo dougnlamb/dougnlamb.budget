@@ -130,9 +130,44 @@ namespace dougnlamb.budget {
             if (model.oid != this.oid) {
                 throw new InvalidOperationException("Oid mismatch.");
             }
-            this.UserId = model.UserId;
-            this.Email = model.Email;
-            this.DisplayName = model.DisplayName;
+
+            User usr = new User() {
+                oid = this.oid,
+                UserId = model.UserId,
+                DisplayName = model.DisplayName,
+                Email = model.Email,
+                CreatedBy = this.CreatedBy,
+                CreatedDate = this.CreatedDate,
+                // TODO: Fix UpdatedBy
+                //UpdatedBy = model.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+
+            this.oid = GetDao().Save(securityContext, usr);
+            if (usr.oid == 0) {
+                usr.oid = this.oid;
+            }
+
+            RefreshFrom(usr);
+        }
+
+        public void Refresh(ISecurityContext securityContext) {
+            IUser user = GetDao().Retrieve(securityContext, this.oid);
+            RefreshFrom(user);
+        }
+
+        private void RefreshFrom(IUser user) {
+            if (this.oid != user.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            this.DisplayName = user.DisplayName;
+            this.Email = user.Email;
+
+            this.CreatedBy = user.CreatedBy;
+            this.CreatedDate = user.CreatedDate;
+            this.UpdatedBy = user.UpdatedBy;
+            this.UpdatedDate = user.UpdatedDate;
         }
 
         public static IUserDao GetDao() {

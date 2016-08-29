@@ -17,16 +17,17 @@ namespace dougnlamb.budget.dao {
         }
 
         public IUser Retrieve(ISecurityContext securityContext, int oid) {
-            return new User {
-                oid = oid,
-                UserId = "bubba",
-                DisplayName = "Bubba Gump",
-                Email = "bubba@example.com"
-            };
+            return MockDatabase.RetrieveUser(oid);
         }
 
-        public void Save(ISecurityContext securityContext, IUser user) {
-            throw new NotImplementedException();
+        public int Save(ISecurityContext securityContext, IUser user) {
+            if (user.oid == 0) {
+                return MockDatabase.InsertUser(user);
+            }
+            else {
+                MockDatabase.UpdateUser(user);
+                return user.oid;
+            }
         }
     }
 }

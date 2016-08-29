@@ -141,7 +141,45 @@ namespace dougnlamb.budget {
             if (this.oid != model.oid) {
                 throw new InvalidOperationException("Oid mismatch.");
             }
-            this.Name = model.Name;
+
+            Budget budget = new Budget() {
+                oid = this.oid,
+                Name = model.Name,
+                Owner = model.Owner,
+                Period = model.Period,
+                CreatedBy = this.CreatedBy,
+                CreatedDate = this.CreatedDate,
+                // TODO: Fix UpdatedBy
+                //UpdatedBy = model.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+
+            this.oid = GetDao().Save(securityContext, budget);
+            if (budget.oid == 0) {
+                budget.oid = this.oid;
+            }
+
+            RefreshFrom(budget);
+        }
+
+        public void Refresh(ISecurityContext securityContext) {
+            IBudget budget = GetDao().Retrieve(securityContext, this.oid);
+            RefreshFrom(budget);
+        }
+
+        private void RefreshFrom(IBudget budget) {
+            if (this.oid != budget.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            this.Name = budget.Name;
+            this.Owner = budget.Owner;
+            this.Period = budget.Period;
+            this.CreatedBy = budget.CreatedBy;
+            this.CreatedDate = budget.CreatedDate;
+            this.UpdatedBy = budget.UpdatedBy;
+            this.UpdatedDate = budget.UpdatedDate;
+            //this.DefaultCurrency = budget.DefaultCurrency;
         }
 
         private void Load() {

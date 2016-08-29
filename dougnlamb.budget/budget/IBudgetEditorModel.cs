@@ -5,6 +5,7 @@ namespace dougnlamb.budget {
         int oid { get; }
 
         string Name { get; set; }
+        IUser Owner { get; set; }
         IBudgetPeriod Period { get; set; }
 
         IBudget Save(ISecurityContext securityContext);
