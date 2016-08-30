@@ -1,4 +1,5 @@
 ﻿using dougnlamb.budget.dao;
+using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
@@ -56,13 +57,13 @@ namespace dougnlamb.budget {
             }
         }
 
-        public IObservable<IAccount> Accounts {
+        public IObservableList<IAccount> Accounts {
             get {
                 throw new NotImplementedException();
             }
         }
 
-        public IObservable<IBudget> Budgets {
+        public IObservableList<IBudget> Budgets {
             get {
                 throw new NotImplementedException();
             }

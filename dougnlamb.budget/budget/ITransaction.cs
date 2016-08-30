@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core;
+using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace dougnlamb.budget {
         DateTime TransactionDate { get; }
         IMoney TransactionAmount { get; }
 
-        IObservable<IAllocation> Allocations { get; }
+        IObservableList<IAllocation> Allocations { get; }
         IAllocation CreateAllocation(IBudgetItem budgetItem, IMoney amount);
 
         IUser ReportedBy { get;  }

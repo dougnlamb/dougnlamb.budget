@@ -73,8 +73,10 @@
     <Compile Include="core\collections\AllItemsList.cs" />
     <Compile Include="core\collections\IPagedList.cs" />
     <Compile Include="budget\ITransaction.cs" />
+    <Compile Include="core\collections\ObservableList.cs" />
     <Compile Include="core\collections\PagedList.cs" />
     <Compile Include="core\IBaseObject.cs" />
+    <Compile Include="core\collections\IObservableList.cs" />
     <Compile Include="core\security\ISecurityContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="core\collections\TestPagedList.cs" />

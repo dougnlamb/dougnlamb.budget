@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core;
+using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System;
 
@@ -11,8 +12,8 @@ namespace dougnlamb.budget {
 
         //TODO: Add Default Currency.
 
-        IObservable<IAccount> Accounts { get; }
-        IObservable<IBudget> Budgets { get; }
+        IObservableList<IAccount> Accounts { get; }
+        IObservableList<IBudget> Budgets { get; }
 
         IAccountEditorModel CreateAccount(ISecurityContext securityContext);
         IBudgetEditorModel CreateBudget(ISecurityContext securityContext);

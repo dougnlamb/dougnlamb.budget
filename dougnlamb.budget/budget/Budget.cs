@@ -16,7 +16,7 @@ namespace dougnlamb.budget {
             this.oid = oid;
         }
 
-        public IObservable<IBudgetItem> BudgetItems {
+        public IObservableList<IBudgetItem> BudgetItems {
             get {
                 throw new NotImplementedException();
             }

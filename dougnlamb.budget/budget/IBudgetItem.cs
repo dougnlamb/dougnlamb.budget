@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core;
+using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace dougnlamb.budget {
 
         IMoney Balance { get; }
 
-        IObservable<IAllocation> Allocations { get; }
+        IObservableList<IAllocation> Allocations { get; }
 
         string Notes { get; }
         void UpdateNotes(string notes, IUser user);
