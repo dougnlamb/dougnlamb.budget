@@ -1,4 +1,5 @@
 ﻿using dougnlamb.budget.dao;
+using dougnlamb.budget.models;
 using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System;

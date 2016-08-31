@@ -1,4 +1,4 @@
-﻿namespace dougnlamb.budget {
+﻿namespace dougnlamb.budget.models {
     public interface IAllocationEditorModel {
         int oid { get; }
 

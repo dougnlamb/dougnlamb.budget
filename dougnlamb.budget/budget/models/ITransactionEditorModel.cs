@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace dougnlamb.budget {
+namespace dougnlamb.budget.models {
     public interface ITransactionEditorModel {
         int oid { get; }
 

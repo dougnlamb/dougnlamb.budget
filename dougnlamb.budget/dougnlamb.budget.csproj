@@ -42,9 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="budget\Account.cs" />
-    <Compile Include="budget\AccountEditorModel.cs" />
+    <Compile Include="budget\models\AccountEditorModel.cs" />
     <Compile Include="budget\Budget.cs" />
-    <Compile Include="budget\BudgetEditorModel.cs" />
+    <Compile Include="budget\models\BudgetEditorModel.cs" />
     <Compile Include="budget\dao\BudgetDao.cs" />
     <Compile Include="budget\dao\IBudgetDao.cs" />
     <Compile Include="budget\dao\IAccountDao.cs" />
@@ -52,24 +52,24 @@
     <Compile Include="budget\dao\MockDatabase.cs" />
     <Compile Include="budget\dao\UserDao.cs" />
     <Compile Include="budget\IAccount.cs" />
-    <Compile Include="budget\IAccountEditorModel.cs" />
+    <Compile Include="budget\models\IAccountEditorModel.cs" />
     <Compile Include="budget\IAllocation.cs" />
-    <Compile Include="budget\IAllocationEditorModel.cs" />
+    <Compile Include="budget\models\IAllocationEditorModel.cs" />
     <Compile Include="budget\IBudget.cs" />
-    <Compile Include="budget\IBudgetEditorModel.cs" />
+    <Compile Include="budget\models\IBudgetEditorModel.cs" />
     <Compile Include="budget\IBudgetItem.cs" />
-    <Compile Include="budget\IBudgetItemEditorModel.cs" />
+    <Compile Include="budget\models\IBudgetItemEditorModel.cs" />
     <Compile Include="budget\IBudgetPeriod.cs" />
     <Compile Include="budget\ICurrency.cs" />
     <Compile Include="budget\IFund.cs" />
     <Compile Include="budget\IMoney.cs" />
-    <Compile Include="budget\ITransactionEditorModel.cs" />
+    <Compile Include="budget\models\ITransactionEditorModel.cs" />
     <Compile Include="budget\IUser.cs" />
     <Compile Include="budget\IUserAccess.cs" />
     <Compile Include="budget\dao\IUserDao.cs" />
-    <Compile Include="budget\IUserEditorModel.cs" />
+    <Compile Include="budget\models\IUserEditorModel.cs" />
     <Compile Include="budget\User.cs" />
-    <Compile Include="budget\UserEditorModel.cs" />
+    <Compile Include="budget\models\UserEditorModel.cs" />
     <Compile Include="core\collections\AllItemsList.cs" />
     <Compile Include="core\collections\IPagedList.cs" />
     <Compile Include="budget\ITransaction.cs" />

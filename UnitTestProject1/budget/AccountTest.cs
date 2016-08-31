@@ -1,4 +1,5 @@
 ﻿using dougnlamb.budget;
+using dougnlamb.budget.models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

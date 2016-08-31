@@ -2,7 +2,7 @@
 using dougnlamb.core.security;
 using System;
 
-namespace dougnlamb.budget {
+namespace dougnlamb.budget.models {
     public class AccountEditorModel : IAccountEditorModel {
         private IAccount mAccount;
         public AccountEditorModel(ISecurityContext securityContext, IAccount account) {

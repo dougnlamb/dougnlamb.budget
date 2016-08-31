@@ -1,6 +1,6 @@
 ﻿using dougnlamb.core.security;
 
-namespace dougnlamb.budget {
+namespace dougnlamb.budget.models {
     public interface IAccountEditorModel {
         int oid { get; }
 

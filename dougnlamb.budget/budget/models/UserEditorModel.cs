@@ -1,7 +1,7 @@
 ﻿using dougnlamb.core.security;
 using System;
 
-namespace dougnlamb.budget {
+namespace dougnlamb.budget.models {
     internal class UserEditorModel : IUserEditorModel {
 
         private IUser mUser;

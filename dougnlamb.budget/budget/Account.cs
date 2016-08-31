@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using dougnlamb.core.collections;
 using dougnlamb.budget.dao;
 using dougnlamb.core.security;
+using dougnlamb.budget.models;
 
 namespace dougnlamb.budget {
     public class Account : IAccount {

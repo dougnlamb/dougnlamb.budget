@@ -1,7 +1,7 @@
 ﻿using dougnlamb.core.security;
 using System;
 
-namespace dougnlamb.budget {
+namespace dougnlamb.budget.models {
     public interface IBudgetItemEditorModel {
         int oid { get; }
 

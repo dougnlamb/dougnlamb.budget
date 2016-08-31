@@ -1,8 +1,8 @@
 ﻿using dougnlamb.core.security;
 using System;
 
-namespace dougnlamb.budget {
-    internal class BudgetEditorModel : IBudgetEditorModel {
+namespace dougnlamb.budget.models {
+    public class BudgetEditorModel : IBudgetEditorModel {
 
         private IBudget mBudget;
         public BudgetEditorModel(ISecurityContext securityContext, Budget budget) {

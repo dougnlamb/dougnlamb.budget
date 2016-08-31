@@ -1,4 +1,5 @@
-﻿using dougnlamb.core;
+﻿using dougnlamb.budget.models;
+using dougnlamb.core;
 using dougnlamb.core.security;
 using System;
 using System.Collections.Generic;
