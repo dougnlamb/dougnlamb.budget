@@ -91,6 +91,17 @@ namespace dougnlamb.budget {
 
         public int oid { get; internal set; }
 
+        private ICurrency mDefaultCurrency;
+        public ICurrency DefaultCurrency {
+            get {
+                Load();
+                return mDefaultCurrency;
+            }
+            internal set {
+                mDefaultCurrency = value;
+            }
+        }
+
         private IUser mOwner;
         public IUser Owner {
             get {
@@ -111,10 +122,6 @@ namespace dougnlamb.budget {
             set {
                 mPeriod = value;
             }
-        }
-
-        public IBudgetItem AddBudgetItem(IMoney amount, string name, string notes, IUser creatingUser) {
-            throw new NotImplementedException();
         }
 
         public void AddUserAccess(IUser user, UserAccessMode accessMode) {
@@ -207,5 +214,12 @@ namespace dougnlamb.budget {
             return new BudgetDao();
         }
 
+        public IBudgetItemEditorModel CreateBudgetItem(ISecurityContext securityContext) {
+            throw new NotImplementedException();
+        }
+
+        public IBudgetItem AddBudgetItem(ISecurityContext securityContext, IBudgetItemEditorModel model) {
+            throw new NotImplementedException();
+        }
     }
 }

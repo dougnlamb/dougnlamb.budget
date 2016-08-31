@@ -15,7 +15,8 @@ namespace dougnlamb.budget {
         IMoney TransactionAmount { get; }
 
         IObservableList<IAllocation> Allocations { get; }
-        IAllocation CreateAllocation(IBudgetItem budgetItem, IMoney amount);
+        IAllocationEditorModel CreateAllocation(ISecurityContext securityContext);
+        IAllocation AddAllocation(ISecurityContext securityContext, IAllocationEditorModel model);
 
         IUser ReportedBy { get;  }
         DateTime ReportedDate { get; }
@@ -26,8 +27,6 @@ namespace dougnlamb.budget {
         IMoney GetAllocationDiscrepency();
 
         bool IsCleared { get; }
-        void ReportCleared(IUser user);
-        void ReportCleared(IMoney updatedAmount, IUser user);
         DateTime ClearedDate { get; }
 
         ITransactionEditorModel Edit(ISecurityContext securityContext);

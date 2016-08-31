@@ -127,14 +127,6 @@ namespace dougnlamb.budget {
             }
         }
 
-        public IAllocation AddAllocatedTransaction(IMoney amount, IBudgetItem budgetItem, IUser reportingUser, string notes) {
-            throw new NotImplementedException();
-        }
-
-        public ITransaction AddTransaction(IMoney amount, IUser reportingUser, string notes) {
-            throw new NotImplementedException();
-        }
-
         public IUserAccess AddUserAccess(IUser user, UserAccessMode accessMode) {
             throw new NotImplementedException();
         }
@@ -220,6 +212,14 @@ namespace dougnlamb.budget {
             this.CreatedDate = account.CreatedDate;
             this.UpdatedBy = account.UpdatedBy;
             this.UpdatedDate = account.UpdatedDate;
+        }
+
+        public ITransactionEditorModel CreateTransaction(ISecurityContext securityContext) {
+            throw new NotImplementedException();
+        }
+
+        public ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model) {
+            throw new NotImplementedException();
         }
     }
 }

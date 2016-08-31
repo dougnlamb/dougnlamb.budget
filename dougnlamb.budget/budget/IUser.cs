@@ -9,14 +9,16 @@ namespace dougnlamb.budget {
         string UserId { get; }
         string DisplayName { get; }
         string Email { get; }
-
-        //TODO: Add Default Currency.
+        ICurrency DefaultCurrency { get; }
 
         IObservableList<IAccount> Accounts { get; }
         IObservableList<IBudget> Budgets { get; }
 
         IAccountEditorModel CreateAccount(ISecurityContext securityContext);
+        IAccount AddAccount(ISecurityContext securityContext, IAccountEditorModel model);
+
         IBudgetEditorModel CreateBudget(ISecurityContext securityContext);
+        IBudget AddBudget(ISecurityContext securityContext, IBudgetEditorModel model);
 
         IUserEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IUserEditorModel model);

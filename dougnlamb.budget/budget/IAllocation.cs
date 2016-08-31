@@ -13,12 +13,8 @@ namespace dougnlamb.budget {
         IBudgetItem BudgetItem { get; }
 
         ICurrency Amount { get; }
-        void UpdateAmount(ICurrency amount, IUser user);
 
         string Notes { get; }
-        void UpdateNotes(string notes, IUser user);
-
-        void UpdateAllocation(ICurrency amount, string notes, IUser user);
 
         IAllocationEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IAllocationEditorModel model);

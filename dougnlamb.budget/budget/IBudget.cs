@@ -14,11 +14,12 @@ namespace dougnlamb.budget {
         IUser Owner { get; }
 
         string Name { get; }
-        // TODO: Add DefaultCurrency
+        ICurrency DefaultCurrency { get; }
         IBudgetPeriod Period { get; }
 
         IObservableList<IBudgetItem> BudgetItems { get; }
-        IBudgetItem AddBudgetItem(IMoney amount, string name, string notes, IUser creatingUser);
+        IBudgetItemEditorModel CreateBudgetItem(ISecurityContext securityContext);
+        IBudgetItem AddBudgetItem(ISecurityContext securityContext, IBudgetItemEditorModel model);
 
         void AddUserAccess(IUser user, UserAccessMode accessMode);
 

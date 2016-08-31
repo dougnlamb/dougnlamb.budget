@@ -57,6 +57,18 @@ namespace dougnlamb.budget {
             }
         }
 
+        private ICurrency mDefaultCurrency;
+        public ICurrency DefaultCurrency {
+            get {
+                Load();
+                return mDefaultCurrency;
+            }
+            internal set {
+                mDefaultCurrency = value;
+            }
+        }
+
+        private IUser mOwner;
         public IObservableList<IAccount> Accounts {
             get {
                 throw new NotImplementedException();
@@ -202,6 +214,14 @@ namespace dougnlamb.budget {
         }
 
         public bool CanUpdate(IUser user) {
+            throw new NotImplementedException();
+        }
+
+        public IAccount AddAccount(ISecurityContext securityContext, IAccountEditorModel model) {
+            throw new NotImplementedException();
+        }
+
+        public IBudget AddBudget(ISecurityContext securityContext, IBudgetEditorModel model) {
             throw new NotImplementedException();
         }
     }

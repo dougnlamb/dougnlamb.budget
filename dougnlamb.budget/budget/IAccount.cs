@@ -15,8 +15,8 @@ namespace dougnlamb.budget {
 
         ICurrency DefaultCurrency { get; }
 
-        ITransaction AddTransaction(IMoney amount, IUser reportingUser, string notes);
-        IAllocation AddAllocatedTransaction(IMoney amount, IBudgetItem budgetItem, IUser reportingUser, string notes);
+        ITransactionEditorModel CreateTransaction(ISecurityContext securityContext);
+        ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model);
 
         IPagedList<ITransaction> Transactions { get; }
         IPagedList<ITransaction> GetTransactionsSince(DateTime date);
