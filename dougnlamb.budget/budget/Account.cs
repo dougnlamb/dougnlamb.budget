@@ -157,8 +157,8 @@ namespace dougnlamb.budget {
             Account acct = new Account() {
                 oid = this.oid,
                 Name = model.Name,
-                Owner = model.Owner,
-                DefaultCurrency = model.DefaultCurrency,
+                Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
+                DefaultCurrency = Currency.GetDao().Retrieve(securityContext, model.DefaultCurrencyId),
                 CreatedBy = this.CreatedBy,
                 CreatedDate = this.CreatedDate,
                 // TODO: Fix UpdatedBy
@@ -216,7 +216,7 @@ namespace dougnlamb.budget {
         }
 
         public ITransactionEditorModel CreateTransaction(ISecurityContext securityContext) {
-            throw new NotImplementedException();
+            return new TransactionEditorModel(securityContext, this);
         }
 
         public ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model) {

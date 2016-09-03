@@ -6,7 +6,8 @@ namespace dougnlamb.budget.models {
         int oid { get; }
 
         string Name { get; set; }
-        IMoney Amount { get; set; }
+        IMoneyEditorModel Amount { get; set; }
+
         string Notes { get; set; }
 
         DateTime ReminderDate { get; set; }

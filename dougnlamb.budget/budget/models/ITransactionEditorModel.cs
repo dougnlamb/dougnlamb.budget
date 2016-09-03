@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public interface ITransactionEditorModel {
         int oid { get; }
 
-        IMoney TransactionAmount { get; set; }
+        IMoneyEditorModel TransactionAmount { get; set; }
+
         string Note { get; set; }
         DateTime TransactionDate { get; set; }
     }

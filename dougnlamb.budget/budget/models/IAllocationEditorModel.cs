@@ -2,7 +2,7 @@
     public interface IAllocationEditorModel {
         int oid { get; }
 
-        IMoney Amount { get; set; }
+        IMoneyEditorModel Amount { get; set; }
         string Notes { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using dougnlamb.budget;
+using dougnlamb.budget.dao;
 using dougnlamb.budget.models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -10,10 +11,16 @@ using System.Threading.Tasks;
 namespace test.budget.budget {
     [TestClass]
     public class BudgetTest {
+        [TestInitialize]
+        public void init() {
+            MockDatabase.init();
+        }
+
         [TestMethod]
         public void CreateBudgetTest() {
-            IUser usr = new User();
+            IUser usr = User.GetDao().Retrieve(null, 1000);
             IBudgetEditorModel model = usr.CreateBudget(null);
+            ((BudgetEditorModel)model).CurrencySelector.SelectedCurrencyId = 1000;
             model.Name = "Bubba";
             IBudget budget = model.Save(null);
 
@@ -24,6 +31,7 @@ namespace test.budget.budget {
 
             Assert.AreEqual(budget.oid, b.oid);
             Assert.AreEqual(budget.Name, b.Name);
+            Assert.AreEqual(usr.oid, budget.Owner.oid);
         }
 
 

@@ -69,27 +69,44 @@ namespace dougnlamb.budget {
             }
         }
 
-        private IUser mOwner;
+        private ObservableList<IAccount> mAccounts;
         public IObservableList<IAccount> Accounts {
             get {
-                throw new NotImplementedException();
+                if (mAccounts == null) {
+                    mAccounts = new ObservableList<IAccount>();
+                }
+                return mAccounts;
             }
         }
 
+        private ObservableList<IBudget> mBudgets;
         public IObservableList<IBudget> Budgets {
             get {
-                throw new NotImplementedException();
+                if (mBudgets == null) {
+                    mBudgets = new ObservableList<IBudget>();
+                }
+                return mBudgets;
             }
         }
 
         public IAccountEditorModel CreateAccount(ISecurityContext securityContext) {
-            IAccount account = new Account();
-            return account.Edit(securityContext);
+            return new AccountEditorModel(securityContext, this);
+        }
+
+        public IAccount AddAccount(ISecurityContext securityContext, IAccountEditorModel model) {
+            IAccount acct = model.Save(securityContext);
+            Accounts.Add(acct);
+            return acct;
         }
 
         public IBudgetEditorModel CreateBudget(ISecurityContext securityContext) {
-            IBudget budget = new Budget();
-            return budget.Edit(securityContext);
+            return new BudgetEditorModel(securityContext, this);
+        }
+
+        public IBudget AddBudget(ISecurityContext securityContext, IBudgetEditorModel model) {
+            IBudget budget = model.Save(securityContext);
+            Budgets.Add(budget);
+            return budget;
         }
 
         public IUserEditorModel Edit(ISecurityContext securityContext) {
@@ -218,12 +235,20 @@ namespace dougnlamb.budget {
             throw new NotImplementedException();
         }
 
-        public IAccount AddAccount(ISecurityContext securityContext, IAccountEditorModel model) {
-            throw new NotImplementedException();
+        public IUserViewModel View(ISecurityContext securityContext) {
+            return new UserViewModel(securityContext, this);
         }
 
-        public IBudget AddBudget(ISecurityContext securityContext, IBudgetEditorModel model) {
-            throw new NotImplementedException();
+        public void Save(ISecurityContext securityContext, IUserRegistrationModel model) {
+            UserId = model.UserId;
+            DisplayName = model.DisplayName;
+            Email = model.Email;
+            CreatedDate = DateTime.Now;
+            // TODO: Fix UpdatedBy
+            //UpdatedBy = model.UpdatedBy,
+            UpdatedDate = DateTime.Now;
+
+            this.oid = GetDao().Save(securityContext, this);
         }
     }
 }

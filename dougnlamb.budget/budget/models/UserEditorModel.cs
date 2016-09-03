@@ -2,9 +2,15 @@
 using System;
 
 namespace dougnlamb.budget.models {
-    internal class UserEditorModel : IUserEditorModel {
+    public class UserEditorModel : IUserEditorModel {
 
         private IUser mUser;
+
+        public UserEditorModel() {
+            this.UserId = "";
+            this.DisplayName = "";
+            this.Email = "";
+        }
 
         public UserEditorModel(IUser user) {
             this.mUser = user;

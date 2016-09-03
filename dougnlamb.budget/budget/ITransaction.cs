@@ -22,7 +22,7 @@ namespace dougnlamb.budget {
         IUser ReportedBy { get;  }
         DateTime ReportedDate { get; }
 
-        string Note { get; set; }
+        string Note { get; }
 
         bool IsAllocated { get; }
         IMoney GetAllocationDiscrepency();

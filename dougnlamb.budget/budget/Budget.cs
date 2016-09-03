@@ -153,8 +153,9 @@ namespace dougnlamb.budget {
             Budget budget = new Budget() {
                 oid = this.oid,
                 Name = model.Name,
-                Owner = model.Owner,
-                Period = model.Period,
+                Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
+                DefaultCurrency = Currency.GetDao().Retrieve(securityContext, model.DefaultCurrencyId),
+                //Period = model.Period,
                 CreatedBy = this.CreatedBy,
                 CreatedDate = this.CreatedDate,
                 // TODO: Fix UpdatedBy
