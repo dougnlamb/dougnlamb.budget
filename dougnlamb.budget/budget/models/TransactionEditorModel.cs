@@ -4,18 +4,20 @@ using dougnlamb.core.security;
 
 namespace dougnlamb.budget {
     public class TransactionEditorModel : ITransactionEditorModel {
-        private Account account;
         private ISecurityContext securityContext;
         private ITransaction mTransaction;
 
+        public TransactionEditorModel() {
+        }
+
         public TransactionEditorModel(ISecurityContext securityContext, Account account) {
             this.securityContext = securityContext;
-            this.account = account;
-
+            AccountSelector = new AccountSelectionModel(account.oid);
             TransactionAmount =  new MoneyEditorModel(0, account.DefaultCurrency);
         }
 
         public int oid { get; internal set; }
+        public IAccountSelectionModel AccountSelector { get; set; }
         public string Note { get; set; }
         public IMoneyEditorModel TransactionAmount { get; set; }
 

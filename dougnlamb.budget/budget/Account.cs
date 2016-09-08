@@ -220,7 +220,9 @@ namespace dougnlamb.budget {
         }
 
         public ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model) {
-            throw new NotImplementedException();
+            ITransaction transaction = model.Save(securityContext);
+            //Transactions.Add(transaction);
+            return transaction;
         }
     }
 }

@@ -7,17 +7,6 @@ using System.Threading.Tasks;
 namespace dougnlamb.budget.dao {
     public class MockDatabase {
         public static void init() {
-            dbAccounts = new Dictionary<int, IAccount>() {
-            { 1000, new Account() {oid = 1000,Name="Bubba's account" } },
-            { 1001, new Account() {oid = 1001,Name="Gump's account" } }
-        };
-
-            dbBudgets = new Dictionary<int, IBudget>() {
-            { 1000, new Budget() {oid = 1000,Name="Bubba's budget" } },
-            { 1001, new Budget() {oid = 1001,Name="Gump's budget" } },
-            { 1002, new Budget() {oid = 1002,Name="Stacey's budget" } }
-        };
-
             dbCurrencies = new Dictionary<int, ICurrency>() {
             { 1000, new Currency() {oid = 1000, Code="USD", Description="US Dollars" } },
             { 1001, new Currency() {oid = 1001,Code="CAD", Description ="Canadian Dollars" } }
@@ -27,12 +16,27 @@ namespace dougnlamb.budget.dao {
             {1000, new User() { oid = 1000,
                 UserId = "bubba",
                 DisplayName = "Bubba Gump",
-                Email = "bubba@example.com" } },
+                Email = "bubba@example.com",
+                DefaultCurrency = dbCurrencies[1000] } },
             {1001, new User() { oid = 1000,
                 UserId = "gump",
                 DisplayName = "Gump the Kid",
-                Email = "gump@example.com" } }
+                Email = "gump@example.com",
+                DefaultCurrency = dbCurrencies[1000] } }
         };
+
+            dbAccounts = new Dictionary<int, IAccount>() {
+            { 1000, new Account() {oid = 1000, Owner = dbUsers[1000], Name="Bubba's account", DefaultCurrency = dbCurrencies[1000] } },
+            { 1001, new Account() {oid = 1001, Owner = dbUsers[1000], Name="Gump's account", DefaultCurrency = dbCurrencies[1000] } }
+        };
+
+            dbBudgets = new Dictionary<int, IBudget>() {
+            { 1000, new Budget() {oid = 1000, Owner = dbUsers[1000], Name="Bubba's budget", DefaultCurrency = dbCurrencies[1000] } },
+            { 1001, new Budget() {oid = 1001, Owner = dbUsers[1000], Name="Gump's budget", DefaultCurrency = dbCurrencies[1000] } },
+            { 1002, new Budget() {oid = 1002, Owner = dbUsers[1000], Name="Stacey's budget", DefaultCurrency = dbCurrencies[1000] } }
+        };
+
+
 
             dbTransactions = new Dictionary<int, ITransaction>() {
             { 1000, new Transaction() {oid = 1000,

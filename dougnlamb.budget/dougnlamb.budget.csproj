@@ -46,8 +46,14 @@
     <Compile Include="budget\dao\CurrencyDao.cs" />
     <Compile Include="budget\dao\ICurrencyDao.cs" />
     <Compile Include="budget\dao\ITransactionDao.cs" />
+    <Compile Include="budget\models\AllocationEditorModel.cs" />
+    <Compile Include="budget\models\AccountSelectionModel.cs" />
+    <Compile Include="budget\models\ITransactionSelectionModel.cs" />
+    <Compile Include="budget\models\IBudgetItemSelectionModel.cs" />
+    <Compile Include="budget\models\IAccountSelectionModel.cs" />
     <Compile Include="budget\models\IUserRegistrationModel.cs" />
     <Compile Include="budget\models\MoneyEditorModel.cs" />
+    <Compile Include="budget\models\QuickTransactionReportModel.cs" />
     <Compile Include="budget\models\UserRegistrationModel.cs" />
     <Compile Include="budget\models\TransactionEditorModel.cs" />
     <Compile Include="budget\Money.cs" />

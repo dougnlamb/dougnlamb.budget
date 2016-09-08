@@ -12,6 +12,8 @@ namespace dougnlamb.budget {
     public interface ITransaction : IBaseObject {
         int oid { get; }
 
+        IAccount Account { get; }
+
         DateTime TransactionDate { get; }
         IMoney TransactionAmount { get; }
 

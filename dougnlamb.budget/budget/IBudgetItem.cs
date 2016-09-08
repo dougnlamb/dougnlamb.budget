@@ -14,9 +14,9 @@ namespace dougnlamb.budget {
         string Name { get; }
 
         IBudget Budget { get; }
+        IAccount DefaultAccount { get; }
 
         IMoney Amount { get; }
-
         IMoney Balance { get; }
 
         IObservableList<IAllocation> Allocations { get; }
@@ -24,7 +24,6 @@ namespace dougnlamb.budget {
         string Notes { get; }
 
         DateTime ReminderDate { get; }
-
         DateTime DueDate { get; }
 
         bool IsClosed { get; }

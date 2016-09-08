@@ -39,6 +39,8 @@ namespace dougnlamb.budget {
 
         public DateTime UpdatedDate { get; internal set; }
 
+        public IAccount Account { get; internal set; }
+
         public IAllocation AddAllocation(ISecurityContext securityContext, IAllocationEditorModel model) {
             throw new NotImplementedException();
         }
@@ -64,7 +66,52 @@ namespace dougnlamb.budget {
         }
 
         public void Save(ISecurityContext securityContext, ITransactionEditorModel model) {
-            throw new NotImplementedException();
+            if (model.oid != this.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            Transaction transaction = new Transaction() {
+                oid = this.oid,
+                CreatedBy = this.CreatedBy,
+                CreatedDate = this.CreatedDate,
+                Account = new Account(model.AccountSelector.SelectedAccountId),
+                Note = model.Note,
+                TransactionDate = model.TransactionDate,
+                TransactionAmount = new Money() {
+                    Amount = model.TransactionAmount.Amount,
+                    Currency = Currency.GetDao().Retrieve(securityContext, model.TransactionAmount.CurrencyId)
+                },
+                // TODO: Fix UpdatedBy
+                //UpdatedBy = model.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+
+            this.oid = GetDao().Save(securityContext, transaction);
+            if (transaction.oid == 0) {
+                transaction.oid = this.oid;
+            }
+
+            RefreshFrom(transaction);
+        }
+
+        private void RefreshFrom(ITransaction transaction) {
+            if(this.oid != transaction.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            this.Account = transaction.Account;
+            this.ClearedDate = transaction.ClearedDate;
+            this.CreatedBy = transaction.CreatedBy;
+            this.CreatedDate = transaction.CreatedDate;
+            this.IsAllocated = transaction.IsAllocated;
+            this.IsCleared = transaction.IsCleared;
+            this.Note = transaction.Note;
+            this.ReportedBy = transaction.ReportedBy;
+            this.ReportedDate = transaction.ReportedDate;
+            this.TransactionAmount = transaction.TransactionAmount;
+            this.TransactionDate = transaction.TransactionDate;
+            this.UpdatedBy = transaction.UpdatedBy;
+            this.UpdatedDate = transaction.UpdatedDate;
         }
 
         public static ITransactionDao GetDao() {
