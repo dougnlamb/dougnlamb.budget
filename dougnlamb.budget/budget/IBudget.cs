@@ -15,6 +15,10 @@ namespace dougnlamb.budget {
         IUser Owner { get; }
 
         string Name { get; }
+
+        IMoney PlannedBalance { get; }
+        IMoney ActualBalance { get; }
+
         ICurrency DefaultCurrency { get; }
         IBudgetPeriod Period { get; }
 
@@ -25,7 +29,6 @@ namespace dougnlamb.budget {
         void AddUserAccess(IUser user, UserAccessMode accessMode);
 
         bool IsClosed { get; }
-        void Close(IUser user);
 
         IBudgetEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IBudgetEditorModel model);

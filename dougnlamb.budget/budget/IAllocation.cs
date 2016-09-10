@@ -13,7 +13,7 @@ namespace dougnlamb.budget {
         ITransaction Transaction { get; }
         IBudgetItem BudgetItem { get; }
 
-        ICurrency Amount { get; }
+        IMoney Amount { get; }
 
         string Notes { get; }
 

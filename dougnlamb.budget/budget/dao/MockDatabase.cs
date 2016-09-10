@@ -13,12 +13,12 @@ namespace dougnlamb.budget.dao {
         };
 
             dbUsers = new Dictionary<int, IUser>() {
-            {1000, new User() { oid = 1000,
+            {1000, new User(null) { oid = 1000,
                 UserId = "bubba",
                 DisplayName = "Bubba Gump",
                 Email = "bubba@example.com",
                 DefaultCurrency = dbCurrencies[1000] } },
-            {1001, new User() { oid = 1000,
+            {1001, new User(null) { oid = 1000,
                 UserId = "gump",
                 DisplayName = "Gump the Kid",
                 Email = "gump@example.com",
@@ -26,14 +26,14 @@ namespace dougnlamb.budget.dao {
         };
 
             dbAccounts = new Dictionary<int, IAccount>() {
-            { 1000, new Account() {oid = 1000, Owner = dbUsers[1000], Name="Bubba's account", DefaultCurrency = dbCurrencies[1000] } },
-            { 1001, new Account() {oid = 1001, Owner = dbUsers[1000], Name="Gump's account", DefaultCurrency = dbCurrencies[1000] } }
+            { 1000, new Account(null) {oid = 1000, Owner = dbUsers[1000], Name="Bubba's account", DefaultCurrency = dbCurrencies[1000] } },
+            { 1001, new Account(null) {oid = 1001, Owner = dbUsers[1000], Name="Gump's account", DefaultCurrency = dbCurrencies[1000] } }
         };
 
             dbBudgets = new Dictionary<int, IBudget>() {
-            { 1000, new Budget() {oid = 1000, Owner = dbUsers[1000], Name="Bubba's budget", DefaultCurrency = dbCurrencies[1000] } },
-            { 1001, new Budget() {oid = 1001, Owner = dbUsers[1000], Name="Gump's budget", DefaultCurrency = dbCurrencies[1000] } },
-            { 1002, new Budget() {oid = 1002, Owner = dbUsers[1000], Name="Stacey's budget", DefaultCurrency = dbCurrencies[1000] } }
+            { 1000, new Budget(null) {oid = 1000, Owner = dbUsers[1000], Name="Bubba's budget", DefaultCurrency = dbCurrencies[1000] } },
+            { 1001, new Budget(null) {oid = 1001, Owner = dbUsers[1000], Name="Gump's budget", DefaultCurrency = dbCurrencies[1000] } },
+            { 1002, new Budget(null) {oid = 1002, Owner = dbUsers[1000], Name="Stacey's budget", DefaultCurrency = dbCurrencies[1000] } }
         };
 
 

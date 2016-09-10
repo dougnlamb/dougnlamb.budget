@@ -50,7 +50,7 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void LazyLoadUserTest() {
-            IUser usr = new User(1000);
+            IUser usr = new User(null, 1000);
 
             Assert.AreEqual(1000, usr.oid);
             Assert.AreEqual("bubba", usr.UserId);

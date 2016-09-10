@@ -28,9 +28,8 @@ namespace dougnlamb.budget {
         IReadOnlyList<IUserAccess> UserAccessList { get; }
         IUserAccess AddUserAccess(IUser user, UserAccessMode accessMode);
 
+        IAccountViewModel View(ISecurityContext securityContext);
         IAccountEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IAccountEditorModel model);
-
-        void Refresh(ISecurityContext securityContext);
     }
 }

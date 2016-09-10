@@ -45,7 +45,7 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void LazyLoadAccountTest() {
-            IAccount account = new Account(1000);
+            IAccount account = new Account(null, 1000);
 
             Assert.AreEqual(1000, account.oid);
             Assert.AreEqual("Bubba's account", account.Name);

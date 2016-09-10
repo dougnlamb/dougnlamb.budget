@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using dougnlamb.core;
 
 namespace dougnlamb.budget {
-    public class User : IUser {
-        private bool mIsLoaded;
+    public class User : BaseObject, IUser {
 
-        public User() {
+        public User(ISecurityContext securityContext) : base(securityContext) {
             mIsLoaded = true;
         }
 
-        public User(int oid) {
+        public User(ISecurityContext securityContext, int oid) : base(securityContext) {
             this.oid = oid;
             mIsLoaded = false;
         }
@@ -113,56 +113,13 @@ namespace dougnlamb.budget {
             return new UserEditorModel(this);
         }
 
-        private IUser mCreatedBy;
-        public IUser CreatedBy {
-            get {
-                Load();
-                return mCreatedBy;
-            }
-            internal set {
-                mCreatedBy = value;
-            }
-        }
-
-        private DateTime mCreatedDate;
-        public DateTime CreatedDate {
-            get {
-                Load();
-                return mCreatedDate;
-            }
-            internal set {
-                mCreatedDate = value;
-            }
-        }
-
-        private IUser mUpdatedBy;
-        public IUser UpdatedBy {
-            get {
-                Load();
-                return mUpdatedBy;
-            }
-            internal set {
-                mUpdatedBy = value;
-            }
-        }
-
-        private DateTime mUpdatedDate;
-        public DateTime UpdatedDate {
-            get {
-                Load();
-                return mUpdatedDate;
-            }
-            internal set {
-                mUpdatedDate = value;
-            }
-        }
 
         public void Save(ISecurityContext securityContext, IUserEditorModel model) {
             if (model.oid != this.oid) {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
-            User usr = new User() {
+            User usr = new User(null) {
                 oid = this.oid,
                 UserId = model.UserId,
                 DisplayName = model.DisplayName,
@@ -182,9 +139,11 @@ namespace dougnlamb.budget {
             RefreshFrom(usr);
         }
 
-        public void Refresh(ISecurityContext securityContext) {
-            IUser user = GetDao().Retrieve(securityContext, this.oid);
-            RefreshFrom(user);
+        public override void Refresh() {
+            if (this.oid > 0) {
+                IUser user = GetDao().Retrieve(mSecurityContext, this.oid);
+                RefreshFrom(user);
+            }
         }
 
         private void RefreshFrom(IUser user) {
@@ -192,46 +151,23 @@ namespace dougnlamb.budget {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
+            this.UserId = user.UserId;
+            this.DefaultCurrency = user.DefaultCurrency;
             this.DisplayName = user.DisplayName;
             this.Email = user.Email;
 
-            this.CreatedBy = user.CreatedBy;
-            this.CreatedDate = user.CreatedDate;
-            this.UpdatedBy = user.UpdatedBy;
-            this.UpdatedDate = user.UpdatedDate;
+            base.RefreshFrom(user);
         }
 
         public static IUserDao GetDao() {
             return new UserDao();
         }
 
-        private void Load() {
-            if (!mIsLoaded) {
-                if (this.oid > 0) {
-                    Refresh();
-                }
-
-                mIsLoaded = true;
-            }
-        }
-
-        private void Refresh() {
-            IUser usr = GetDao().Retrieve(null, this.oid);
-            this.UserId = usr.UserId;
-            this.Email = usr.Email;
-            this.DisplayName = usr.DisplayName;
-
-            this.CreatedBy = usr.CreatedBy;
-            this.CreatedDate = usr.CreatedDate;
-            this.UpdatedBy = usr.UpdatedBy;
-            this.UpdatedDate = usr.UpdatedDate;
-        }
-
-        public bool CanRead(IUser user) {
+        public override bool CanRead(IUser user) {
             throw new NotImplementedException();
         }
 
-        public bool CanUpdate(IUser user) {
+        public override bool CanUpdate(IUser user) {
             throw new NotImplementedException();
         }
 

@@ -7,16 +7,16 @@ using dougnlamb.core.collections;
 using dougnlamb.budget.dao;
 using dougnlamb.core.security;
 using dougnlamb.budget.models;
+using dougnlamb.core;
 
 namespace dougnlamb.budget {
-    public class Account : IAccount {
-        private bool mIsLoaded;
+    public class Account : BaseObject, IAccount {
 
-        public Account() {
+        public Account(ISecurityContext securityContext) : base(securityContext) {
             mIsLoaded = true;
         }
 
-        public Account(int oid) {
+        public Account(ISecurityContext securityContext, int oid) : base(securityContext) {
             mIsLoaded = false;
             this.oid = oid;
         }
@@ -72,53 +72,9 @@ namespace dougnlamb.budget {
             return new AccountDao();
         }
 
-        private IUser mCreatedBy;
-        public IUser CreatedBy {
-            get {
-                Load();
-                return mCreatedBy;
-            }
-            internal set {
-                mCreatedBy = value;
-            }
-        }
-
-        private DateTime mCreatedDate;
-        public DateTime CreatedDate {
-            get {
-                Load();
-                return mCreatedDate;
-            }
-            internal set {
-                mCreatedDate = value;
-            }
-        }
-
         public IPagedList<ITransaction> Transactions {
             get {
                 throw new NotImplementedException();
-            }
-        }
-
-        private IUser mUpdatedBy;
-        public IUser UpdatedBy {
-            get {
-                Load();
-                return mUpdatedBy;
-            }
-            internal set {
-                mUpdatedBy = value;
-            }
-        }
-
-        private DateTime mUpdatedDate;
-        public DateTime UpdatedDate {
-            get {
-                Load();
-                return mUpdatedDate;
-            }
-            internal set {
-                mUpdatedDate = value;
             }
         }
 
@@ -132,16 +88,20 @@ namespace dougnlamb.budget {
             throw new NotImplementedException();
         }
 
-        public bool CanRead(IUser user) {
+        public override bool CanRead(IUser user) {
             throw new NotImplementedException();
         }
 
-        public bool CanUpdate(IUser user) {
+        public override bool CanUpdate(IUser user) {
             throw new NotImplementedException();
         }
 
         public IPagedList<ITransaction> GetTransactionsSince(DateTime date) {
             throw new NotImplementedException();
+        }
+
+        public IAccountViewModel View(ISecurityContext securityContext) {
+            return new AccountViewModel(securityContext, this);
         }
 
         public IAccountEditorModel Edit(ISecurityContext securityContext) {
@@ -154,7 +114,7 @@ namespace dougnlamb.budget {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
-            Account acct = new Account() {
+            Account acct = new Account(mSecurityContext) {
                 oid = this.oid,
                 Name = model.Name,
                 Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
@@ -167,15 +127,15 @@ namespace dougnlamb.budget {
             };
 
             this.oid = GetDao().Save(securityContext, acct);
-            if(acct.oid == 0) {
+            if (acct.oid == 0) {
                 acct.oid = this.oid;
             }
 
             RefreshFrom(acct);
         }
 
-        public void Refresh(ISecurityContext securityContext) {
-            IAccount account = GetDao().Retrieve(securityContext, this.oid);
+        public override void Refresh() {
+            IAccount account = GetDao().Retrieve(mSecurityContext, this.oid);
             RefreshFrom(account);
         }
 
@@ -186,33 +146,9 @@ namespace dougnlamb.budget {
 
             this.Name = account.Name;
             this.Owner = account.Owner;
-            this.CreatedBy = account.CreatedBy;
-            this.CreatedDate = account.CreatedDate;
-            this.UpdatedBy = account.UpdatedBy;
-            this.UpdatedDate = account.UpdatedDate;
-            this.DefaultCurrency = account.DefaultCurrency;
-        }
-
-        private void Load() {
-            if (!mIsLoaded) {
-                if (this.oid > 0) {
-                    Refresh();
-                }
-
-                mIsLoaded = true;
-            }
-        }
-
-        private void Refresh() {
-            IAccount account = GetDao().Retrieve(null, this.oid);
-            this.Name = account.Name;
-            this.Owner = account.Owner;
             this.DefaultCurrency = account.DefaultCurrency;
 
-            this.CreatedBy = account.CreatedBy;
-            this.CreatedDate = account.CreatedDate;
-            this.UpdatedBy = account.UpdatedBy;
-            this.UpdatedDate = account.UpdatedDate;
+            base.RefreshFrom(account);
         }
 
         public ITransactionEditorModel CreateTransaction(ISecurityContext securityContext) {

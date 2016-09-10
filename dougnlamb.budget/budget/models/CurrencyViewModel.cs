@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dougnlamb.core.security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.budget.models {
     public class CurrencyViewModel : ICurrencyViewModel {
-        public CurrencyViewModel(ICurrency currency) {
+        public CurrencyViewModel(ISecurityContext securityContext, ICurrency currency) {
             this.oid = currency?.oid ?? 0;
             this.Code = currency?.Code ?? "";
             this.Description = currency?.Description ?? "";

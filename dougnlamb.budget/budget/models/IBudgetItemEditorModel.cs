@@ -13,6 +13,9 @@ namespace dougnlamb.budget.models {
         DateTime ReminderDate { get; set; }
         DateTime DueDate { get; set; }
 
-        IBudget Save(ISecurityContext securityContext);
+        bool MarkClosed { get; set; }
+        bool UpdateBalance { get; set; }
+
+        IBudgetItem Save(ISecurityContext securityContext);
     }
 }

@@ -33,7 +33,7 @@ namespace dougnlamb.budget.models {
                     mUser = User.GetDao().Retrieve(securityContext, this.oid);
                 }
                 else {
-                    mUser = new User();
+                    mUser = new User(securityContext);
                 }
             }
 

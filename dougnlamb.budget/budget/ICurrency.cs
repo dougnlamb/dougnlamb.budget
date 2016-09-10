@@ -14,6 +14,8 @@ namespace dougnlamb.budget {
 
         IMoney Convert(IMoney money);
 
+        decimal GetConversionFactor(ICurrency currency);
+
         ICurrencyViewModel View(ISecurityContext securityContext);
     }
 }

@@ -1,18 +1,18 @@
 ﻿using dougnlamb.budget.dao;
 using dougnlamb.budget.models;
+using dougnlamb.core;
 using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System;
 
 namespace dougnlamb.budget {
-    public class Budget : IBudget {
-        private bool mIsLoaded;
+    public class Budget : BaseObject, IBudget {
 
-        public Budget() {
+        public Budget(ISecurityContext securityContext) : base(securityContext) {
             mIsLoaded = true;
         }
 
-        public Budget(int oid) {
+        public Budget(ISecurityContext securityContext, int oid) : base(securityContext) {
             mIsLoaded = false;
             this.oid = oid;
         }
@@ -23,53 +23,9 @@ namespace dougnlamb.budget {
             }
         }
 
-        private IUser mCreatedBy;
-        public IUser CreatedBy {
-            get {
-                Load();
-                return mCreatedBy;
-            }
-            internal set {
-                mCreatedBy = value;
-            }
-        }
-
-        private DateTime mCreatedDate;
-        public DateTime CreatedDate {
-            get {
-                Load();
-                return mCreatedDate;
-            }
-            internal set {
-                mCreatedDate = value;
-            }
-        }
-
         public IPagedList<ITransaction> Transactions {
             get {
                 throw new NotImplementedException();
-            }
-        }
-
-        private IUser mUpdatedBy;
-        public IUser UpdatedBy {
-            get {
-                Load();
-                return mUpdatedBy;
-            }
-            internal set {
-                mUpdatedBy = value;
-            }
-        }
-
-        private DateTime mUpdatedDate;
-        public DateTime UpdatedDate {
-            get {
-                Load();
-                return mUpdatedDate;
-            }
-            internal set {
-                mUpdatedDate = value;
             }
         }
 
@@ -125,19 +81,37 @@ namespace dougnlamb.budget {
             }
         }
 
+        private IMoney mPlannedBalance;
+        public IMoney PlannedBalance {
+            get {
+                Load();
+                return mPlannedBalance;
+            }
+            internal set {
+                mPlannedBalance = value;
+            }
+        }
+
+        private IMoney mActualBalance;
+        public IMoney ActualBalance {
+            get {
+                Load();
+                return mActualBalance;
+            }
+            internal set {
+                mActualBalance = value;
+            }
+        }
+
         public void AddUserAccess(IUser user, UserAccessMode accessMode) {
             throw new NotImplementedException();
         }
 
-        public bool CanRead(IUser user) {
+        public override bool CanRead(IUser user) {
             throw new NotImplementedException();
         }
 
-        public bool CanUpdate(IUser user) {
-            throw new NotImplementedException();
-        }
-
-        public void Close(IUser user) {
+        public override bool CanUpdate(IUser user) {
             throw new NotImplementedException();
         }
 
@@ -150,7 +124,7 @@ namespace dougnlamb.budget {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
-            Budget budget = new Budget() {
+            Budget budget = new Budget(securityContext) {
                 oid = this.oid,
                 Name = model.Name,
                 Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
@@ -171,8 +145,8 @@ namespace dougnlamb.budget {
             RefreshFrom(budget);
         }
 
-        public void Refresh(ISecurityContext securityContext) {
-            IBudget budget = GetDao().Retrieve(securityContext, this.oid);
+        public override void Refresh() {
+            IBudget budget = GetDao().Retrieve(mSecurityContext, this.oid);
             RefreshFrom(budget);
         }
 
@@ -184,32 +158,9 @@ namespace dougnlamb.budget {
             this.Name = budget.Name;
             this.Owner = budget.Owner;
             this.Period = budget.Period;
-            this.CreatedBy = budget.CreatedBy;
-            this.CreatedDate = budget.CreatedDate;
-            this.UpdatedBy = budget.UpdatedBy;
-            this.UpdatedDate = budget.UpdatedDate;
             //this.DefaultCurrency = budget.DefaultCurrency;
-        }
 
-        private void Load() {
-            if (!mIsLoaded) {
-                if (this.oid > 0) {
-                    Refresh();
-                }
-
-                mIsLoaded = true;
-            }
-        }
-
-        private void Refresh() {
-            IBudget account = GetDao().Retrieve(null, this.oid);
-            this.Name = account.Name;
-            this.Owner = account.Owner;
-
-            this.CreatedBy = account.CreatedBy;
-            this.CreatedDate = account.CreatedDate;
-            this.UpdatedBy = account.UpdatedBy;
-            this.UpdatedDate = account.UpdatedDate;
+            base.RefreshFrom(budget);
         }
 
         public static IBudgetDao GetDao() {

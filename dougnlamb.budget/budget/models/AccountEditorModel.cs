@@ -7,7 +7,7 @@ namespace dougnlamb.budget.models {
     public class AccountEditorModel : IAccountEditorModel {
         private IAccount mAccount;
         public AccountEditorModel(ISecurityContext securityContext, IUser user) {
-            this.mAccount = new Account();
+            this.mAccount = new Account(securityContext);
 
             this.Name = "";
             this.CurrencySelector = new CurrencySelectionModel(user?.DefaultCurrency?.oid ?? 0);
@@ -44,7 +44,7 @@ namespace dougnlamb.budget.models {
                     mAccount = Account.GetDao().Retrieve(securityContext, this.oid);
                 }
                 else {
-                    mAccount = new Account();
+                    mAccount = new Account(securityContext);
                 }
             }
 

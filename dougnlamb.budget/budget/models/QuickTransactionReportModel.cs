@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using dougnlamb.core.security;
+﻿using dougnlamb.core.security;
 
 namespace dougnlamb.budget.models {
     public class QuickTransactionReportModel { 

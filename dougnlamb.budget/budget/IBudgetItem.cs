@@ -27,11 +27,11 @@ namespace dougnlamb.budget {
         DateTime DueDate { get; }
 
         bool IsClosed { get; }
-        void Close(IUser user);
 
         DateTime ClosedDate { get; }
         IUser ClosedBy { get; }
 
+        IBudgetItemViewModel View(ISecurityContext mSecurityContext);
         IBudgetItemEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IBudgetItemEditorModel model);
     }

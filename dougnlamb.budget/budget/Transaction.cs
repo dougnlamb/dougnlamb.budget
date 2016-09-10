@@ -74,7 +74,7 @@ namespace dougnlamb.budget {
                 oid = this.oid,
                 CreatedBy = this.CreatedBy,
                 CreatedDate = this.CreatedDate,
-                Account = new Account(model.AccountSelector.SelectedAccountId),
+                Account = new Account(securityContext, model.AccountSelector.SelectedAccountId),
                 Note = model.Note,
                 TransactionDate = model.TransactionDate,
                 TransactionAmount = new Money() {
@@ -118,5 +118,8 @@ namespace dougnlamb.budget {
             return new TransactionDao();
         }
 
+        public ITransactionViewModel View(ISecurityContext securityContext) {
+            return new TransactionViewModel(securityContext, this);
+        }
     }
 }

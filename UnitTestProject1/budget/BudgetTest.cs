@@ -45,7 +45,7 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void LazyLoadBudgetTest() {
-            IBudget budget = new Budget(1000);
+            IBudget budget = new Budget(null, 1000);
 
             Assert.AreEqual(1000, budget.oid);
             Assert.AreEqual("Bubba's budget", budget.Name);

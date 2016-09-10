@@ -13,7 +13,7 @@ namespace dougnlamb.budget {
         }
 
         public IUser Save(ISecurityContext securityContext, IUserRegistrationModel model) {
-            IUser usr = new User();
+            IUser usr = new User(null);
             usr.Save(securityContext, model);
             return usr;
         }

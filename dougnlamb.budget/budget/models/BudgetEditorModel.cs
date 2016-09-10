@@ -7,7 +7,7 @@ namespace dougnlamb.budget.models {
         private IBudget mBudget;
 
         public BudgetEditorModel(ISecurityContext securityContext, IUser user) {
-            this.mBudget = new Budget();
+            this.mBudget = new Budget(securityContext);
             this.Owner = user.View(securityContext);
             this.Name = "";
             this.CurrencySelector = new CurrencySelectionModel(0);
@@ -40,7 +40,7 @@ namespace dougnlamb.budget.models {
                     mBudget = Budget.GetDao().Retrieve(securityContext, this.oid);
                 }
                 else {
-                    mBudget = new Budget();
+                    mBudget = new Budget(securityContext);
                 }
             }
 
