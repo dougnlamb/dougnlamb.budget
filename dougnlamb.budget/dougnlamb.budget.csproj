@@ -43,7 +43,10 @@
   <ItemGroup>
     <Compile Include="budget\Account.cs" />
     <Compile Include="budget\BudgetItem.cs" />
+    <Compile Include="budget\models\TransactionSelectionModel.cs" />
+    <Compile Include="budget\models\BudgetViewModel.cs" />
     <Compile Include="budget\models\BudgetItemEditorModel.cs" />
+    <Compile Include="budget\models\BudgetSelectionModel.cs" />
     <Compile Include="budget\models\BudgetItemViewModel.cs" />
     <Compile Include="budget\Currency.cs" />
     <Compile Include="budget\dao\BudgetItemDao.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="budget\models\AllocationEditorModel.cs" />
     <Compile Include="budget\models\AccountSelectionModel.cs" />
     <Compile Include="budget\models\BudgetItemSelectionModel.cs" />
+    <Compile Include="budget\models\IBudgetSelectionModel.cs" />
     <Compile Include="budget\models\ITransactionSelectionModel.cs" />
     <Compile Include="budget\models\IBudgetItemSelectionModel.cs" />
     <Compile Include="budget\models\IAccountSelectionModel.cs" />

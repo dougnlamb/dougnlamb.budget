@@ -5,38 +5,43 @@ using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public class AccountEditorModel : IAccountEditorModel {
+        private ISecurityContext mSecurityContext;
         private IAccount mAccount;
+
         public AccountEditorModel(ISecurityContext securityContext, IUser user) {
+            this.mSecurityContext = securityContext;
             this.mAccount = new Account(securityContext);
 
             this.Name = "";
-            this.CurrencySelector = new CurrencySelectionModel(user?.DefaultCurrency?.oid ?? 0);
-            this.Owner = user.View(securityContext);
+            this.DefaultCurrencySelector = new CurrencySelectionModel(securityContext, user?.DefaultCurrency);
+            this.Owner = user;
         }
 
         public AccountEditorModel(ISecurityContext securityContext, IAccount account) {
+            this.mSecurityContext = securityContext;
             this.mAccount = account;
 
             this.oid = account.oid;
             this.Name = account.Name;
-            this.CurrencySelector = new CurrencySelectionModel(account?.DefaultCurrency?.oid ?? 0);
-            this.Owner = account.Owner.View(securityContext);
-            OwnerId = this.Owner.oid;
+            this.DefaultCurrencySelector = new CurrencySelectionModel(securityContext, account?.DefaultCurrency);
+            this.Owner = account.Owner;
         }
 
         public int oid { get; protected set; }
         public string Name { get; set; }
 
-        public int OwnerId { get; set; }
-        public IUserViewModel Owner { get; internal set; }
-        public IList<IUserViewModel> PossibleOwners { get; }
+        public IUser Owner { get; set; }
 
-        public int DefaultCurrencyId {
+        public ICurrency DefaultCurrency {
             get {
-                return CurrencySelector.SelectedCurrencyId;
+                return DefaultCurrencySelector.SelectedCurrency;
+            }
+            set {
+                DefaultCurrencySelector.SelectedItem = value?.View(mSecurityContext) ?? null; 
             }
         }
-        public CurrencySelectionModel CurrencySelector { get; set; }
+
+        public CurrencySelectionModel DefaultCurrencySelector { get; set; }
 
         public IAccount Save(ISecurityContext securityContext) {
             if (mAccount == null) {

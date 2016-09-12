@@ -7,5 +7,6 @@ namespace dougnlamb.budget.dao {
         IList<IBudgetItem> Retrieve(ISecurityContext mSecurityContext, IBudget budget);
         IList<IBudgetItem> RetrieveOpen(ISecurityContext mSecurityContext, IBudget budget);
         IList<IBudgetItem> RetrieveOpen(ISecurityContext mSecurityContext);
+        int Save(ISecurityContext securityContext, IBudgetItem budgetItem);
     }
 }

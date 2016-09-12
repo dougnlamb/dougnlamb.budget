@@ -12,16 +12,34 @@ namespace dougnlamb.budget {
 
         public TransactionEditorModel(ISecurityContext securityContext, Account account) {
             this.securityContext = securityContext;
-            AccountSelector = new AccountSelectionModel(account.oid);
-            TransactionAmount =  new MoneyEditorModel(0, account.DefaultCurrency);
+            AccountSelector = new AccountSelectionModel(securityContext, account);
+            TransactionAmountEditor = new MoneyEditorModel(new Money() { Amount = 0, Currency = account.DefaultCurrency });
         }
 
         public int oid { get; internal set; }
         public IAccountSelectionModel AccountSelector { get; set; }
         public string Note { get; set; }
-        public IMoneyEditorModel TransactionAmount { get; set; }
+        public IMoney TransactionAmount {
+            get {
+                return new Money() { Amount = TransactionAmountEditor.Amount, Currency = TransactionAmountEditor.Currency };
+            }
+            set {
+                TransactionAmountEditor.Amount = value?.Amount ?? 0;
+                TransactionAmountEditor.CurrencySelector.SelectedItem = value?.Currency?.View(securityContext) ?? null;
+            }
+        }
+        public MoneyEditorModel TransactionAmountEditor { get; set; }
 
         public DateTime TransactionDate { get; set; }
+
+        public IAccount Account {
+            get {
+                return AccountSelector.SelectedAccount;
+            }
+            set {
+                AccountSelector.SelectedItem = value?.View(securityContext);
+            }
+        }
 
         public ITransaction Save(ISecurityContext securityContext) {
             if (mTransaction == null) {
@@ -29,7 +47,7 @@ namespace dougnlamb.budget {
                     mTransaction = Transaction.GetDao().Retrieve(securityContext, this.oid);
                 }
                 else {
-                    mTransaction = new Transaction();
+                    mTransaction = new Transaction(null);
                 }
             }
 

@@ -6,12 +6,8 @@ namespace dougnlamb.budget.models {
         int oid { get; }
 
         string Name { get; set; }
-
-        int OwnerId { get; set; }
-        IUserViewModel Owner { get;  }
-        IList<IUserViewModel> PossibleOwners { get; }
-
-        int DefaultCurrencyId { get; }
+        ICurrency DefaultCurrency { get; set; }
+        IUser Owner { get; set; }
 
         IAccount Save(ISecurityContext securityContext);
     }

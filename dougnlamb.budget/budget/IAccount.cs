@@ -12,6 +12,7 @@ namespace dougnlamb.budget {
     public interface IAccount : IBaseObject {
         int oid { get; }
         IUser Owner { get; }
+
         string Name { get; }
 
         ICurrency DefaultCurrency { get; }

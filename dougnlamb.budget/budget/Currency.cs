@@ -9,10 +9,41 @@ using dougnlamb.budget.dao;
 
 namespace dougnlamb.budget {
     public class Currency : ICurrency {
+        private ISecurityContext mSecurityContext;
+        private bool mIsLoaded;
+
+        public Currency(ISecurityContext securityContext) {
+            this.mSecurityContext = securityContext;
+            this.mIsLoaded = true;
+        }
+        public Currency(ISecurityContext securityContext, int oid) : this(securityContext) {
+            this.oid = oid;
+            this.mIsLoaded = false;
+        }
+
         public int oid { get; set; }
 
-        public string Code { get; set; }
-        public string Description { get; set; }
+        private string mCode;
+        public string Code {
+            get {
+                Load();
+                return mCode;
+            }
+            set {
+                mCode = value;
+            }
+        }
+
+        private string mDescription;
+        public string Description { 
+            get {
+                Load();
+                return mDescription;
+            }
+            set {
+                mDescription = value;
+            }
+        }
 
         public IMoney Convert(IMoney money) {
             decimal value = money.Amount * GetConversionFactor(money.Currency);
@@ -24,11 +55,26 @@ namespace dougnlamb.budget {
         }
 
         public decimal GetConversionFactor(ICurrency currency) {
-            return 1; 
+            return 1;
         }
 
         public static ICurrencyDao GetDao() {
             return new CurrencyDao();
+        }
+
+        protected void Load() {
+            if (!mIsLoaded) {
+                Refresh();
+                mIsLoaded = true;
+            }
+        }
+
+        public void Refresh() {
+            ICurrency curr = MockDatabase.RetrieveCurrency(oid);
+            if( curr == null) {
+                this.Code = curr.Code;
+                this.Description = curr.Description;
+            }
         }
     }
 }

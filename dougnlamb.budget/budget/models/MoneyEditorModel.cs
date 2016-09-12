@@ -4,24 +4,28 @@ using System.Collections.Generic;
 namespace dougnlamb.budget.models {
     public class MoneyEditorModel : IMoneyEditorModel {
         public MoneyEditorModel(decimal amount, ICurrency currency) {
+            CurrencySelector = new CurrencySelectionModel();
+            Currency = currency;
             Amount = amount;
-            CurrencyId = currency.oid;
+        }
+
+        public MoneyEditorModel(IMoney money) {
+            CurrencySelector = new CurrencySelectionModel();
+            Currency = money?.Currency ?? null;
+            Amount = money?.Amount ?? 0;
         }
 
         public decimal Amount { get; set; }
-        public int CurrencyId { get; set; }
 
-        public ICurrencyViewModel Currency {
+        public ICurrency Currency {
             get {
-                throw new NotImplementedException();
+                return CurrencySelector.SelectedCurrency;
+            }
+            set {
+                CurrencySelector.SelectedItem = value?.View(null) ?? null; 
             }
         }
 
-        public IList<ICurrencyViewModel> Currencies {
-            get {
-                throw new NotImplementedException();
-            }
-        }
-
+        public ICurrencySelectionModel CurrencySelector { get; set; }
     }
 }

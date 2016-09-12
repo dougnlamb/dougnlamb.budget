@@ -2,7 +2,9 @@
 
 namespace dougnlamb.budget.models {
     public interface ITransactionSelectionModel {
-        ITransaction SelectedItem { get; set; }
-        IList<ITransaction> Transactions { get; }
+        ITransaction SelectedTransaction { get; }
+
+        ITransactionViewModel SelectedItem { get; set; }
+        IList<ITransactionViewModel> Transactions { get; }
     }
 }

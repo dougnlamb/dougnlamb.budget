@@ -20,7 +20,7 @@ namespace test.budget.budget {
         public void CreateBudgetTest() {
             IUser usr = User.GetDao().Retrieve(null, 1000);
             IBudgetEditorModel model = usr.CreateBudget(null);
-            ((BudgetEditorModel)model).CurrencySelector.SelectedCurrencyId = 1000;
+            model.DefaultCurrency = Currency.GetDao().Retrieve(null, 1000);
             model.Name = "Bubba";
             IBudget budget = model.Save(null);
 

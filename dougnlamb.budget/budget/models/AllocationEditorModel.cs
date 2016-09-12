@@ -3,18 +3,45 @@ using dougnlamb.core.security;
 
 namespace dougnlamb.budget.models {
     public class AllocationEditorModel : IAllocationEditorModel {
-        private ISecurityContext securityContext;
+        private ISecurityContext mSecurityContext;
 
-        public AllocationEditorModel(ISecurityContext securityContext) {
-            this.securityContext = securityContext;
+        public AllocationEditorModel(ISecurityContext securityContext, IAllocation allocation) {
+            this.mSecurityContext = securityContext;
+            this.oid = allocation?.oid ?? 0;
+            this.Notes = allocation?.Notes ?? "";
+            this.Amount = allocation?.Amount ?? new Money();
+            this.AmountEditor = Amount.Edit(securityContext);
+            this.BudgetItem = allocation?.BudgetItem ?? null;
+            this.Transaction = allocation?.Transaction ?? null;
+            this.BudgetItemSelector = new BudgetItemSelectionModel(securityContext, BudgetItem);
+            this.TransactionSelector = new TransactionSelectionModel(securityContext, Transaction);
         }
 
         public int oid { get; internal set; }
         public string Notes { get; set; }
-        public IMoneyEditorModel Amount { get; set; }
+        public IMoney Amount { get; set; }
 
+        public IMoneyEditorModel AmountEditor { get; set; }
         public IBudgetItemSelectionModel BudgetItemSelector { get; set; }
         public ITransactionSelectionModel TransactionSelector { get; set; }
+
+        public IBudgetItem BudgetItem {
+            get {
+                return BudgetItemSelector?.SelectedBudgetItem;
+            }
+            set {
+                BudgetItemSelector.SelectedItem = value?.View(mSecurityContext) ?? null; 
+            }
+        }
+
+        public ITransaction Transaction {
+            get {
+                return TransactionSelector.SelectedTransaction;
+            }
+            set {
+                TransactionSelector.SelectedItem = value?.View(mSecurityContext) ?? null;
+            }
+        }
 
         public IAllocation Save(ISecurityContext securityContext) {
             throw new NotImplementedException();

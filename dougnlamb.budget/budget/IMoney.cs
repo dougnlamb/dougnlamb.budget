@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.budget {
     public interface IMoney {
-        decimal Amount { get; set; }
-        ICurrency Currency { get; set; }
+        decimal Amount { get; }
+        ICurrency Currency { get; }
+        void Add(IMoney amount);
 
         IMoneyViewModel View(ISecurityContext securityContext);
-        void Add(IMoney amount);
+        IMoneyEditorModel Edit(ISecurityContext securityContext);
     }
 }

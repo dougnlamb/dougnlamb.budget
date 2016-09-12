@@ -12,11 +12,14 @@ namespace dougnlamb.budget {
         public ICurrency Currency { get; set; }
 
         public void Add(IMoney money) {
-            money.Amount += money.Currency.Convert(this).Amount;
+            Amount += money.Currency.Convert(money).Amount;
         }
 
         public IMoneyViewModel View(ISecurityContext securityContext) {
             return new MoneyViewModel(securityContext, this);
+        }
+        public IMoneyEditorModel Edit(ISecurityContext securityContext) {
+            return new MoneyEditorModel(this);
         }
     }
 }

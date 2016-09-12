@@ -10,6 +10,16 @@ using dougnlamb.budget.dao;
 
 namespace dougnlamb.budget {
     public class Transaction : ITransaction {
+        private ISecurityContext mSecurityContext;
+
+        public Transaction(ISecurityContext securityContext) {
+            this.mSecurityContext = securityContext;
+        }
+        public Transaction(ISecurityContext securityContext, int oid) {
+            this.mSecurityContext = securityContext;
+            this.oid = oid;
+        }
+
         public IObservableList<IAllocation> Allocations {
             get {
                 throw new NotImplementedException();
@@ -70,17 +80,14 @@ namespace dougnlamb.budget {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
-            Transaction transaction = new Transaction() {
+            Transaction transaction = new Transaction(null) {
                 oid = this.oid,
                 CreatedBy = this.CreatedBy,
                 CreatedDate = this.CreatedDate,
-                Account = new Account(securityContext, model.AccountSelector.SelectedAccountId),
+                Account = model.Account,
                 Note = model.Note,
                 TransactionDate = model.TransactionDate,
-                TransactionAmount = new Money() {
-                    Amount = model.TransactionAmount.Amount,
-                    Currency = Currency.GetDao().Retrieve(securityContext, model.TransactionAmount.CurrencyId)
-                },
+                TransactionAmount = model.TransactionAmount,
                 // TODO: Fix UpdatedBy
                 //UpdatedBy = model.UpdatedBy,
                 UpdatedDate = DateTime.Now
@@ -95,7 +102,7 @@ namespace dougnlamb.budget {
         }
 
         private void RefreshFrom(ITransaction transaction) {
-            if(this.oid != transaction.oid) {
+            if (this.oid != transaction.oid) {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 

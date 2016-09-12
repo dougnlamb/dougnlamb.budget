@@ -5,10 +5,9 @@ namespace dougnlamb.budget.models {
         int oid { get; }
 
         string Name { get; set; }
-        IUserViewModel Owner { get; set; }
-        IBudgetPeriodViewModel Period { get; set; }
-
-        int DefaultCurrencyId { get; }
+        IUser Owner { get; set; }
+        IBudgetPeriod Period { get; set; }
+        ICurrency DefaultCurrency { get; set; }
 
         IBudget Save(ISecurityContext securityContext);
     }

@@ -20,7 +20,7 @@ namespace test.budget.budget {
         public void CreateAccountTest() {
             IUser usr = User.GetDao().Retrieve(null, 1000);
             IAccountEditorModel model = usr.CreateAccount(null);
-            ((AccountEditorModel)model).CurrencySelector.SelectedCurrencyId = 1000;
+            model.DefaultCurrency = usr.DefaultCurrency;
             model.Name = "Bubba";
             IAccount account = model.Save(null);
 
@@ -55,7 +55,8 @@ namespace test.budget.budget {
         public void CreateTransactionTest() {
             IAccount account = Account.GetDao().Retrieve(null, 1000);
             ITransactionEditorModel model = account.CreateTransaction(null);
-            model.TransactionAmount.Amount = 100;
+
+            model.TransactionAmount = new Money() { Amount = 100, Currency = account.DefaultCurrency };
             ITransaction transaction = account.AddTransaction(null, model);
 
             Assert.AreEqual(1002, transaction.oid);

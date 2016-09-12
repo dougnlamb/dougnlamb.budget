@@ -1,10 +1,15 @@
-﻿using System;
+﻿using dougnlamb.core.security;
+using System;
 using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public class AccountSelectionModel : IAccountSelectionModel {
-        public AccountSelectionModel(int oid) {
-            SelectedAccountId = oid;
+        private ISecurityContext mSecurityContext;
+
+        public AccountSelectionModel() { }
+        public AccountSelectionModel(ISecurityContext securityContext, IAccount account) {
+            mSecurityContext = securityContext;
+            SelectedItem = account?.View(securityContext) ?? null;
         }
 
         public IList<IAccountViewModel> Accounts {
@@ -13,11 +18,16 @@ namespace dougnlamb.budget.models {
             }
         }
 
-        public int SelectedAccountId { get; set; }
+        public IAccountViewModel SelectedItem { get; set; }
 
-        public IAccountViewModel SelectedAccount {
+        public IAccount SelectedAccount {
             get {
-                throw new NotImplementedException();
+                if(SelectedItem == null) {
+                    return null;
+                }
+                else {
+                    return new Account(mSecurityContext, SelectedItem.oid);
+                }
             }
         }
     }

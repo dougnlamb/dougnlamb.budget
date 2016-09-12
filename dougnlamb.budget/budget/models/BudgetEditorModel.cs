@@ -4,35 +4,52 @@ using System;
 namespace dougnlamb.budget.models {
     public class BudgetEditorModel : IBudgetEditorModel {
 
+        private ISecurityContext mSecurityContext;
         private IBudget mBudget;
 
         public BudgetEditorModel(ISecurityContext securityContext, IUser user) {
+            this.mSecurityContext = securityContext;
             this.mBudget = new Budget(securityContext);
-            this.Owner = user.View(securityContext);
+            this.Owner = user;
             this.Name = "";
-            this.CurrencySelector = new CurrencySelectionModel(0);
+            this.DefaultCurrencySelector = new CurrencySelectionModel(securityContext, user?.DefaultCurrency);
         }
 
         public BudgetEditorModel(ISecurityContext securityContext, IBudget budget) {
+            this.mSecurityContext = securityContext;
             this.mBudget = budget;
             this.oid = budget.oid;
             this.Name = budget.Name;
-//            this.Period = budget.Period;
-            this.CurrencySelector = new CurrencySelectionModel(budget?.DefaultCurrency?.oid ?? 0);
+            this.Owner = budget.Owner;
+            //            this.Period = budget.Period;
+            this.DefaultCurrencySelector = new CurrencySelectionModel(securityContext, budget?.DefaultCurrency);
         }
 
         public int oid { get; internal set; }
         public string Name { get; set; }
-        public IUserViewModel Owner { get; set; }
+        public IUser Owner { get; set; }
         public IBudgetPeriodViewModel Period { get; set; }
 
-        public int DefaultCurrencyId {
+        public CurrencySelectionModel DefaultCurrencySelector { get; set; }
+
+        IBudgetPeriod IBudgetEditorModel.Period {
             get {
-                return CurrencySelector.SelectedCurrencyId;
+                throw new NotImplementedException();
+            }
+
+            set {
+                throw new NotImplementedException();
             }
         }
 
-        public CurrencySelectionModel CurrencySelector { get; set; }
+        public ICurrency DefaultCurrency {
+            get {
+                return DefaultCurrencySelector.SelectedCurrency;
+            }
+            set {
+                DefaultCurrencySelector.SelectedItem = value?.View(mSecurityContext) ?? null;
+            }
+        }
 
         public IBudget Save(ISecurityContext securityContext) {
             if (mBudget == null) {

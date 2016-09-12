@@ -16,6 +16,10 @@ namespace dougnlamb.budget.dao {
             return MockDatabase.RetrieveBudget(oid);
         }
 
+        public IList<IBudget> RetrieveAll(ISecurityContext mSecurityContext) {
+            throw new NotImplementedException();
+        }
+
         public int Save(ISecurityContext securityContext, IBudget budget) {
             if(budget.oid == 0 ) {
                 return MockDatabase.InsertBudget(budget);

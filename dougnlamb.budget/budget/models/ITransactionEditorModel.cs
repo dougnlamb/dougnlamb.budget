@@ -6,9 +6,9 @@ namespace dougnlamb.budget.models {
     public interface ITransactionEditorModel {
         int oid { get; }
 
-        IMoneyEditorModel TransactionAmount { get; set; }
+        IMoney TransactionAmount { get; set; }
+        IAccount Account { get; set; }
 
-        IAccountSelectionModel AccountSelector { get; set; }
         string Note { get; set; }
         DateTime TransactionDate { get; set; }
 

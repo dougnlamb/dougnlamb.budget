@@ -1,10 +1,14 @@
-﻿using System;
+﻿using dougnlamb.core.security;
+using System;
 using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public class CurrencySelectionModel : ICurrencySelectionModel {
-        public CurrencySelectionModel(int oid) {
-            SelectedCurrencyId = oid;
+        private ISecurityContext mSecurityContext;
+        public CurrencySelectionModel() { }
+        public CurrencySelectionModel(ISecurityContext securityContext, ICurrency currency) {
+            this.mSecurityContext = securityContext;
+            SelectedItem = currency?.View(securityContext) ?? null;
         }
 
         public IList<ICurrencyViewModel> Currencies {
@@ -13,11 +17,15 @@ namespace dougnlamb.budget.models {
             }
         }
 
-        public int SelectedCurrencyId { get; set; }
-
-        public ICurrencyViewModel SelectedCurrency {
+        public ICurrencyViewModel SelectedItem { get; set; }
+        public ICurrency SelectedCurrency {
             get {
-                throw new NotImplementedException();
+                if (SelectedItem == null) {
+                    return null;
+                }
+                else {
+                    return new Currency(mSecurityContext, SelectedItem.oid);
+                }
             }
         }
     }

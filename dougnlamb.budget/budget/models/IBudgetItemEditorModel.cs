@@ -6,7 +6,7 @@ namespace dougnlamb.budget.models {
         int oid { get; }
 
         string Name { get; set; }
-        IMoneyEditorModel Amount { get; set; }
+        IMoney Amount { get; set; }
 
         string Notes { get; set; }
 
@@ -16,6 +16,10 @@ namespace dougnlamb.budget.models {
         bool MarkClosed { get; set; }
         bool UpdateBalance { get; set; }
 
+        IAccount DefaultAccount { get; set; }
+        IBudget Budget { get; set; }
+
+        IMoney Balance { get; }
         IBudgetItem Save(ISecurityContext securityContext);
     }
 }

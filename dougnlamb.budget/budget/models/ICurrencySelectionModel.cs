@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.budget.models {
     public interface ICurrencySelectionModel {
-        int SelectedCurrencyId { get; set; }
-        ICurrencyViewModel SelectedCurrency { get;  }
+        ICurrency SelectedCurrency { get; }
+
+        ICurrencyViewModel SelectedItem { get; set; }
         IList<ICurrencyViewModel> Currencies { get; }
     }
 }

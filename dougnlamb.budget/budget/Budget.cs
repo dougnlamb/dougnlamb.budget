@@ -19,7 +19,7 @@ namespace dougnlamb.budget {
 
         public IObservableList<IBudgetItem> BudgetItems {
             get {
-                throw new NotImplementedException();
+                return MockDatabase.RetrieveBudgetItems(this);
             }
         }
 
@@ -115,6 +115,10 @@ namespace dougnlamb.budget {
             throw new NotImplementedException();
         }
 
+        public IBudgetViewModel View(ISecurityContext securityContext) {
+            return new BudgetViewModel(securityContext, this);
+        }
+
         public IBudgetEditorModel Edit(ISecurityContext securityContext) {
             return new BudgetEditorModel(securityContext, this);
         }
@@ -128,7 +132,7 @@ namespace dougnlamb.budget {
                 oid = this.oid,
                 Name = model.Name,
                 Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
-                DefaultCurrency = Currency.GetDao().Retrieve(securityContext, model.DefaultCurrencyId),
+                DefaultCurrency = model.DefaultCurrency,
                 //Period = model.Period,
                 CreatedBy = this.CreatedBy,
                 CreatedDate = this.CreatedDate,
@@ -168,11 +172,13 @@ namespace dougnlamb.budget {
         }
 
         public IBudgetItemEditorModel CreateBudgetItem(ISecurityContext securityContext) {
-            throw new NotImplementedException();
+            return new BudgetItemEditorModel(securityContext, new BudgetItem(securityContext) { Budget = this });
         }
 
         public IBudgetItem AddBudgetItem(ISecurityContext securityContext, IBudgetItemEditorModel model) {
-            throw new NotImplementedException();
+            IBudgetItem budgetItem = model.Save(securityContext);
+            BudgetItems.Add(budgetItem);
+            return budgetItem;
         }
     }
 }

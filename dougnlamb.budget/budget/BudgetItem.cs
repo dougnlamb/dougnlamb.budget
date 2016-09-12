@@ -164,7 +164,35 @@ namespace dougnlamb.budget {
         }
 
         public void Save(ISecurityContext securityContext, IBudgetItemEditorModel model) {
-            throw new NotImplementedException();
+            if (this.oid != model.oid) {
+                throw new InvalidOperationException("Oid mismatch.");
+            }
+
+            BudgetItem budgetItem = new BudgetItem(securityContext) {
+                oid = this.oid,
+                Amount = model.Amount,
+                Balance = model.Balance,
+                Budget = model.Budget,
+                DueDate = model.DueDate,
+                Name = model.Name,
+                Notes = model.Notes,
+                ReminderDate = model.ReminderDate,
+                //Period = model.Period,
+                CreatedBy = this.CreatedBy,
+                CreatedDate = this.CreatedDate,
+                // TODO: Fix UpdatedBy
+                //UpdatedBy = model.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+            budgetItem.DefaultAccount = model.DefaultAccount;
+            budgetItem.Budget = model.Budget;
+
+            this.oid = GetDao().Save(securityContext, budgetItem);
+            if (budgetItem.oid == 0) {
+                budgetItem.oid = this.oid;
+            }
+
+            RefreshFrom(budgetItem);
         }
 
         public IBudgetItemViewModel View(ISecurityContext securityContext) {

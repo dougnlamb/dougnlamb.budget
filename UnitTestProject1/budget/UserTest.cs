@@ -63,7 +63,7 @@ namespace test.budget.budget {
             IUser usr = User.GetDao().Retrieve(null, 1000);
             IAccountEditorModel editor = usr.CreateAccount(null);
             editor.Name = "Create Account Test";
-            ((AccountEditorModel)editor).CurrencySelector.SelectedCurrencyId = 1000;
+            editor.DefaultCurrency = usr.DefaultCurrency;
             IAccount acct = usr.AddAccount(null, editor);
 
             Assert.IsNotNull(acct);
@@ -81,7 +81,7 @@ namespace test.budget.budget {
         public void AddBudgetTest() {
             IUser usr = User.GetDao().Retrieve(null, 1000);
             IBudgetEditorModel editor = usr.CreateBudget(null);
-            ((BudgetEditorModel)editor).CurrencySelector.SelectedCurrencyId = 1000;
+            editor.DefaultCurrency = usr.DefaultCurrency;
             editor.Name = "Create Budget Test";
             IBudget budget = usr.AddBudget(null, editor);
 

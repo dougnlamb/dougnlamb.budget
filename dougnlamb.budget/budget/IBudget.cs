@@ -30,6 +30,7 @@ namespace dougnlamb.budget {
 
         bool IsClosed { get; }
 
+        IBudgetViewModel View(ISecurityContext mSecurityContext);
         IBudgetEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IBudgetEditorModel model);
     }

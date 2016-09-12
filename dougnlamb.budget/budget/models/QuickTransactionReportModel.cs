@@ -3,20 +3,18 @@
 namespace dougnlamb.budget.models {
     public class QuickTransactionReportModel { 
 
-        private TransactionEditorModel mTransactionModel;
         public QuickTransactionReportModel() {
         }
 
         IBudgetItemSelectionModel BudgetItemSelector { get; }
-
-        public TransactionEditorModel TransactionModel { get; set; }
+        public TransactionEditorModel TransactionEditor { get; set; }
 
         public ITransaction Save(ISecurityContext securityContext) {
-            ITransaction transaction = TransactionModel.Save(securityContext);
+            ITransaction transaction = TransactionEditor.Save(securityContext);
 
-            AllocationEditorModel allocationEditor = new AllocationEditorModel(securityContext);
-            allocationEditor.Amount = TransactionModel.TransactionAmount;
-            allocationEditor.BudgetItemSelector = BudgetItemSelector;
+            AllocationEditorModel allocationEditor = new AllocationEditorModel(securityContext,null);
+            allocationEditor.Amount = TransactionEditor.TransactionAmount;
+            allocationEditor.BudgetItem = BudgetItemSelector.SelectedBudgetItem;
 
             allocationEditor.Save(securityContext);
 

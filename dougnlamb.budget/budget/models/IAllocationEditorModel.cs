@@ -4,10 +4,10 @@ namespace dougnlamb.budget.models {
     public interface IAllocationEditorModel {
         int oid { get; }
 
-        IBudgetItemSelectionModel BudgetItemSelector { get; set; }
-        ITransactionSelectionModel TransactionSelector { get; set; }
+        IBudgetItem BudgetItem { get; set; }
+        ITransaction Transaction { get; set; }
 
-        IMoneyEditorModel Amount { get; set; }
+        IMoney Amount { get; set; }
         string Notes { get; set; }
 
         IAllocation Save(ISecurityContext securityContext);

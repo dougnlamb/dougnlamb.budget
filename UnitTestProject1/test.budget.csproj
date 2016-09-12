@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="budget\BudgetItemTest.cs" />
     <Compile Include="budget\BudgetTest.cs" />
     <Compile Include="budget\AccountTest.cs" />
     <Compile Include="budget\UserTest.cs" />

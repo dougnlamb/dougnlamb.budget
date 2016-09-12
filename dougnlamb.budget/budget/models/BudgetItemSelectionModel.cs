@@ -10,8 +10,9 @@ namespace dougnlamb.budget.models {
         private ISecurityContext mSecurityContext;
 
         public BudgetItemSelectionModel() { }
-        public BudgetItemSelectionModel(ISecurityContext securityContext) {
+        public BudgetItemSelectionModel(ISecurityContext securityContext, IBudgetItem budgetItem) {
             this.mSecurityContext = securityContext;
+            this.SelectedItem = budgetItem?.View(securityContext) ?? null;
         }
 
         private IList<IBudgetItemViewModel> mBudgetItems;
@@ -21,7 +22,7 @@ namespace dougnlamb.budget.models {
                     IList<IBudgetItem> itms = BudgetItem.GetDao().RetrieveOpen(mSecurityContext);
 
                     mBudgetItems = new List<IBudgetItemViewModel>();
-                    foreach(IBudgetItem itm in itms) {
+                    foreach (IBudgetItem itm in itms) {
                         mBudgetItems.Add(itm.View(mSecurityContext));
                     }
                 }
@@ -30,5 +31,15 @@ namespace dougnlamb.budget.models {
         }
 
         public IBudgetItemViewModel SelectedItem { get; set; }
+        public IBudgetItem SelectedBudgetItem {
+            get {
+                if (SelectedItem == null) {
+                    return null;
+                }
+                else {
+                    return new BudgetItem(mSecurityContext, SelectedItem.oid);
+                }
+            }
+        }
     }
 }
