@@ -3,18 +3,20 @@ using dougnlamb.core.security;
 
 namespace dougnlamb.budget.models {
     public class AllocationEditorModel : IAllocationEditorModel {
+        private IAllocation mAllocation;
         private ISecurityContext mSecurityContext;
 
         public AllocationEditorModel(ISecurityContext securityContext, IAllocation allocation) {
+            this.mAllocation = allocation;
             this.mSecurityContext = securityContext;
             this.oid = allocation?.oid ?? 0;
             this.Notes = allocation?.Notes ?? "";
             this.Amount = allocation?.Amount ?? new Money();
             this.AmountEditor = Amount.Edit(securityContext);
+            this.BudgetItemSelector = new BudgetItemSelectionModel(securityContext, null);
+            this.TransactionSelector = new TransactionSelectionModel(securityContext, null);
             this.BudgetItem = allocation?.BudgetItem ?? null;
             this.Transaction = allocation?.Transaction ?? null;
-            this.BudgetItemSelector = new BudgetItemSelectionModel(securityContext, BudgetItem);
-            this.TransactionSelector = new TransactionSelectionModel(securityContext, Transaction);
         }
 
         public int oid { get; internal set; }
@@ -44,7 +46,22 @@ namespace dougnlamb.budget.models {
         }
 
         public IAllocation Save(ISecurityContext securityContext) {
-            throw new NotImplementedException();
+            if (mAllocation == null) {
+                if (this.oid > 0) {
+                    mAllocation = Allocation.GetDao().Retrieve(securityContext, this.oid);
+                }
+                else {
+                    mAllocation = new Allocation(securityContext);
+                }
+            }
+
+            mAllocation.Save(securityContext, this);
+
+            IBudgetItemEditorModel budgetItemEditor = mAllocation.BudgetItem.Edit(securityContext);
+            budgetItemEditor.UpdateBalance = true;
+            budgetItemEditor.Save(securityContext);
+
+            return mAllocation;
         }
     }
 }

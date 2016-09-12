@@ -64,7 +64,9 @@ namespace dougnlamb.budget {
         }
 
         public IAllocationEditorModel CreateAllocation(ISecurityContext securityContext) {
-            throw new NotImplementedException();
+            AllocationEditorModel model = new AllocationEditorModel(securityContext, null);
+            model.Transaction = this;
+            return model;
         }
 
         public ITransactionEditorModel Edit(ISecurityContext securityContext) {

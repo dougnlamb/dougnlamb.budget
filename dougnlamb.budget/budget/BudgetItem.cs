@@ -22,11 +22,10 @@ namespace dougnlamb.budget {
         private IObservableList<IAllocation> mAllocations;
         public IObservableList<IAllocation> Allocations {
             get {
-                //if(mAllocations == null) {
-                //    mAllocations = Allocation.GetDao().Retrieve(this);
-                //}
-                //return mAllocations;
-                throw new NotImplementedException();
+                if(mAllocations == null) {
+                    mAllocations = Allocation.GetDao().Retrieve(null, this);
+                }
+                return mAllocations;
             }
         }
 

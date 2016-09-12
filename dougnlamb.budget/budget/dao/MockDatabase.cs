@@ -38,25 +38,71 @@ namespace dougnlamb.budget.dao {
         };
 
             dbBudgetItems = new Dictionary<int, IBudgetItem>() {
-            { 1000, new BudgetItem(null) {oid = 1000, Name="Entertainment", Budget = dbBudgets[1000], Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
-            { 1001, new BudgetItem(null) {oid = 1000, Name="Electricity", Budget = dbBudgets[1000], Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
-            { 1002, new BudgetItem(null) {oid = 1000, Name="Savings", Budget = dbBudgets[1000], Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } } }
+            { 1000, new BudgetItem(null) {oid = 1000,
+                Name ="Entertainment",
+                Budget = dbBudgets[1000],
+                Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] },
+                Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
+            { 1001, new BudgetItem(null) {oid = 1001,
+                Name ="Electricity",
+                Budget = dbBudgets[1000],
+                Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } ,
+                Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
+            { 1002, new BudgetItem(null) {oid = 1002, 
+                Name ="Savings",
+                Budget = dbBudgets[1000],
+                Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } ,
+                Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } }
         };
 
             dbTransactions = new Dictionary<int, ITransaction>() {
             { 1000, new Transaction(null) {oid = 1000,
                 Note = "My Transaction",
-                TransactionAmount = new Money() { Amount = 25, Currency = dbCurrencies[1000] } } },
+                TransactionAmount = new Money() { Amount = -25, Currency = dbCurrencies[1000] } } },
             { 1001, new Transaction(null) {oid = 1000,
                 Note = "Her Transaction",
-                TransactionAmount = new Money() { Amount = 30, Currency = dbCurrencies[1000] } } }
+                TransactionAmount = new Money() { Amount = -30, Currency = dbCurrencies[1000] } } }
         };
+            dbAllocations = new Dictionary<int, IAllocation>() {
+                {1000, new Allocation(null) { oid = 1000,
+                    Notes = "My Allocation",
+                    BudgetItem = dbBudgetItems[1000],
+                    Transaction = dbTransactions[1000],
+                    Amount = new Money() {Amount = -25, Currency = dbCurrencies[1000] } } }
+            };
 
 
         }
 
-        private static Dictionary<int, IAccount> dbAccounts;
+        internal static IObservableList<IAllocation> RetrieveAllocations(IBudgetItem budgetItem) {
+            IObservableList<IAllocation> allocations = new ObservableList<IAllocation>();
+            foreach (IAllocation allocation in dbAllocations.Values) {
+                if (allocation.BudgetItem.oid == budgetItem.oid) {
+                    allocations.Add(allocation);
+                }
+            }
+            return allocations;
+        }
 
+        internal static IObservableList<IAllocation> RetrieveAllocations(ITransaction transaction) {
+            throw new NotImplementedException();
+        }
+
+        internal static void UpdateAllocation(IAllocation allocation) {
+            dbAllocations[allocation.oid] = allocation;
+        }
+
+        internal static int InsertAllocation(IAllocation allocation) {
+            int oid = GetNextOid(dbAccounts.Keys.ToArray());
+            dbAllocations.Add(oid, allocation);
+            return oid;
+        }
+
+        internal static IAllocation RetrieveAllocation(int oid) {
+            return dbAllocations[oid];
+        }
+
+        private static Dictionary<int, IAccount> dbAccounts;
         private static Dictionary<int, IBudget> dbBudgets;
         private static Dictionary<int, IBudgetItem> dbBudgetItems;
 
@@ -65,6 +111,8 @@ namespace dougnlamb.budget.dao {
         private static Dictionary<int, ICurrency> dbCurrencies;
 
         private static Dictionary<int, ITransaction> dbTransactions;
+
+        private static Dictionary<int, IAllocation> dbAllocations;
 
         public static IAccount RetrieveAccount(int oid) {
             return dbAccounts[oid];
@@ -80,8 +128,8 @@ namespace dougnlamb.budget.dao {
 
         internal static IObservableList<IBudgetItem> RetrieveBudgetItems(IBudget budget) {
             IObservableList<IBudgetItem> items = new ObservableList<IBudgetItem>();
-            foreach(IBudgetItem itm in dbBudgetItems.Values) {
-                if(itm?.Budget?.oid == budget.oid) {
+            foreach (IBudgetItem itm in dbBudgetItems.Values) {
+                if (itm?.Budget?.oid == budget.oid) {
                     items.Add(itm);
                 }
             }
