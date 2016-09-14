@@ -40,12 +40,12 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void RetrieveUserTest() {
-            IUser usr = User.GetDao().Retrieve(null, 1000);
+            IUser usr = User.GetDao().Retrieve(null, 1);
 
-            Assert.AreEqual(1000, usr.oid);
-            Assert.AreEqual("bubba", usr.UserId);
-            Assert.AreEqual("Bubba Gump", usr.DisplayName);
-            Assert.AreEqual("bubba@example.com", usr.Email);
+            Assert.AreEqual(1, usr.oid);
+            Assert.AreEqual("dougnlamb", usr.UserId);
+            Assert.AreEqual("Doug Lamb", usr.DisplayName);
+            Assert.AreEqual("dougnlamb@gmail.com", usr.Email);
         }
 
         [TestMethod]

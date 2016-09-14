@@ -69,11 +69,11 @@ namespace dougnlamb.budget {
             }
         }
 
-        private ObservableList<IAccount> mAccounts;
+        private IObservableList<IAccount> mAccounts;
         public IObservableList<IAccount> Accounts {
             get {
                 if (mAccounts == null) {
-                    mAccounts = new ObservableList<IAccount>();
+                    mAccounts = MockDatabase.RetrieveAccounts(this);
                 }
                 return mAccounts;
             }

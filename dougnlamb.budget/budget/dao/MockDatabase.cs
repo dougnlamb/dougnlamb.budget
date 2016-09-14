@@ -27,14 +27,14 @@ namespace dougnlamb.budget.dao {
         };
 
             dbAccounts = new Dictionary<int, IAccount>() {
-            { 1000, new Account(null) {oid = 1000, Owner = dbUsers[1000], Name="Bubba's account", DefaultCurrency = dbCurrencies[1000] } },
-            { 1001, new Account(null) {oid = 1001, Owner = dbUsers[1000], Name="Gump's account", DefaultCurrency = dbCurrencies[1000] } }
+            { 1000, new Account(null) {oid = 1000, Owner = new User(null, 1), Name="Bubba's account", DefaultCurrency = dbCurrencies[1000] } },
+            { 1001, new Account(null) {oid = 1001, Owner = new User(null, 1), Name="Gump's account", DefaultCurrency = dbCurrencies[1000] } }
         };
 
             dbBudgets = new Dictionary<int, IBudget>() {
-            { 1000, new Budget(null) {oid = 1000, Owner = dbUsers[1000], Name="Bubba's budget", DefaultCurrency = dbCurrencies[1000] } },
-            { 1001, new Budget(null) {oid = 1001, Owner = dbUsers[1000], Name="Gump's budget", DefaultCurrency = dbCurrencies[1000] } },
-            { 1002, new Budget(null) {oid = 1002, Owner = dbUsers[1000], Name="Stacey's budget", DefaultCurrency = dbCurrencies[1000] } }
+            { 1000, new Budget(null) {oid = 1000, Owner = new User(null, 1), Name="Bubba's budget", DefaultCurrency = dbCurrencies[1000] } },
+            { 1001, new Budget(null) {oid = 1001, Owner = new User(null, 1), Name="Gump's budget", DefaultCurrency = dbCurrencies[1000] } },
+            { 1002, new Budget(null) {oid = 1002, Owner = new User(null, 1), Name="Stacey's budget", DefaultCurrency = dbCurrencies[1000] } }
         };
 
             dbBudgetItems = new Dictionary<int, IBudgetItem>() {
@@ -72,6 +72,16 @@ namespace dougnlamb.budget.dao {
             };
 
 
+        }
+
+        internal static IObservableList<IAccount> RetrieveAccounts(User user) {
+            IObservableList<IAccount> accounts = new ObservableList<IAccount>();
+            foreach (IAccount account in dbAccounts.Values) {
+                if (account.Owner.oid == user.oid) {
+                    accounts.Add(account);
+                }
+            }
+            return accounts;
         }
 
         internal static IObservableList<IAllocation> RetrieveAllocations(IBudgetItem budgetItem) {

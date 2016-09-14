@@ -243,3 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/UnitTestProject1/App.config
+/dougnlamb.budget.mvc/Web.config
+/dougnlamb.budget.mvc/Web.Debug.config
+/dougnlamb.budget.mvc/Web.Release.config
