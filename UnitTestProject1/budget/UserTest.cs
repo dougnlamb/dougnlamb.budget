@@ -20,9 +20,10 @@ namespace test.budget.budget {
         public void RegisterUserTest() {
             IUserRegistration registration = new UserRegistration();
             IUserRegistrationModel model = registration.RegisterUser();
-            model.UserId = "dougnlamb";
-            model.DisplayName = "Doug";
-            model.Email = "dougnlamb@gmail.com";
+            model.UserId = "staceylamb";
+            model.DisplayName = "Stacey";
+            model.Email = "staceylamb68@gmail.com";
+            model.DefaultCurrency = new Currency(null, 1000); 
 
             IUser usr = registration.Save(null, model);
 

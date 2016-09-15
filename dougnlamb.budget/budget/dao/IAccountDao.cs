@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace dougnlamb.budget.dao {
     public interface IAccountDao {
         IAccount Retrieve(ISecurityContext securityContext, int oid);
-        IPagedList<IAccount> Find(ISecurityContext securityContext, string name);
+        IObservableList<IAccount> Retrieve(ISecurityContext securityContext, IUser user);
+        IObservableList<IAccount> Find(ISecurityContext securityContext, string name);
         int Save(ISecurityContext securityContext, IAccount account);
     }
 }

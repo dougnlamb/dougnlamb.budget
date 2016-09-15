@@ -73,7 +73,7 @@ namespace dougnlamb.budget {
         public IObservableList<IAccount> Accounts {
             get {
                 if (mAccounts == null) {
-                    mAccounts = MockDatabase.RetrieveAccounts(this);
+                    mAccounts = Account.GetDao().Retrieve(null, this);
                 }
                 return mAccounts;
             }
@@ -126,6 +126,7 @@ namespace dougnlamb.budget {
                 Email = model.Email,
                 CreatedBy = this.CreatedBy,
                 CreatedDate = this.CreatedDate,
+                DefaultCurrency = model.DefaultCurrency,
                 // TODO: Fix UpdatedBy
                 //UpdatedBy = model.UpdatedBy,
                 UpdatedDate = DateTime.Now
@@ -179,6 +180,7 @@ namespace dougnlamb.budget {
             UserId = model.UserId;
             DisplayName = model.DisplayName;
             Email = model.Email;
+            DefaultCurrency = model.DefaultCurrency;
             CreatedDate = DateTime.Now;
             // TODO: Fix UpdatedBy
             //UpdatedBy = model.UpdatedBy,

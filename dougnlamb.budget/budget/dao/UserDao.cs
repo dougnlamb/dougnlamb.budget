@@ -7,6 +7,7 @@ using dougnlamb.core.collections;
 using dougnlamb.core.security;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data;
 
 namespace dougnlamb.budget.dao {
     public class UserDao : IUserDao {
@@ -22,7 +23,8 @@ namespace dougnlamb.budget.dao {
             IUser usr = null;
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                using (SqlCommand cmd = new SqlCommand($"select * from budget.dbo.[user] where oid = {oid}", sqlConn)) {
+                using (SqlCommand cmd = new SqlCommand("select * from budget.dbo.[user] where oid = @oid", sqlConn)) {
+                    cmd.Parameters.AddWithValue("oid", oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
                             if (usr == null) {
@@ -62,11 +64,71 @@ namespace dougnlamb.budget.dao {
 
         public int Save(ISecurityContext securityContext, IUser user) {
             if (user.oid == 0) {
-                return MockDatabase.InsertUser(user);
+                return InsertUser(user);
             }
             else {
                 MockDatabase.UpdateUser(user);
                 return user.oid;
+            }
+        }
+
+        private int InsertUser(IUser user) {
+            using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
+                sqlConn.Open();
+                using (SqlCommand cmd = new SqlCommand(@"insert into budget.dbo.[user] 
+                        (createdBy, createdDate, defaultCurrency, displayName, email, updatedBy, updatedDate, userId)
+                        values
+                        (@createdBy, @createdDate, @defaultCurrency, @displayName, @email, @updatedBy, @updatedDate, @userId);
+                        SET @ID=SCOPE_IDENTITY()",
+                    sqlConn)) {
+                    cmd.Parameters.AddWithValue("createdBy", user?.CreatedBy?.oid ?? 0);
+                    cmd.Parameters.AddWithValue("createdDate", user.CreatedDate);
+                    cmd.Parameters.AddWithValue("defaultCurrency", user.DefaultCurrency.oid);
+                    cmd.Parameters.AddWithValue("displayName", user.DisplayName);
+                    cmd.Parameters.AddWithValue("email", user.Email);
+                    cmd.Parameters.AddWithValue("updatedBy", 0);
+                    cmd.Parameters.AddWithValue("updatedDate", DBNull.Value);
+                    cmd.Parameters.AddWithValue("userId", user.UserId);
+
+                    SqlParameter p = new SqlParameter();
+                    p.ParameterName = "@ID";
+                    p.SqlDbType = SqlDbType.Int;
+                    p.Size = 4;
+                    p.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(p);
+                    cmd.ExecuteNonQuery();
+                    return (int)p.Value;
+                }
+            }
+        }
+
+        private void UpdateUser(IUser user) {
+            using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
+                sqlConn.Open();
+                using (SqlCommand cmd = new SqlCommand(@"update budget.dbo.[user] 
+                        set createdBy = @createdBy,
+                            createdDate = @createdDate,
+                            defaultCurrency = @defaultCurrency,
+                            displayName = @displayName,
+                            email = @email,
+                            updatedBy = @updatedBy,
+                            updatedDate = @updatedDate,
+                            userId = @userId
+                        where
+                            oid = @oid",
+                    sqlConn)) {
+                    cmd.Parameters.AddWithValue("createdBy", user?.CreatedBy?.oid ?? 0);
+                    cmd.Parameters.AddWithValue("createdDate", user.CreatedDate);
+                    cmd.Parameters.AddWithValue("defaultCurrency", user.DefaultCurrency.oid);
+                    cmd.Parameters.AddWithValue("displayName", user.DisplayName);
+                    cmd.Parameters.AddWithValue("email", user.Email);
+                    cmd.Parameters.AddWithValue("updatedBy", user?.UpdatedBy?.oid ?? 0);
+                    cmd.Parameters.AddWithValue("updatedDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("userId", user.UserId);
+                    cmd.Parameters.AddWithValue("oid", user.oid);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

@@ -114,13 +114,16 @@ namespace dougnlamb.budget {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
+            IUser owner = User.GetDao().Retrieve(securityContext, model.Owner.oid);
+            IUser createdBy = this.CreatedBy ?? owner;
+
             Account acct = new Account(mSecurityContext) {
                 oid = this.oid,
                 Name = model.Name,
-                Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
+                Owner = owner,
                 DefaultCurrency = model.DefaultCurrency,
-                CreatedBy = this.CreatedBy,
-                CreatedDate = this.CreatedDate,
+                CreatedBy = createdBy,
+                CreatedDate = this.oid == 0 ? DateTime.Now : this.CreatedDate,
                 // TODO: Fix UpdatedBy
                 //UpdatedBy = model.UpdatedBy,
                 UpdatedDate = DateTime.Now

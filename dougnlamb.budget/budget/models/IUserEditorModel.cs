@@ -8,6 +8,8 @@ namespace dougnlamb.budget.models {
         string DisplayName { get; set; }
         string Email { get; set; }
 
+        ICurrency DefaultCurrency { get; set; }
+
         IUser Save(ISecurityContext securityContext);
     }
 }

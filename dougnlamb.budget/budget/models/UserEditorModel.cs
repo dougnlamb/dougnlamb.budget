@@ -10,14 +10,17 @@ namespace dougnlamb.budget.models {
             this.UserId = "";
             this.DisplayName = "";
             this.Email = "";
+            this.DefaultCurrencySelector = new CurrencySelectionModel();
         }
 
         public UserEditorModel(IUser user) {
             this.mUser = user;
 
-            this.UserId = user.UserId;
-            this.DisplayName = user.DisplayName;
-            this.Email = user.Email;
+            this.UserId = user?.UserId ?? "";
+            this.DisplayName = user?.DisplayName ?? "";
+            this.Email = user?.Email ?? "";
+            this.DefaultCurrencySelector = new CurrencySelectionModel();
+            this.DefaultCurrency = user?.DefaultCurrency ?? null;
         }
 
         public int oid { get; protected set; }
@@ -26,6 +29,17 @@ namespace dougnlamb.budget.models {
         public string DisplayName { get; set; }
 
         public string Email { get; set;}
+
+        public ICurrency DefaultCurrency {
+            get {
+                return DefaultCurrencySelector.SelectedCurrency;
+            }
+            set {
+                DefaultCurrencySelector.SelectedItem = value?.View(null) ?? null;
+            }
+        }
+
+        public CurrencySelectionModel DefaultCurrencySelector { get; set; }
 
         public IUser Save(ISecurityContext securityContext) {
             if (mUser == null) {

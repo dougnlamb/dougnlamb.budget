@@ -35,7 +35,7 @@ namespace dougnlamb.budget {
         }
 
         private string mDescription;
-        public string Description { 
+        public string Description {
             get {
                 Load();
                 return mDescription;
@@ -71,10 +71,8 @@ namespace dougnlamb.budget {
 
         public void Refresh() {
             ICurrency curr = MockDatabase.RetrieveCurrency(oid);
-            if( curr == null) {
-                this.Code = curr.Code;
-                this.Description = curr.Description;
-            }
+            this.Code = curr.Code;
+            this.Description = curr.Description;
         }
     }
 }

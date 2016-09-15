@@ -10,7 +10,7 @@ namespace dougnlamb.budget.dao {
         public static void init() {
             dbCurrencies = new Dictionary<int, ICurrency>() {
             { 1000, new Currency(null) {oid = 1000, Code="USD", Description="US Dollars" } },
-            { 1001, new Currency(null) {oid = 1001,Code="CAD", Description ="Canadian Dollars" } }
+            { 1001, new Currency(null) {oid = 1001, Code="CAD", Description ="Canadian Dollars" } }
         };
 
             dbUsers = new Dictionary<int, IUser>() {
@@ -48,7 +48,7 @@ namespace dougnlamb.budget.dao {
                 Budget = dbBudgets[1000],
                 Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } ,
                 Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
-            { 1002, new BudgetItem(null) {oid = 1002, 
+            { 1002, new BudgetItem(null) {oid = 1002,
                 Name ="Savings",
                 Budget = dbBudgets[1000],
                 Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } ,
