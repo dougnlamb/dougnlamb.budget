@@ -73,10 +73,6 @@ namespace dougnlamb.budget {
             throw new NotImplementedException();
         }
 
-        public IAllocationEditorModel Edit(ISecurityContext securityContext) {
-            return new AllocationEditorModel(securityContext, this);
-        }
-
         public override void Refresh() {
             IAllocation allocation = GetDao().Retrieve(mSecurityContext, this.oid);
             RefreshFrom(allocation);

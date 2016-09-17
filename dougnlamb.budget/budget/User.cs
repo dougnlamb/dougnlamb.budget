@@ -73,17 +73,17 @@ namespace dougnlamb.budget {
         public IObservableList<IAccount> Accounts {
             get {
                 if (mAccounts == null) {
-                    mAccounts = Account.GetDao().Retrieve(null, this);
+                    mAccounts = Account.GetDao().Retrieve(mSecurityContext, this);
                 }
                 return mAccounts;
             }
         }
 
-        private ObservableList<IBudget> mBudgets;
+        private IObservableList<IBudget> mBudgets;
         public IObservableList<IBudget> Budgets {
             get {
                 if (mBudgets == null) {
-                    mBudgets = new ObservableList<IBudget>();
+                    mBudgets = Budget.GetDao().Retrieve(mSecurityContext, this);
                 }
                 return mBudgets;
             }
@@ -109,17 +109,12 @@ namespace dougnlamb.budget {
             return budget;
         }
 
-        public IUserEditorModel Edit(ISecurityContext securityContext) {
-            return new UserEditorModel(this);
-        }
-
-
         public void Save(ISecurityContext securityContext, IUserEditorModel model) {
             if (model.oid != this.oid) {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
-            User usr = new User(null) {
+            User usr = new User(mSecurityContext) {
                 oid = this.oid,
                 UserId = model.UserId,
                 DisplayName = model.DisplayName,

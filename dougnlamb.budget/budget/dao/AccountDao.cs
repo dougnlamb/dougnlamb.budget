@@ -20,7 +20,16 @@ namespace dougnlamb.budget.dao {
             IAccount account = null;
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                using (SqlCommand cmd = new SqlCommand("select * from budget.dbo.account where oid = @oid", sqlConn)) {
+                String query = @"select oid, 
+                                        createdBy, 
+                                        createdDate, 
+                                        defaultCurrency, 
+                                        name, 
+                                        owner, 
+                                        updatedBy, 
+                                        updatedDate  
+                                    from budget.dbo.account where oid = @oid";
+                using (SqlCommand cmd = new SqlCommand(query, sqlConn)) { 
                     cmd.Parameters.AddWithValue("oid", oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
@@ -43,7 +52,16 @@ namespace dougnlamb.budget.dao {
 
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                using (SqlCommand cmd = new SqlCommand("select * from budget.dbo.account where owner = @owner", sqlConn)) {
+                String query = @"select oid, 
+                                        createdBy, 
+                                        createdDate, 
+                                        defaultCurrency, 
+                                        name, 
+                                        owner, 
+                                        updatedBy, 
+                                        updatedDate  
+                                    from budget.dbo.account where owner = @owner";
+                using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("owner", user.oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {

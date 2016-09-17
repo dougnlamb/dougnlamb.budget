@@ -32,7 +32,6 @@ namespace dougnlamb.budget {
         IUser ClosedBy { get; }
 
         IBudgetItemViewModel View(ISecurityContext mSecurityContext);
-        IBudgetItemEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IBudgetItemEditorModel model);
     }
 }

@@ -33,7 +33,6 @@ namespace dougnlamb.budget {
         DateTime ClearedDate { get; }
 
         ITransactionViewModel View(ISecurityContext securityContext);
-        ITransactionEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, ITransactionEditorModel model);
     }
 }

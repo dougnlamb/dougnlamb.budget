@@ -158,10 +158,6 @@ namespace dougnlamb.budget {
             throw new NotImplementedException();
         }
 
-        public IBudgetItemEditorModel Edit(ISecurityContext securityContext) {
-            return new BudgetItemEditorModel(securityContext, this);
-        }
-
         public void Save(ISecurityContext securityContext, IBudgetItemEditorModel model) {
             if (this.oid != model.oid) {
                 throw new InvalidOperationException("Oid mismatch.");

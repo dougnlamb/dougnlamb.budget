@@ -9,8 +9,8 @@ namespace dougnlamb.budget.dao {
     public class MockDatabase {
         public static void init() {
             dbCurrencies = new Dictionary<int, ICurrency>() {
-            { 1000, new Currency(null) {oid = 1000, Code="USD", Description="US Dollars" } },
-            { 1001, new Currency(null) {oid = 1001, Code="CAD", Description ="Canadian Dollars" } }
+            { 1000, Currency.GetDao().Retrieve(null, 1) },
+            { 1001, Currency.GetDao().Retrieve(null, 2) }
         };
 
             dbUsers = new Dictionary<int, IUser>() {

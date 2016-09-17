@@ -23,7 +23,17 @@ namespace dougnlamb.budget.dao {
             IUser usr = null;
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                using (SqlCommand cmd = new SqlCommand("select * from budget.dbo.[user] where oid = @oid", sqlConn)) {
+                string query = @"select oid, 
+                                        createdBy, 
+                                        createdDate, 
+                                        defaultCurrency, 
+                                        displayName, 
+                                        email, 
+                                        updatedBy, 
+                                        updatedDate, 
+                                        userId
+                                    from budget.dbo.[user] where oid = @oid";
+                using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("oid", oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {

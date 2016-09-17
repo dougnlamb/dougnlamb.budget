@@ -17,7 +17,6 @@ namespace dougnlamb.budget {
 
         ICurrency DefaultCurrency { get; }
 
-        ITransactionEditorModel CreateTransaction(ISecurityContext securityContext);
         ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model);
 
         IPagedList<ITransaction> Transactions { get; }
@@ -30,7 +29,6 @@ namespace dougnlamb.budget {
         IUserAccess AddUserAccess(IUser user, UserAccessMode accessMode);
 
         IAccountViewModel View(ISecurityContext securityContext);
-        IAccountEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IAccountEditorModel model);
     }
 }

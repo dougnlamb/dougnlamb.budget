@@ -70,7 +70,7 @@ namespace dougnlamb.budget {
         }
 
         public void Refresh() {
-            ICurrency curr = MockDatabase.RetrieveCurrency(oid);
+            ICurrency curr = GetDao().Retrieve(mSecurityContext, oid);
             this.Code = curr.Code;
             this.Description = curr.Description;
         }

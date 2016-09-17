@@ -22,7 +22,6 @@ namespace dougnlamb.budget {
         IBudget AddBudget(ISecurityContext securityContext, IBudgetEditorModel model);
 
         IUserViewModel View(ISecurityContext securityContext);
-        IUserEditorModel Edit(ISecurityContext securityContext);
 
         void Save(ISecurityContext securityContext, IUserEditorModel model);
         void Save(ISecurityContext securityContext, IUserRegistrationModel model);

@@ -5,6 +5,8 @@ namespace dougnlamb.budget.models {
         int oid { get; }
 
         string Name { get; }
+
+        ICurrencyViewModel DefaultCurrency { get; }
         IUserViewModel Owner { get; }
         IBudgetPeriodViewModel Period { get; }
     }

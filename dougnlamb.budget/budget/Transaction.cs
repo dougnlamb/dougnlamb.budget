@@ -69,10 +69,6 @@ namespace dougnlamb.budget {
             return model;
         }
 
-        public ITransactionEditorModel Edit(ISecurityContext securityContext) {
-            throw new NotImplementedException();
-        }
-
         public IMoney GetAllocationDiscrepency() {
             throw new NotImplementedException();
         }

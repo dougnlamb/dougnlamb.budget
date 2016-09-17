@@ -2,9 +2,7 @@
 
 namespace dougnlamb.budget.models {
     public interface IBudgetSelectionModel {
-        IBudget SelectedBudget { get; }
-
-        IBudgetViewModel SelectedItem { get; set; }
+        int SelectedBudgetId { get; }
         IList<IBudgetViewModel> Budgets { get; }
     }
 }

@@ -13,6 +13,5 @@ namespace dougnlamb.budget {
         void Add(IMoney amount);
 
         IMoneyViewModel View(ISecurityContext securityContext);
-        IMoneyEditorModel Edit(ISecurityContext securityContext);
     }
 }

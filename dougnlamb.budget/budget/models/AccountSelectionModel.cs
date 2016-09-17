@@ -5,30 +5,27 @@ using System.Collections.Generic;
 namespace dougnlamb.budget.models {
     public class AccountSelectionModel : IAccountSelectionModel {
         private ISecurityContext mSecurityContext;
+        private IUser mUser;
 
         public AccountSelectionModel() { }
-        public AccountSelectionModel(ISecurityContext securityContext, IAccount account) {
+        public AccountSelectionModel(ISecurityContext securityContext, IUser user, IAccount account) {
             mSecurityContext = securityContext;
-            SelectedItem = account?.View(securityContext) ?? null;
+            mUser = user;
         }
 
+        private IList<IAccountViewModel> mAccounts;
         public IList<IAccountViewModel> Accounts {
             get {
-                throw new NotImplementedException();
+                if(mAccounts == null) {
+                    mAccounts = new List<IAccountViewModel>();
+                    foreach(IAccount acct in mUser.Accounts) {
+                        mAccounts.Add(acct.View(mSecurityContext));
+                    }
+                }
+                return mAccounts;
             }
         }
 
-        public IAccountViewModel SelectedItem { get; set; }
-
-        public IAccount SelectedAccount {
-            get {
-                if(SelectedItem == null) {
-                    return null;
-                }
-                else {
-                    return new Account(mSecurityContext, SelectedItem.oid);
-                }
-            }
-        }
+        public int SelectedAccountId { get; set; }
     }
 }

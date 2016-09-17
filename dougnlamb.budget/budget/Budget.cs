@@ -29,9 +29,14 @@ namespace dougnlamb.budget {
             }
         }
 
+        private bool mIsClosed;
         public bool IsClosed {
             get {
-                throw new NotImplementedException();
+                Load();
+                return mIsClosed;
+            }
+            internal set {
+                mIsClosed = value;
             }
         }
 
@@ -119,23 +124,22 @@ namespace dougnlamb.budget {
             return new BudgetViewModel(securityContext, this);
         }
 
-        public IBudgetEditorModel Edit(ISecurityContext securityContext) {
-            return new BudgetEditorModel(securityContext, this);
-        }
-
         public void Save(ISecurityContext securityContext, IBudgetEditorModel model) {
             if (this.oid != model.oid) {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
+            IUser owner = User.GetDao().Retrieve(securityContext, model.Owner.oid);
+            IUser createdBy = this.CreatedBy ?? owner;
+
             Budget budget = new Budget(securityContext) {
                 oid = this.oid,
                 Name = model.Name,
-                Owner = User.GetDao().Retrieve(securityContext, model.Owner.oid),
+                Owner = owner,
                 DefaultCurrency = model.DefaultCurrency,
                 //Period = model.Period,
-                CreatedBy = this.CreatedBy,
-                CreatedDate = this.CreatedDate,
+                CreatedBy = createdBy,
+                CreatedDate = this.oid == 0 ? DateTime.Now : this.CreatedDate,
                 // TODO: Fix UpdatedBy
                 //UpdatedBy = model.UpdatedBy,
                 UpdatedDate = DateTime.Now
@@ -162,17 +166,14 @@ namespace dougnlamb.budget {
             this.Name = budget.Name;
             this.Owner = budget.Owner;
             this.Period = budget.Period;
-            //this.DefaultCurrency = budget.DefaultCurrency;
+            this.DefaultCurrency = budget.DefaultCurrency;
+            this.IsClosed = budget.IsClosed;
 
             base.RefreshFrom(budget);
         }
 
         public static IBudgetDao GetDao() {
             return new BudgetDao();
-        }
-
-        public IBudgetItemEditorModel CreateBudgetItem(ISecurityContext securityContext) {
-            return new BudgetItemEditorModel(securityContext, new BudgetItem(securityContext) { Budget = this });
         }
 
         public IBudgetItem AddBudgetItem(ISecurityContext securityContext, IBudgetItemEditorModel model) {

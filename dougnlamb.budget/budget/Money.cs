@@ -18,8 +18,5 @@ namespace dougnlamb.budget {
         public IMoneyViewModel View(ISecurityContext securityContext) {
             return new MoneyViewModel(securityContext, this);
         }
-        public IMoneyEditorModel Edit(ISecurityContext securityContext) {
-            return new MoneyEditorModel(this);
-        }
     }
 }

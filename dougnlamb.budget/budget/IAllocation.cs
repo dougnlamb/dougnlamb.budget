@@ -17,7 +17,6 @@ namespace dougnlamb.budget {
 
         string Notes { get; }
 
-        IAllocationEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IAllocationEditorModel model);
     }
 }

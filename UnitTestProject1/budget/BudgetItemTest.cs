@@ -18,19 +18,18 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void CreateBudgetItemTest() {
-            IBudget budget = Budget.GetDao().Retrieve(null, 1000);
-            IBudgetItemEditorModel model = budget.CreateBudgetItem(null);
+            IBudget budget = Budget.GetDao().Retrieve(null, 1);
+            IBudgetItemEditorModel model = new BudgetItemEditorModel(null, budget.Owner, null);
 
             model.Name = "Movies";
             model.Notes = "Raiders of the Lost Ark";
 
-            model.Amount = new Money() { Amount = 100, Currency = Currency.GetDao().Retrieve(null, 1000) };
+            model.Amount = new Money() { Amount = 100, Currency = Currency.GetDao().Retrieve(null, 1) };
 
             model.DueDate = DateTime.Now.AddMonths(1);
             model.ReminderDate = DateTime.Now.AddMonths(1).AddDays(-7);
 
             IBudgetItem budgetItem = budget.AddBudgetItem(null, model);
-
         }
 
 

@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.budget.models {
     public interface IAccountSelectionModel {
-        IAccount SelectedAccount { get; }
-
-        IAccountViewModel SelectedItem { get; set; }
+        int SelectedAccountId { get; set; }
         IList<IAccountViewModel> Accounts { get; }
     }
 }

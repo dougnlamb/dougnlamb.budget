@@ -18,9 +18,9 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void CreateBudgetTest() {
-            IUser usr = User.GetDao().Retrieve(null, 1000);
+            IUser usr = User.GetDao().Retrieve(null, 1);
             IBudgetEditorModel model = usr.CreateBudget(null);
-            model.DefaultCurrency = Currency.GetDao().Retrieve(null, 1000);
+            model.DefaultCurrency = Currency.GetDao().Retrieve(null, 1);
             model.Name = "Bubba";
             IBudget budget = model.Save(null);
 
@@ -37,18 +37,18 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void RetrieveBudgetTest() {
-            IBudget budget = Budget.GetDao().Retrieve(null, 1000);
+            IBudget budget = Budget.GetDao().Retrieve(null, 1);
 
-            Assert.AreEqual(1000, budget.oid);
-            Assert.AreEqual("Bubba's budget", budget.Name);
+            Assert.AreEqual(1, budget.oid);
+            Assert.AreEqual("Bubba", budget.Name);
         }
 
         [TestMethod]
         public void LazyLoadBudgetTest() {
-            IBudget budget = new Budget(null, 1000);
+            IBudget budget = new Budget(null, 1);
 
-            Assert.AreEqual(1000, budget.oid);
-            Assert.AreEqual("Bubba's budget", budget.Name);
+            Assert.AreEqual(1, budget.oid);
+            Assert.AreEqual("Bubba", budget.Name);
         }
     }
 }

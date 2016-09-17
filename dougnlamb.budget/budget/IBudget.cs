@@ -23,7 +23,6 @@ namespace dougnlamb.budget {
         IBudgetPeriod Period { get; }
 
         IObservableList<IBudgetItem> BudgetItems { get; }
-        IBudgetItemEditorModel CreateBudgetItem(ISecurityContext securityContext);
         IBudgetItem AddBudgetItem(ISecurityContext securityContext, IBudgetItemEditorModel model);
 
         void AddUserAccess(IUser user, UserAccessMode accessMode);
@@ -31,7 +30,6 @@ namespace dougnlamb.budget {
         bool IsClosed { get; }
 
         IBudgetViewModel View(ISecurityContext mSecurityContext);
-        IBudgetEditorModel Edit(ISecurityContext securityContext);
         void Save(ISecurityContext securityContext, IBudgetEditorModel model);
     }
 }

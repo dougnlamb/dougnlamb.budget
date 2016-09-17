@@ -23,7 +23,7 @@ namespace test.budget.budget {
             model.UserId = "staceylamb";
             model.DisplayName = "Stacey";
             model.Email = "staceylamb68@gmail.com";
-            model.DefaultCurrency = new Currency(null, 1000); 
+            model.DefaultCurrency = new Currency(null, 1);
 
             IUser usr = registration.Save(null, model);
 
@@ -51,17 +51,20 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void LazyLoadUserTest() {
-            IUser usr = new User(null, 1000);
+            IUser usr = new User(null, 1);
 
-            Assert.AreEqual(1000, usr.oid);
-            Assert.AreEqual("bubba", usr.UserId);
-            Assert.AreEqual("Bubba Gump", usr.DisplayName);
-            Assert.AreEqual("bubba@example.com", usr.Email);
+            Assert.AreEqual(1, usr.oid);
+            Assert.AreEqual("dougnlamb", usr.UserId);
+            Assert.AreEqual("Doug Lamb", usr.DisplayName);
+            Assert.AreEqual("dougnlamb@gmail.com", usr.Email);
         }
 
         [TestMethod]
         public void AddAccountTest() {
-            IUser usr = User.GetDao().Retrieve(null, 1000);
+            IUser usr = User.GetDao().Retrieve(null, 1);
+
+            int accountsCount = usr.Accounts.Count;
+
             IAccountEditorModel editor = usr.CreateAccount(null);
             editor.Name = "Create Account Test";
             editor.DefaultCurrency = usr.DefaultCurrency;
@@ -69,18 +72,19 @@ namespace test.budget.budget {
 
             Assert.IsNotNull(acct);
 
-            Assert.AreEqual(1, usr.Accounts.Count);
-            Assert.AreEqual(acct.oid, usr.Accounts[0].oid);
-            Assert.AreEqual(acct.Name, usr.Accounts[0].Name);
+            Assert.AreEqual(accountsCount + 1, usr.Accounts.Count);
+            Assert.AreEqual(acct.oid, usr.Accounts[usr.Accounts.Count-1].oid);
+            Assert.AreEqual(acct.Name, usr.Accounts[usr.Accounts.Count-1].Name);
 
-            acct = Account.GetDao().Retrieve(null, 1002);
-            Assert.AreEqual(acct.oid, usr.Accounts[0].oid);
-            Assert.AreEqual(acct.Name, usr.Accounts[0].Name);
+            acct = Account.GetDao().Retrieve(null, acct.oid);
+            Assert.AreEqual(acct.oid, usr.Accounts[usr.Accounts.Count-1].oid);
+            Assert.AreEqual(acct.Name, usr.Accounts[usr.Accounts.Count-1].Name);
         }
 
         [TestMethod]
         public void AddBudgetTest() {
-            IUser usr = User.GetDao().Retrieve(null, 1000);
+            IUser usr = User.GetDao().Retrieve(null, 1);
+            int budgetsCount = usr.Budgets.Count;
             IBudgetEditorModel editor = usr.CreateBudget(null);
             editor.DefaultCurrency = usr.DefaultCurrency;
             editor.Name = "Create Budget Test";
@@ -88,13 +92,13 @@ namespace test.budget.budget {
 
             Assert.IsNotNull(budget);
 
-            Assert.AreEqual(1, usr.Budgets.Count);
-            Assert.AreEqual(budget.oid, usr.Budgets[0].oid);
-            Assert.AreEqual(budget.Name, usr.Budgets[0].Name);
+            Assert.AreEqual(budgetsCount+1, usr.Budgets.Count);
+            Assert.AreEqual(budget.oid, usr.Budgets[budgetsCount].oid);
+            Assert.AreEqual(budget.Name, usr.Budgets[budgetsCount].Name);
 
-            budget = Budget.GetDao().Retrieve(null, 1003);
-            Assert.AreEqual(budget.oid, usr.Budgets[0].oid);
-            Assert.AreEqual(budget.Name, usr.Budgets[0].Name);
+            budget = Budget.GetDao().Retrieve(null, budget.oid);
+            Assert.AreEqual(budget.oid, usr.Budgets[budgetsCount].oid);
+            Assert.AreEqual(budget.Name, usr.Budgets[budgetsCount].Name);
         }
     }
 }

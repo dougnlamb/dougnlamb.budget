@@ -104,10 +104,6 @@ namespace dougnlamb.budget {
             return new AccountViewModel(securityContext, this);
         }
 
-        public IAccountEditorModel Edit(ISecurityContext securityContext) {
-            return new AccountEditorModel(securityContext, this);
-        }
-
         // Using the editor model to update properties before the save.
         public void Save(ISecurityContext securityContext, IAccountEditorModel model) {
             if (this.oid != model.oid) {
@@ -152,10 +148,6 @@ namespace dougnlamb.budget {
             this.DefaultCurrency = account.DefaultCurrency;
 
             base.RefreshFrom(account);
-        }
-
-        public ITransactionEditorModel CreateTransaction(ISecurityContext securityContext) {
-            return new TransactionEditorModel(securityContext, this);
         }
 
         public ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model) {

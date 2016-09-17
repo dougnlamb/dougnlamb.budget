@@ -10,9 +10,9 @@ namespace dougnlamb.budget {
         public TransactionEditorModel() {
         }
 
-        public TransactionEditorModel(ISecurityContext securityContext, Account account) {
+        public TransactionEditorModel(ISecurityContext securityContext, IUser user, IAccount account) {
             this.securityContext = securityContext;
-            AccountSelector = new AccountSelectionModel(securityContext, account);
+            AccountSelector = new AccountSelectionModel(securityContext, user, account);
             TransactionAmountEditor = new MoneyEditorModel(new Money() { Amount = 0, Currency = account.DefaultCurrency });
         }
 
@@ -34,10 +34,15 @@ namespace dougnlamb.budget {
 
         public IAccount Account {
             get {
-                return AccountSelector.SelectedAccount;
+                if(AccountSelector.SelectedAccountId > 0 ) {
+                    return new Account(null, AccountSelector.SelectedAccountId);
+                }
+                else {
+                    return null;
+                }
             }
             set {
-                AccountSelector.SelectedItem = value?.View(securityContext);
+                AccountSelector.SelectedAccountId = value?.oid ?? 0;
             }
         }
 

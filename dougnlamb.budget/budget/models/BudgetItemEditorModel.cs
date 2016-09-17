@@ -3,11 +3,11 @@ using dougnlamb.budget.models;
 using dougnlamb.core.security;
 
 namespace dougnlamb.budget {
-    internal class BudgetItemEditorModel : IBudgetItemEditorModel {
+    public class BudgetItemEditorModel : IBudgetItemEditorModel {
         private IBudgetItem mBudgetItem;
         private ISecurityContext mSecurityContext;
 
-        public BudgetItemEditorModel(ISecurityContext securityContext, IBudgetItem budgetItem) {
+        public BudgetItemEditorModel(ISecurityContext securityContext, IUser user, IBudgetItem budgetItem) {
             this.mSecurityContext = securityContext;
             this.mBudgetItem = budgetItem;
             this.oid = budgetItem?.oid ?? 0;
@@ -19,8 +19,8 @@ namespace dougnlamb.budget {
             this.DueDate = budgetItem?.DueDate ?? DateTime.Now.AddMonths(1);
             this.ReminderDate = budgetItem?.ReminderDate ?? DueDate.AddDays(-7);
 
-            this.DefaultAccountSelector = new AccountSelectionModel(mSecurityContext, budgetItem?.DefaultAccount);
-            this.BudgetSelector = new BudgetSelectionModel(mSecurityContext, budgetItem?.Budget);
+            this.DefaultAccountSelector = new AccountSelectionModel(mSecurityContext, user, budgetItem?.DefaultAccount);
+            this.BudgetSelector = new BudgetSelectionModel(mSecurityContext, user, budgetItem?.Budget);
         }
 
         public int oid { get; internal set; }
@@ -45,24 +45,32 @@ namespace dougnlamb.budget {
         public bool MarkClosed { get; set; }
         public bool UpdateBalance { get; set; }
 
-        public IBudgetSelectionModel BudgetSelector { get; set; }
+        public BudgetSelectionModel BudgetSelector { get; set; }
         public IAccountSelectionModel DefaultAccountSelector { get; set; }
 
         public IAccount DefaultAccount {
             get {
-                return DefaultAccountSelector?.SelectedAccount;
+                if(DefaultAccountSelector.SelectedAccountId > 0 ) {
+                    return new Account(mSecurityContext, DefaultAccountSelector.SelectedAccountId);
+                }
+                else {
+                    return null;
+                }
             }
             set {
-                DefaultAccountSelector.SelectedItem = value?.View(mSecurityContext) ?? null;
+                DefaultAccountSelector.SelectedAccountId = value?.oid ?? 0;
             }
         }
 
         public IBudget Budget {
             get {
-                return BudgetSelector.SelectedBudget;
+                if(BudgetSelector.SelectedBudgetId > 0) {
+                    return new Budget(mSecurityContext, BudgetSelector.SelectedBudgetId);
+                }
+                return null;
             }
             set {
-                BudgetSelector.SelectedItem = value?.View(mSecurityContext) ?? null;
+                BudgetSelector.SelectedBudgetId = value?.oid ?? 0;
             }
         }
 

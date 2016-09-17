@@ -12,7 +12,7 @@ namespace dougnlamb.budget.models {
             this.oid = allocation?.oid ?? 0;
             this.Notes = allocation?.Notes ?? "";
             this.Amount = allocation?.Amount ?? new Money();
-            this.AmountEditor = Amount.Edit(securityContext);
+            this.AmountEditor = new MoneyEditorModel(Amount);
             this.BudgetItemSelector = new BudgetItemSelectionModel(securityContext, null);
             this.TransactionSelector = new TransactionSelectionModel(securityContext, null);
             this.BudgetItem = allocation?.BudgetItem ?? null;
@@ -57,7 +57,7 @@ namespace dougnlamb.budget.models {
 
             mAllocation.Save(securityContext, this);
 
-            IBudgetItemEditorModel budgetItemEditor = mAllocation.BudgetItem.Edit(securityContext);
+            IBudgetItemEditorModel budgetItemEditor = new BudgetItemEditorModel(mSecurityContext, null, mAllocation.BudgetItem);
             budgetItemEditor.UpdateBalance = true;
             budgetItemEditor.Save(securityContext);
 

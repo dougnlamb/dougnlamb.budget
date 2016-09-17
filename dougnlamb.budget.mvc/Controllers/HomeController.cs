@@ -14,7 +14,7 @@ namespace dougnlamb.budget.mvc.Controllers {
                 accounts.Add(acct.View(null));
             }
 
-            return View(accounts);
+            return View(usr.View(null));
         }
 
         public ActionResult About() {
