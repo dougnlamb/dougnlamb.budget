@@ -41,34 +41,34 @@ namespace dougnlamb.budget.dao {
             { 1000, new BudgetItem(null) {oid = 1000,
                 Name ="Entertainment",
                 Budget = dbBudgets[1000],
-                Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] },
-                Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
+                BudgetAmount = new Money() {Value=100, Currency = dbCurrencies[1000] },
+                Balance = new Money() {Value=100, Currency = dbCurrencies[1000] } } },
             { 1001, new BudgetItem(null) {oid = 1001,
                 Name ="Electricity",
                 Budget = dbBudgets[1000],
-                Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } ,
-                Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } },
+                BudgetAmount = new Money() {Value=100, Currency = dbCurrencies[1000] } ,
+                Balance = new Money() {Value=100, Currency = dbCurrencies[1000] } } },
             { 1002, new BudgetItem(null) {oid = 1002,
                 Name ="Savings",
                 Budget = dbBudgets[1000],
-                Amount = new Money() {Amount=100, Currency = dbCurrencies[1000] } ,
-                Balance = new Money() {Amount=100, Currency = dbCurrencies[1000] } } }
+                BudgetAmount = new Money() {Value=100, Currency = dbCurrencies[1000] } ,
+                Balance = new Money() {Value=100, Currency = dbCurrencies[1000] } } }
         };
 
             dbTransactions = new Dictionary<int, ITransaction>() {
             { 1000, new Transaction(null) {oid = 1000,
                 Note = "My Transaction",
-                TransactionAmount = new Money() { Amount = -25, Currency = dbCurrencies[1000] } } },
+                TransactionAmount = new Money() { Value = -25, Currency = dbCurrencies[1000] } } },
             { 1001, new Transaction(null) {oid = 1000,
                 Note = "Her Transaction",
-                TransactionAmount = new Money() { Amount = -30, Currency = dbCurrencies[1000] } } }
+                TransactionAmount = new Money() { Value = -30, Currency = dbCurrencies[1000] } } }
         };
             dbAllocations = new Dictionary<int, IAllocation>() {
                 {1000, new Allocation(null) { oid = 1000,
                     Notes = "My Allocation",
                     BudgetItem = dbBudgetItems[1000],
                     Transaction = dbTransactions[1000],
-                    Amount = new Money() {Amount = -25, Currency = dbCurrencies[1000] } } }
+                    Amount = new Money() {Value = -25, Currency = dbCurrencies[1000] } } }
             };
 
 

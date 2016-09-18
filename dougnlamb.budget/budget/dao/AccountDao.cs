@@ -60,7 +60,8 @@ namespace dougnlamb.budget.dao {
                                         owner, 
                                         updatedBy, 
                                         updatedDate  
-                                    from budget.dbo.account where owner = @owner";
+                                    from budget.dbo.account where owner = @owner
+                                        order by name";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("owner", user.oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {

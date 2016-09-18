@@ -13,7 +13,7 @@ namespace dougnlamb.budget {
             this.oid = budgetItem?.oid ?? 0;
             this.Name = budgetItem?.Name ?? "";
             this.Notes = budgetItem?.Notes ?? "";
-            this.AmountEditor = new MoneyEditorModel(budgetItem?.Amount);
+            this.AmountEditor = new MoneyEditorModel(budgetItem?.BudgetAmount);
             this.IsClosed = budgetItem?.IsClosed ?? false;
             this.ClosedBy = budgetItem?.ClosedBy ?? null;
             this.DueDate = budgetItem?.DueDate ?? DateTime.Now.AddMonths(1);
@@ -26,10 +26,10 @@ namespace dougnlamb.budget {
         public int oid { get; internal set; }
         public IMoney Amount {
             get {
-                return new Money() { Amount = AmountEditor.Amount, Currency = AmountEditor.Currency };
+                return new Money() { Value = AmountEditor.Amount, Currency = AmountEditor.Currency };
             }
             set {
-                AmountEditor.Amount = value?.Amount ?? 0;
+                AmountEditor.Amount = value?.Value ?? 0;
                 AmountEditor.CurrencySelector.SelectedItem = value?.Currency?.View(mSecurityContext) ?? null;
             }
         } 
@@ -81,7 +81,7 @@ namespace dougnlamb.budget {
         }
 
         private void UpdateBudgetItemBalance() {
-            IMoney bal = new Money() { Amount = Amount.Amount, Currency = Amount.Currency };
+            IMoney bal = new Money() { Value = Amount.Value, Currency = Amount.Currency };
 
             foreach (IAllocation allocation in mBudgetItem?.Allocations) {
                 bal.Add(allocation.Amount);

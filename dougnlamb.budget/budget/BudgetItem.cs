@@ -29,14 +29,14 @@ namespace dougnlamb.budget {
             }
         }
 
-        private IMoney mAmount;
-        public IMoney Amount {
+        private IMoney mBudgetAmount;
+        public IMoney BudgetAmount {
             get {
                 Load();
-                return mAmount;
+                return mBudgetAmount;
             }
             internal set {
-                mAmount = value;
+                mBudgetAmount = value;
             }
         }
 
@@ -165,7 +165,7 @@ namespace dougnlamb.budget {
 
             BudgetItem budgetItem = new BudgetItem(securityContext) {
                 oid = this.oid,
-                Amount = model.Amount,
+                BudgetAmount = model.Amount,
                 Balance = model.Balance,
                 Budget = model.Budget,
                 DueDate = model.DueDate,
@@ -204,7 +204,7 @@ namespace dougnlamb.budget {
                 throw new InvalidOperationException("Oid mismatch.");
             }
 
-            this.Amount = budgetItem.Amount;
+            this.BudgetAmount = budgetItem.BudgetAmount;
             this.Balance = budgetItem.Balance;
             this.Budget = budgetItem.Budget;
             this.ClosedBy = budgetItem.ClosedBy;

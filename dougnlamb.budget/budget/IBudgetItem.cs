@@ -16,7 +16,7 @@ namespace dougnlamb.budget {
         IBudget Budget { get; }
         IAccount DefaultAccount { get; }
 
-        IMoney Amount { get; }
+        IMoney BudgetAmount { get; }
         IMoney Balance { get; }
 
         IObservableList<IAllocation> Allocations { get; }

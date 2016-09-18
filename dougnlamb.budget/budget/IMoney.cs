@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace dougnlamb.budget {
     public interface IMoney {
-        decimal Amount { get; }
+        decimal Value { get; }
         ICurrency Currency { get; }
         void Add(IMoney amount);
 

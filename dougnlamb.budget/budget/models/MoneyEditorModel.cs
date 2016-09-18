@@ -12,7 +12,7 @@ namespace dougnlamb.budget.models {
         public MoneyEditorModel(IMoney money) {
             CurrencySelector = new CurrencySelectionModel();
             Currency = money?.Currency ?? null;
-            Amount = money?.Amount ?? 0;
+            Amount = money?.Value ?? 0;
         }
 
         public decimal Amount { get; set; }

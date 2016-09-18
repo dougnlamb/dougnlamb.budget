@@ -46,8 +46,8 @@ namespace dougnlamb.budget {
         }
 
         public IMoney Convert(IMoney money) {
-            decimal value = money.Amount * GetConversionFactor(money.Currency);
-            return new Money() { Currency = this, Amount = value };
+            decimal value = money.Value * GetConversionFactor(money.Currency);
+            return new Money() { Currency = this, Value = value };
         }
 
         public ICurrencyViewModel View(ISecurityContext securityContext) {

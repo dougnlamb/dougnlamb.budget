@@ -81,11 +81,11 @@ namespace test.budget.budget {
             IAccount account = Account.GetDao().Retrieve(null, 1);
             ITransactionEditorModel model = new TransactionEditorModel(null, usr, account);
 
-            model.TransactionAmount = new Money() { Amount = 100, Currency = account.DefaultCurrency };
+            model.TransactionAmount = new Money() { Value = 100, Currency = account.DefaultCurrency };
             ITransaction transaction = account.AddTransaction(null, model);
 
             Assert.AreEqual(1002, transaction.oid);
-            Assert.AreEqual(100, transaction.TransactionAmount.Amount);
+            Assert.AreEqual(100, transaction.TransactionAmount.Value);
         }
     }
 }

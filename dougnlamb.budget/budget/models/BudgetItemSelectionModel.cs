@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 namespace dougnlamb.budget.models {
     public class BudgetItemSelectionModel : IBudgetItemSelectionModel {
         private ISecurityContext mSecurityContext;
+        private IBudget mBudget;
 
         public BudgetItemSelectionModel() { }
-        public BudgetItemSelectionModel(ISecurityContext securityContext, IBudgetItem budgetItem) {
+        public BudgetItemSelectionModel(ISecurityContext securityContext, IBudget budget, IBudgetItem budgetItem) {
             this.mSecurityContext = securityContext;
+            this.mBudget = budget;
             this.SelectedItem = budgetItem?.View(securityContext) ?? null;
         }
 
@@ -19,7 +21,7 @@ namespace dougnlamb.budget.models {
         public IList<IBudgetItemViewModel> BudgetItems {
             get {
                 if (mBudgetItems == null) {
-                    IList<IBudgetItem> itms = BudgetItem.GetDao().RetrieveOpen(mSecurityContext);
+                    IList<IBudgetItem> itms = BudgetItem.GetDao().RetrieveOpen(mSecurityContext, mBudget);
 
                     mBudgetItems = new List<IBudgetItemViewModel>();
                     foreach (IBudgetItem itm in itms) {

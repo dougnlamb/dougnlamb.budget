@@ -19,34 +19,44 @@ namespace test.budget.budget {
         [TestMethod]
         public void CreateBudgetItemTest() {
             IBudget budget = Budget.GetDao().Retrieve(null, 1);
+            int numItems = budget.BudgetItems.Count;
+
             IBudgetItemEditorModel model = new BudgetItemEditorModel(null, budget.Owner, null);
 
             model.Name = "Movies";
             model.Notes = "Raiders of the Lost Ark";
 
-            model.Amount = new Money() { Amount = 100, Currency = Currency.GetDao().Retrieve(null, 1) };
+            model.Amount = new Money() { Value = 100, Currency = Currency.GetDao().Retrieve(null, 1) };
 
             model.DueDate = DateTime.Now.AddMonths(1);
             model.ReminderDate = DateTime.Now.AddMonths(1).AddDays(-7);
 
+            model.Budget = budget;
+
             IBudgetItem budgetItem = budget.AddBudgetItem(null, model);
+            
+            Assert.IsNotNull(budgetItem);
+
+            budget = Budget.GetDao().Retrieve(null, 1);
+            Assert.AreEqual(numItems + 1, budget.BudgetItems.Count);
+
         }
 
 
         [TestMethod]
         public void RetrieveBudgetItemTest() {
-            IBudgetItem budgetItem = BudgetItem.GetDao().Retrieve(null, 1000);
+            IBudgetItem budgetItem = BudgetItem.GetDao().Retrieve(null, 1);
 
-            Assert.AreEqual(1000, budgetItem.oid);
-            Assert.AreEqual("Entertainment", budgetItem.Name);
+            Assert.AreEqual(1, budgetItem.oid);
+            Assert.AreEqual("Movies", budgetItem.Name);
         }
 
         [TestMethod]
-        public void LazyLoadBudgetTest() {
-            IBudgetItem budgetItem = new BudgetItem(null, 1000);
+        public void LazyLoadBudgetItemTest() {
+            IBudgetItem budgetItem = new BudgetItem(null, 1);
 
-            Assert.AreEqual(1000, budgetItem.oid);
-            Assert.AreEqual("Entertainment", budgetItem.Name);
+            Assert.AreEqual(1, budgetItem.oid);
+            Assert.AreEqual("Movies", budgetItem.Name);
         }
     }
 }

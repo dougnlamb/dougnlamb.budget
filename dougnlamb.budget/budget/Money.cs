@@ -8,11 +8,11 @@ using dougnlamb.core.security;
 
 namespace dougnlamb.budget {
     public class Money : IMoney {
-        public decimal Amount { get; set; }
+        public decimal Value { get; set; }
         public ICurrency Currency { get; set; }
 
         public void Add(IMoney money) {
-            Amount += money.Currency.Convert(money).Amount;
+            Value += money.Currency.Convert(money).Value;
         }
 
         public IMoneyViewModel View(ISecurityContext securityContext) {

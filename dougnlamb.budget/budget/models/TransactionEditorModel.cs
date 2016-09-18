@@ -13,7 +13,7 @@ namespace dougnlamb.budget {
         public TransactionEditorModel(ISecurityContext securityContext, IUser user, IAccount account) {
             this.securityContext = securityContext;
             AccountSelector = new AccountSelectionModel(securityContext, user, account);
-            TransactionAmountEditor = new MoneyEditorModel(new Money() { Amount = 0, Currency = account.DefaultCurrency });
+            TransactionAmountEditor = new MoneyEditorModel(new Money() { Value = 0, Currency = account.DefaultCurrency });
         }
 
         public int oid { get; internal set; }
@@ -21,10 +21,10 @@ namespace dougnlamb.budget {
         public string Note { get; set; }
         public IMoney TransactionAmount {
             get {
-                return new Money() { Amount = TransactionAmountEditor.Amount, Currency = TransactionAmountEditor.Currency };
+                return new Money() { Value = TransactionAmountEditor.Amount, Currency = TransactionAmountEditor.Currency };
             }
             set {
-                TransactionAmountEditor.Amount = value?.Amount ?? 0;
+                TransactionAmountEditor.Amount = value?.Value ?? 0;
                 TransactionAmountEditor.CurrencySelector.SelectedItem = value?.Currency?.View(securityContext) ?? null;
             }
         }

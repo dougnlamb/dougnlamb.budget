@@ -19,7 +19,7 @@ namespace dougnlamb.budget {
 
         public IObservableList<IBudgetItem> BudgetItems {
             get {
-                return MockDatabase.RetrieveBudgetItems(this);
+                return BudgetItem.GetDao().Retrieve(mSecurityContext, this);
             }
         }
 

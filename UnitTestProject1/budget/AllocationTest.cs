@@ -18,26 +18,26 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void CreateAllocationTest() {
-            IBudgetItem budgetItem = BudgetItem.GetDao().Retrieve(null, 1000);
-            decimal balance = budgetItem.Amount.Amount - 25;
+            IBudgetItem budgetItem = BudgetItem.GetDao().Retrieve(null, 1);
+            decimal balance = budgetItem.BudgetAmount.Value;
 
             ITransaction transaction = Transaction.GetDao().Retrieve(null, 1000);
             IAllocationEditorModel model = transaction.CreateAllocation(null);
             model.BudgetItem = budgetItem;
             model.Notes = "Just a plain allocation";
-            model.Amount = new Money() { Amount = -25.25M, Currency = model.BudgetItem.Amount.Currency };
+            model.Amount = new Money() { Value = -25.25M, Currency = model.BudgetItem.BudgetAmount.Currency };
 
             IAllocation allocation = model.Save(null);
             Assert.AreEqual(model.Notes, allocation.Notes);
-            Assert.AreEqual(model.Amount.Amount, allocation.Amount.Amount);
+            Assert.AreEqual(model.Amount.Value, allocation.Amount.Value);
             Assert.AreEqual(model.Amount.Currency.Code, allocation.Amount.Currency.Code);
-            Assert.AreEqual(balance - 25.25M, allocation.BudgetItem.Balance.Amount);
+            Assert.AreEqual(balance - 25.25M, allocation.BudgetItem.Balance.Value);
 
             Assert.IsTrue(allocation.oid > 0);
             IAllocation a = Allocation.GetDao().Retrieve(null, allocation.oid);
 
             Assert.AreEqual(a.Notes, allocation.Notes);
-            Assert.AreEqual(a.Amount.Amount, allocation.Amount.Amount);
+            Assert.AreEqual(a.Amount.Value, allocation.Amount.Value);
             Assert.AreEqual(a.Amount.Currency.Code, allocation.Amount.Currency.Code);
         }
 
@@ -48,7 +48,7 @@ namespace test.budget.budget {
 
             Assert.AreEqual(1000, allocation.oid);
             Assert.AreEqual("My Allocation", allocation.Notes);
-            Assert.AreEqual(-25, allocation.Amount.Amount);
+            Assert.AreEqual(-25, allocation.Amount.Value);
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace test.budget.budget {
 
             Assert.AreEqual(1000, allocation.oid);
             Assert.AreEqual("My Allocation", allocation.Notes);
-            Assert.AreEqual(-25, allocation.Amount.Amount);
+            Assert.AreEqual(-25, allocation.Amount.Value);
         }
     }
 }

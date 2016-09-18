@@ -13,7 +13,7 @@ namespace dougnlamb.budget.models {
             this.Notes = allocation?.Notes ?? "";
             this.Amount = allocation?.Amount ?? new Money();
             this.AmountEditor = new MoneyEditorModel(Amount);
-            this.BudgetItemSelector = new BudgetItemSelectionModel(securityContext, null);
+            this.BudgetItemSelector = new BudgetItemSelectionModel(securityContext, null, null);
             this.TransactionSelector = new TransactionSelectionModel(securityContext, null);
             this.BudgetItem = allocation?.BudgetItem ?? null;
             this.Transaction = allocation?.Transaction ?? null;

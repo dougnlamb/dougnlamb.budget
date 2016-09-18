@@ -29,7 +29,8 @@ namespace dougnlamb.budget.dao {
                                         isclosed,
                                         updatedBy, 
                                         updatedDate  
-                                    from budget.dbo.budget where oid = @oid";
+                                    from budget.dbo.budget where oid = @oid
+                                        order by name";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("oid", oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {

@@ -14,7 +14,7 @@ namespace dougnlamb.budget {
             Notes = budgetItem?.Notes ?? "";
             DueDate = budgetItem?.DueDate ?? new DateTime();
             ReminderDate = budgetItem?.ReminderDate ?? new DateTime();
-            Amount = budgetItem?.Amount?.View(mSecurityContext) ?? new MoneyViewModel(mSecurityContext, null);
+            Amount = budgetItem?.BudgetAmount?.View(mSecurityContext) ?? new MoneyViewModel(mSecurityContext, null);
         }
 
         public IMoneyViewModel Amount { get; internal set; }
