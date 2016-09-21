@@ -10,7 +10,7 @@ using System.Data;
 using System.Configuration;
 
 namespace dougnlamb.budget.dao {
-    public class AccountDao : IAccountDao {
+    public class AccountDao : BaseDao, IAccountDao {
 
         public IObservableList<IAccount> Find(ISecurityContext securityContext, string name) {
             throw new NotImplementedException();
@@ -79,7 +79,7 @@ namespace dougnlamb.budget.dao {
             Account account = new Account(securityContext);
             account.oid = (int)reader["oid"];
             account.CreatedBy = new User(securityContext, (int)reader["createdBy"]);
-            account.CreatedDate = (DateTime)reader["createdDate"];
+            account.CreatedDate = GetDateTime(reader,"createdDate");
             int currencyId = (int)reader["defaultCurrency"];
             if (currencyId > 0) {
                 account.DefaultCurrency = new Currency(securityContext, currencyId);
@@ -89,7 +89,7 @@ namespace dougnlamb.budget.dao {
             if (updatedById > 0) {
                 account.UpdatedBy = new User(securityContext, updatedById);
             }
-            account.UpdatedDate = reader["updatedDate"] != DBNull.Value ? (DateTime)reader["updatedDate"] : new DateTime();
+            account.UpdatedDate = GetDateTime(reader, "updatedDate");
             int ownerId = reader["owner"] != DBNull.Value ? (int)reader["owner"] : 0;
             if (ownerId > 0) {
                 account.Owner = new User(securityContext, ownerId);
@@ -151,22 +151,15 @@ namespace dougnlamb.budget.dao {
                         where
                             oid = @oid",
                     sqlConn)) {
-                    cmd.Parameters.AddWithValue("createdBy", account?.CreatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("createdDate", account.CreatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", account.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("name", account.Name);
                     cmd.Parameters.AddWithValue("owner", account.Owner.oid);
-                    cmd.Parameters.AddWithValue("updatedBy", account?.UpdatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("updatedDate", DateTime.Now);
+                    AddBaseParameters(cmd, account);
                     cmd.Parameters.AddWithValue("oid", account.oid);
 
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        private string GetConnectionString() {
-            return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
     }
 }

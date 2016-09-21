@@ -46,6 +46,7 @@
     <Compile Include="budget\Allocation.cs" />
     <Compile Include="budget\BudgetItem.cs" />
     <Compile Include="budget\dao\AllocationDao.cs" />
+    <Compile Include="budget\dao\BaseDao.cs" />
     <Compile Include="budget\dao\IAllocationDao.cs" />
     <Compile Include="budget\models\TransactionSelectionModel.cs" />
     <Compile Include="budget\models\BudgetViewModel.cs" />

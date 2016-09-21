@@ -10,7 +10,7 @@ using System.Data;
 using System.Configuration;
 
 namespace dougnlamb.budget.dao {
-    public class BudgetDao : IBudgetDao {
+    public class BudgetDao : BaseDao, IBudgetDao {
 
         public IObservableList<IBudget> Find(ISecurityContext securityContext, string name) {
             throw new NotImplementedException();
@@ -81,7 +81,7 @@ namespace dougnlamb.budget.dao {
             Budget budget = new Budget(securityContext);
             budget.oid = (int)reader["oid"];
             budget.CreatedBy = new User(securityContext, (int)reader["createdBy"]);
-            budget.CreatedDate = (DateTime)reader["createdDate"];
+            budget.CreatedDate = GetDateTime(reader, "createdDate");
             int currencyId = (int)reader["defaultCurrency"];
             if (currencyId > 0) {
                 budget.DefaultCurrency = new Currency(securityContext, currencyId);
@@ -91,7 +91,7 @@ namespace dougnlamb.budget.dao {
             if (updatedById > 0) {
                 budget.UpdatedBy = new User(securityContext, updatedById);
             }
-            budget.UpdatedDate = reader["updatedDate"] != DBNull.Value ? (DateTime)reader["updatedDate"] : new DateTime();
+            budget.UpdatedDate = GetDateTime(reader, "updatedDate");
             int ownerId = reader["owner"] != DBNull.Value ? (int)reader["owner"] : 0;
             if (ownerId > 0) {
                 budget.Owner = new User(securityContext, ownerId);
@@ -121,13 +121,13 @@ namespace dougnlamb.budget.dao {
                         SET @ID=SCOPE_IDENTITY()",
                     sqlConn)) {
                     cmd.Parameters.AddWithValue("createdBy", budget.CreatedBy.oid);
-                    cmd.Parameters.AddWithValue("createdDate", budget.CreatedDate);
+                    AddDateParameter(cmd, "createdDate", budget.CreatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", budget.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("name", budget.Name);
                     cmd.Parameters.AddWithValue("owner", budget.Owner.oid);
                     cmd.Parameters.AddWithValue("isclosed", budget.IsClosed);
                     cmd.Parameters.AddWithValue("updatedBy", 0);
-                    cmd.Parameters.AddWithValue("updatedDate", DBNull.Value);
+                    AddDateParameter(cmd, "updatedDate", budget.CreatedDate);
 
                     SqlParameter p = new SqlParameter();
                     p.ParameterName = "@ID";
@@ -157,22 +157,18 @@ namespace dougnlamb.budget.dao {
                             oid = @oid",
                     sqlConn)) {
                     cmd.Parameters.AddWithValue("createdBy", budget?.CreatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("createdDate", budget.CreatedDate);
+                    AddDateParameter(cmd, "createdDate", budget.CreatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", budget.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("name", budget.Name);
                     cmd.Parameters.AddWithValue("owner", budget.Owner.oid);
                     cmd.Parameters.AddWithValue("isclosed", budget.IsClosed);
                     cmd.Parameters.AddWithValue("updatedBy", budget?.UpdatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("updatedDate", DateTime.Now);
+                    AddDateParameter(cmd, "updatedDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("oid", budget.oid);
 
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        private string GetConnectionString() {
-            return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
     }
 }

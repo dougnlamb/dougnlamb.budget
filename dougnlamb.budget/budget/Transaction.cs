@@ -42,6 +42,7 @@ namespace dougnlamb.budget {
         public DateTime ReportedDate { get; internal set; }
 
         public IMoney TransactionAmount { get; internal set; }
+        public IMoney AllocatedAmount { get; internal set; }
 
         public DateTime TransactionDate { get; internal set; }
 
@@ -67,10 +68,6 @@ namespace dougnlamb.budget {
             AllocationEditorModel model = new AllocationEditorModel(securityContext, null);
             model.Transaction = this;
             return model;
-        }
-
-        public IMoney GetAllocationDiscrepency() {
-            throw new NotImplementedException();
         }
 
         public void Save(ISecurityContext securityContext, ITransactionEditorModel model) {

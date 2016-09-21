@@ -78,14 +78,16 @@ namespace test.budget.budget {
         [TestMethod]
         public void CreateTransactionTest() {
             IUser usr = User.GetDao().Retrieve(null, 1);
+            Assert.IsNotNull(usr);
             IAccount account = Account.GetDao().Retrieve(null, 1);
+            Assert.IsNotNull(account);
             ITransactionEditorModel model = new TransactionEditorModel(null, usr, account);
 
             model.TransactionAmount = new Money() { Value = 100, Currency = account.DefaultCurrency };
             ITransaction transaction = account.AddTransaction(null, model);
 
-            Assert.AreEqual(1002, transaction.oid);
-            Assert.AreEqual(100, transaction.TransactionAmount.Value);
+            transaction = Transaction.GetDao().Retrieve(null, transaction.oid);
+            Assert.AreEqual(model.TransactionAmount.Value, transaction.TransactionAmount.Value);
         }
     }
 }

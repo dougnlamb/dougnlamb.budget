@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 
 namespace dougnlamb.budget.dao {
-    public class CurrencyDao : ICurrencyDao {
+    public class CurrencyDao : BaseDao, ICurrencyDao {
         public ICurrency Retrieve(ISecurityContext securityContext, int oid) {
             ICurrency currency = null;
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
@@ -42,10 +42,6 @@ namespace dougnlamb.budget.dao {
             usr.Description = (string)reader["description"];
 
             return usr;
-        }
-
-        private string GetConnectionString() {
-            return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
     }
 }

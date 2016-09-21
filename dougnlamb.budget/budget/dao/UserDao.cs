@@ -10,7 +10,7 @@ using System.Configuration;
 using System.Data;
 
 namespace dougnlamb.budget.dao {
-    public class UserDao : IUserDao {
+    public class UserDao : BaseDao, IUserDao {
         public IPagedList<IUser> Find(IUser user, string name) {
             throw new NotImplementedException();
         }
@@ -140,10 +140,6 @@ namespace dougnlamb.budget.dao {
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        private string GetConnectionString() {
-            return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
     }
 }

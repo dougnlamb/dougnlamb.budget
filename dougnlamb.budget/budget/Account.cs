@@ -151,6 +151,7 @@ namespace dougnlamb.budget {
         }
 
         public ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model) {
+            model.Account = this;
             ITransaction transaction = model.Save(securityContext);
             //Transactions.Add(transaction);
             return transaction;

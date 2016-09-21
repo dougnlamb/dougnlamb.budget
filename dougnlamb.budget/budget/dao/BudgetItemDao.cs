@@ -10,7 +10,7 @@ using System.Data;
 using System.Configuration;
 
 namespace dougnlamb.budget.dao {
-    public class BudgetItemDao : IBudgetItemDao {
+    public class BudgetItemDao : BaseDao, IBudgetItemDao {
 
         public IBudgetItem Retrieve(ISecurityContext securityContext, int oid) {
             IBudgetItem budgetItem = null;
@@ -152,18 +152,6 @@ namespace dougnlamb.budget.dao {
             return budgetItem;
         }
 
-        private DateTime GetDateTime(SqlDataReader reader, string column) {
-            return reader[column] != DBNull.Value ? (DateTime)reader[column] : new DateTime();
-        }
-
-        private IMoney BuildMoney(SqlDataReader reader, string valueColumn, string currencyColumn) {
-            Money money = new Money() {
-                Value = (decimal)reader[valueColumn],
-                Currency = new Currency(null, (int)reader[currencyColumn])
-            };
-            return money;
-        }
-
         public int Save(ISecurityContext securityContext, IBudgetItem budgetItem) {
             if (budgetItem.oid == 0) {
                 return InsertBudgetItem(budgetItem);
@@ -257,18 +245,6 @@ namespace dougnlamb.budget.dao {
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        private void AddDateParameter(SqlCommand cmd, string parameter, DateTime value) {
-            if (value == DateTime.MinValue) {
-                cmd.Parameters.AddWithValue(parameter, DBNull.Value);
-            }
-            else {
-                cmd.Parameters.AddWithValue(parameter, value);
-            }
-        }
-        private string GetConnectionString() {
-            return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
         public IObservableList<IBudgetItem> RetrieveOpen(ISecurityContext mSecurityContext, IUser user) {

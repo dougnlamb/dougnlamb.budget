@@ -21,7 +21,7 @@ namespace test.budget.budget {
             IBudgetItem budgetItem = BudgetItem.GetDao().Retrieve(null, 1);
             decimal balance = budgetItem.BudgetAmount.Value;
 
-            ITransaction transaction = Transaction.GetDao().Retrieve(null, 1000);
+            ITransaction transaction = Transaction.GetDao().Retrieve(null, 1);
             IAllocationEditorModel model = transaction.CreateAllocation(null);
             model.BudgetItem = budgetItem;
             model.Notes = "Just a plain allocation";
@@ -44,20 +44,20 @@ namespace test.budget.budget {
 
         [TestMethod]
         public void RetrieveAllocationTest() {
-            IAllocation allocation = Allocation.GetDao().Retrieve(null, 1000);
+            IAllocation allocation = Allocation.GetDao().Retrieve(null, 3);
 
-            Assert.AreEqual(1000, allocation.oid);
-            Assert.AreEqual("My Allocation", allocation.Notes);
-            Assert.AreEqual(-25, allocation.Amount.Value);
+            Assert.AreEqual(3, allocation.oid);
+            Assert.AreEqual("Just a plain allocation", allocation.Notes);
+            Assert.AreEqual(-25.25M, allocation.Amount.Value);
         }
 
         [TestMethod]
         public void LazyLoadAllocationTest() {
-            IAllocation allocation = new Allocation(null, 1000);
+            IAllocation allocation = new Allocation(null, 3);
 
-            Assert.AreEqual(1000, allocation.oid);
-            Assert.AreEqual("My Allocation", allocation.Notes);
-            Assert.AreEqual(-25, allocation.Amount.Value);
+            Assert.AreEqual(3, allocation.oid);
+            Assert.AreEqual("Just a plain allocation", allocation.Notes);
+            Assert.AreEqual(-25.25M, allocation.Amount.Value);
         }
     }
 }
