@@ -20,17 +20,51 @@ namespace dougnlamb.budget.dao {
             IBudget budget = null;
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                String query = @"select oid, 
-                                        createdBy, 
-                                        createdDate, 
-                                        defaultCurrency, 
-                                        name, 
-                                        owner, 
-                                        isclosed,
-                                        updatedBy, 
-                                        updatedDate  
-                                    from budget.dbo.budget where oid = @oid
-                                        order by name";
+                String query = @"select budget.oid budget_oid, 
+                                        budget.createdBy budget_createdBy,
+                                        budget.createdDate budget_createdDate,
+                                        budget.defaultCurrency budget_defaultCurrency, 
+                                        budget.name budget_name, 
+                                        budget.owner budget_owner, 
+                                        budget.isclosed budget_isclosed,
+                                        budget.updatedBy budget_updatedBy, 
+                                        budget.updatedDate budget_updatedDate,
+                                        currency.oid currency_oid,
+                                        currency.code currency_code,
+                                        currency.description currency_description,
+                                        owner.oid owner_oid, 
+                                        owner.createdBy owner_createdBy, 
+                                        owner.createdDate owner_createdDate, 
+                                        owner.defaultCurrency owner_defaultCurrency, 
+                                        owner.displayName owner_displayName, 
+                                        owner.email owner_email, 
+                                        owner.updatedBy owner_updatedBy, 
+                                        owner.updatedDate owner_updatedDate, 
+                                        owner.userId owner_userId,
+                                        creator.oid creator_oid, 
+                                        creator.createdBy creator_createdBy, 
+                                        creator.createdDate creator_createdDate, 
+                                        creator.defaultCurrency creator_defaultCurrency, 
+                                        creator.displayName creator_displayName, 
+                                        creator.email creator_email, 
+                                        creator.updatedBy creator_updatedBy, 
+                                        creator.updatedDate creator_updatedDate, 
+                                        creator.userId creator_userId,
+                                        updater.oid updater_oid, 
+                                        updater.createdBy updater_createdBy, 
+                                        updater.createdDate updater_createdDate, 
+                                        updater.defaultCurrency updater_defaultCurrency, 
+                                        updater.displayName updater_displayName, 
+                                        updater.email updater_email, 
+                                        updater.updatedBy updater_updatedBy, 
+                                        updater.updatedDate updater_updatedDate, 
+                                        updater.userId updater_userId
+                                    from budget.dbo.budget budget 
+                                    left join budget.dbo.currency currency on budget.defaultCurrency = currency.oid
+                                    left join budget.dbo.[user] owner on budget.owner = owner.oid
+                                    left join budget.dbo.[user] creator on budget.createdBy = creator.oid
+                                    left join budget.dbo.[user] updater on budget.updatedBy = updater.oid
+                                        where oid = @oid";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("oid", oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
@@ -54,16 +88,51 @@ namespace dougnlamb.budget.dao {
 
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                String query = @"select oid, 
-                                        createdBy, 
-                                        createdDate, 
-                                        defaultCurrency, 
-                                        name, 
-                                        owner, 
-                                        isclosed,
-                                        updatedBy, 
-                                        updatedDate  
-                                    from budget.dbo.budget where owner = @owner";
+                String query = @"select budget.oid budget_oid, 
+                                        budget.createdBy budget_createdBy,
+                                        budget.createdDate budget_createdDate,
+                                        budget.defaultCurrency budget_defaultCurrency, 
+                                        budget.name budget_name, 
+                                        budget.owner budget_owner, 
+                                        budget.isclosed budget_isclosed,
+                                        budget.updatedBy budget_updatedBy, 
+                                        budget.updatedDate budget_updatedDate,
+                                        currency.oid currency_oid,
+                                        currency.code currency_code,
+                                        currency.description currency_description,
+                                        owner.oid owner_oid, 
+                                        owner.createdBy owner_createdBy, 
+                                        owner.createdDate owner_createdDate, 
+                                        owner.defaultCurrency owner_defaultCurrency, 
+                                        owner.displayName owner_displayName, 
+                                        owner.email owner_email, 
+                                        owner.updatedBy owner_updatedBy, 
+                                        owner.updatedDate owner_updatedDate, 
+                                        owner.userId owner_userId,
+                                        creator.oid creator_oid, 
+                                        creator.createdBy creator_createdBy, 
+                                        creator.createdDate creator_createdDate, 
+                                        creator.defaultCurrency creator_defaultCurrency, 
+                                        creator.displayName creator_displayName, 
+                                        creator.email creator_email, 
+                                        creator.updatedBy creator_updatedBy, 
+                                        creator.updatedDate creator_updatedDate, 
+                                        creator.userId creator_userId,
+                                        updater.oid updater_oid, 
+                                        updater.createdBy updater_createdBy, 
+                                        updater.createdDate updater_createdDate, 
+                                        updater.defaultCurrency updater_defaultCurrency, 
+                                        updater.displayName updater_displayName, 
+                                        updater.email updater_email, 
+                                        updater.updatedBy updater_updatedBy, 
+                                        updater.updatedDate updater_updatedDate, 
+                                        updater.userId updater_userId
+                                    from budget.dbo.budget budget 
+                                    left join budget.dbo.currency currency on budget.defaultCurrency = currency.oid
+                                    left join budget.dbo.[user] owner on budget.owner = owner.oid
+                                    left join budget.dbo.[user] creator on budget.createdBy = creator.oid
+                                    left join budget.dbo.[user] updater on budget.updatedBy = updater.oid
+                                        where owner = @owner";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("owner", user.oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
@@ -72,31 +141,35 @@ namespace dougnlamb.budget.dao {
                         }
                     }
                 }
-
             }
             return budgets;
         }
 
         private IBudget BuildBudget(SqlDataReader reader, ISecurityContext securityContext) {
             Budget budget = new Budget(securityContext);
-            budget.oid = (int)reader["oid"];
-            budget.CreatedBy = new User(securityContext, (int)reader["createdBy"]);
-            budget.CreatedDate = GetDateTime(reader, "createdDate");
-            int currencyId = (int)reader["defaultCurrency"];
+            budget.oid = (int)reader["budget_oid"];
+            budget.CreatedDate = GetDateTime(reader, "budget_createdDate");
+            int currencyId = (int)reader["budget_defaultCurrency"];
             if (currencyId > 0) {
-                budget.DefaultCurrency = new Currency(securityContext, currencyId);
+                budget.DefaultCurrency = new CurrencyDao().BuildCurrency(reader, securityContext);
             }
-            budget.Name = (string)reader["name"];
-            int updatedById = reader["updatedBy"] != DBNull.Value ? (int)reader["updatedBy"] : 0;
+            budget.Name = (string)reader["budget_name"];
+
+            int createdById = reader["budget_createdBy"] != DBNull.Value ? (int)reader["budget_createdBy"] : 0;
+            if (createdById > 0) {
+                budget.CreatedBy = new UserDao().BuildUser(reader, securityContext, "creator_");
+            }
+            int updatedById = reader["budget_updatedBy"] != DBNull.Value ? (int)reader["budget_updatedBy"] : 0;
             if (updatedById > 0) {
-                budget.UpdatedBy = new User(securityContext, updatedById);
+                budget.UpdatedBy = new UserDao().BuildUser(reader, securityContext, "updater_");
             }
-            budget.UpdatedDate = GetDateTime(reader, "updatedDate");
-            int ownerId = reader["owner"] != DBNull.Value ? (int)reader["owner"] : 0;
+            budget.UpdatedDate = GetDateTime(reader, "budget_updatedDate");
+            int ownerId = reader["budget_owner"] != DBNull.Value ? (int)reader["budget_owner"] : 0;
             if (ownerId > 0) {
-                budget.Owner = new User(securityContext, ownerId);
+                budget.Owner = new UserDao().BuildUser(reader, securityContext, "owner_");
             }
-            budget.IsClosed = (bool)reader["isclosed"];
+
+            budget.IsClosed = (bool)reader["budget_isclosed"];
 
             return budget;
         }

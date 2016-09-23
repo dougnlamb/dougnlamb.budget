@@ -119,13 +119,23 @@ namespace dougnlamb.budget {
                 UserId = model.UserId,
                 DisplayName = model.DisplayName,
                 Email = model.Email,
-                CreatedBy = this.CreatedBy,
-                CreatedDate = this.CreatedDate,
-                DefaultCurrency = model.DefaultCurrency,
-                // TODO: Fix UpdatedBy
-                //UpdatedBy = model.UpdatedBy,
-                UpdatedDate = DateTime.Now
+                DefaultCurrency = model.DefaultCurrency
             };
+
+            if(usr.oid == 0) {
+                // TODO: Fix CreatedBy
+                //usr.CreatedBy = something;
+                usr.CreatedDate = DateTime.Now;
+                usr.UpdatedBy = null;
+                usr.UpdatedDate = DateTime.MinValue;
+            }
+            else {
+                usr.CreatedBy = this.CreatedBy;
+                usr.CreatedDate = this.CreatedDate;
+                // TODO: Fix UpdatedBy
+                //UpdatedBy = model.UpdatedBy;
+                usr.UpdatedDate = DateTime.Now;
+            }
 
             this.oid = GetDao().Save(securityContext, usr);
             if (usr.oid == 0) {
@@ -175,11 +185,15 @@ namespace dougnlamb.budget {
             UserId = model.UserId;
             DisplayName = model.DisplayName;
             Email = model.Email;
-            DefaultCurrency = model.DefaultCurrency;
-            CreatedDate = DateTime.Now;
-            // TODO: Fix UpdatedBy
-            //UpdatedBy = model.UpdatedBy,
-            UpdatedDate = DateTime.Now;
+            DefaultCurrency = model.DefaultCurrency ?? DefaultCurrency;
+            if (oid == 0) {
+                CreatedDate = DateTime.Now;
+            }
+            else {
+                // TODO: Fix UpdatedBy
+                // UpdatedBy = model.UpdatedBy,
+                UpdatedDate = DateTime.Now;
+            }
 
             this.oid = GetDao().Save(securityContext, this);
         }

@@ -13,9 +13,9 @@ namespace dougnlamb.budget.dao {
             ICurrency currency = null;
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
-                String query = @"select oid, 
-                                        code, 
-                                        description 
+                String query = @"select oid currency_oid,
+                                        code currency_code, 
+                                        description currency_description 
                                     from budget.dbo.currency where oid = @oid";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("oid", oid);
@@ -35,11 +35,11 @@ namespace dougnlamb.budget.dao {
             return currency;
         }
 
-        private ICurrency BuildCurrency(SqlDataReader reader, ISecurityContext securityContext) {
+        public ICurrency BuildCurrency(SqlDataReader reader, ISecurityContext securityContext) {
             Currency usr = new Currency(securityContext);
-            usr.oid = (int)reader["oid"];
-            usr.Code = (string)reader["code"];
-            usr.Description = (string)reader["description"];
+            usr.oid = (int)reader["currency_oid"];
+            usr.Code = (string)reader["currency_code"];
+            usr.Description = (string)reader["currency_description"];
 
             return usr;
         }

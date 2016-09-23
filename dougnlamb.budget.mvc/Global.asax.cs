@@ -19,6 +19,8 @@ namespace dougnlamb.budget.mvc
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            //GlobalFilters.Filters.Add(new RequireHttpsAttribute());
+
             dougnlamb.budget.dao.MockDatabase.init();
         }
     }

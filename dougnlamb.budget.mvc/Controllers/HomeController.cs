@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace dougnlamb.budget.mvc.Controllers {
+    [Authorize]
     public class HomeController : Controller {
         public ActionResult Index() {
             IUser usr = dougnlamb.budget.User.GetDao().Retrieve(null, 1);

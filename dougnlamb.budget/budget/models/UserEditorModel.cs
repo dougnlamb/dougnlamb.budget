@@ -14,6 +14,7 @@ namespace dougnlamb.budget.models {
         }
 
         public UserEditorModel(IUser user) {
+            this.oid = user?.oid ?? 0;
             this.mUser = user;
 
             this.UserId = user?.UserId ?? "";
@@ -23,12 +24,12 @@ namespace dougnlamb.budget.models {
             this.DefaultCurrency = user?.DefaultCurrency ?? null;
         }
 
-        public int oid { get; protected set; }
-        public string UserId { get; protected set;}
+        public int oid { get; set; }
+        public string UserId { get; protected set; }
 
         public string DisplayName { get; set; }
 
-        public string Email { get; set;}
+        public string Email { get; set; }
 
         public ICurrency DefaultCurrency {
             get {
@@ -45,6 +46,10 @@ namespace dougnlamb.budget.models {
             if (mUser == null) {
                 if (this.oid > 0) {
                     mUser = User.GetDao().Retrieve(securityContext, this.oid);
+                    this.UserId = mUser.UserId;
+                    this.DisplayName = string.IsNullOrWhiteSpace(DisplayName) ? mUser.DisplayName : DisplayName;
+                    this.Email = string.IsNullOrWhiteSpace(Email) ? mUser.Email : Email;
+                    this.DefaultCurrency = DefaultCurrency ?? mUser.DefaultCurrency;
                 }
                 else {
                     mUser = new User(securityContext);

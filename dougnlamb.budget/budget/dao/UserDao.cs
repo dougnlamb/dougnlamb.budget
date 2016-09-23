@@ -38,7 +38,7 @@ namespace dougnlamb.budget.dao {
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
                             if (usr == null) {
-                                usr = BuildUser(reader, securityContext);
+                                usr = BuildUser(reader, securityContext,"");
                             }
                             else {
                                 throw new Exception("Too many records found.");
@@ -51,23 +51,23 @@ namespace dougnlamb.budget.dao {
             return usr;
         }
 
-        private IUser BuildUser(SqlDataReader reader, ISecurityContext securityContext) {
+        public IUser BuildUser(SqlDataReader reader, ISecurityContext securityContext, string columnPrefix) {
             User usr = new User(securityContext);
-            usr.oid = (int)reader["oid"];
-            usr.CreatedBy = new User(securityContext, (int)reader["createdBy"]);
-            usr.CreatedDate = (DateTime)reader["createdDate"];
-            int currencyId = (int)reader["defaultCurrency"];
+            usr.oid = (int)reader[$"{columnPrefix}oid"];
+            usr.CreatedBy = new User(securityContext, (int)reader[$"{columnPrefix}createdBy"]);
+            usr.CreatedDate = (DateTime)reader[$"{columnPrefix}createdDate"];
+            int currencyId = (int)reader[$"{columnPrefix}defaultCurrency"];
             if (currencyId > 0) {
                 usr.DefaultCurrency = new Currency(securityContext, currencyId);
             }
-            usr.DisplayName = (string)reader["displayName"];
-            usr.Email = (string)reader["email"];
-            int updatedById = reader["updatedBy"] != DBNull.Value ? (int)reader["updatedBy"] : 0;
+            usr.DisplayName = (string)reader[$"{columnPrefix}displayName"];
+            usr.Email = (string)reader[$"{columnPrefix}email"];
+            int updatedById = reader[$"{columnPrefix}updatedBy"] != DBNull.Value ? (int)reader[$"{columnPrefix}updatedBy"] : 0;
             if (updatedById > 0) {
                 usr.UpdatedBy = new User(securityContext, updatedById);
             }
-            usr.UpdatedDate = reader["updatedDate"] != DBNull.Value ? (DateTime)reader["updatedDate"] : new DateTime();
-            usr.UserId = (string)reader["userId"];
+            usr.UpdatedDate = reader[$"{columnPrefix}updatedDate"] != DBNull.Value ? (DateTime)reader[$"{columnPrefix}updatedDate"] : new DateTime();
+            usr.UserId = (string)reader[$"{columnPrefix}userId"];
 
             return usr;
         }
@@ -77,7 +77,7 @@ namespace dougnlamb.budget.dao {
                 return InsertUser(user);
             }
             else {
-                MockDatabase.UpdateUser(user);
+                UpdateUser(user);
                 return user.oid;
             }
         }
@@ -91,13 +91,13 @@ namespace dougnlamb.budget.dao {
                         (@createdBy, @createdDate, @defaultCurrency, @displayName, @email, @updatedBy, @updatedDate, @userId);
                         SET @ID=SCOPE_IDENTITY()",
                     sqlConn)) {
-                    cmd.Parameters.AddWithValue("createdBy", user?.CreatedBy?.oid ?? 0);
+                    cmd.Parameters.AddWithValue("createdBy", user.CreatedBy?.oid ?? 0);
                     cmd.Parameters.AddWithValue("createdDate", user.CreatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", user.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("displayName", user.DisplayName);
                     cmd.Parameters.AddWithValue("email", user.Email);
                     cmd.Parameters.AddWithValue("updatedBy", 0);
-                    cmd.Parameters.AddWithValue("updatedDate", DBNull.Value);
+                    cmd.Parameters.AddWithValue("updatedDate", user.UpdatedDate);
                     cmd.Parameters.AddWithValue("userId", user.UserId);
 
                     SqlParameter p = new SqlParameter();
@@ -127,13 +127,13 @@ namespace dougnlamb.budget.dao {
                         where
                             oid = @oid",
                     sqlConn)) {
-                    cmd.Parameters.AddWithValue("createdBy", user?.CreatedBy?.oid ?? 0);
+                    cmd.Parameters.AddWithValue("createdBy", user.CreatedBy?.oid ?? 0);
                     cmd.Parameters.AddWithValue("createdDate", user.CreatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", user.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("displayName", user.DisplayName);
                     cmd.Parameters.AddWithValue("email", user.Email);
-                    cmd.Parameters.AddWithValue("updatedBy", user?.UpdatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("updatedDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("updatedBy", user.UpdatedBy?.oid ?? 0);
+                    cmd.Parameters.AddWithValue("updatedDate", user.UpdatedDate);
                     cmd.Parameters.AddWithValue("userId", user.UserId);
                     cmd.Parameters.AddWithValue("oid", user.oid);
 

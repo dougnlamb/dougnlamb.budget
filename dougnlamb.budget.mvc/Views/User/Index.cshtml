@@ -1,0 +1,58 @@
+﻿@model dougnlamb.budget.models.UserEditorModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Save", "User")) {
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.oid)
+
+    <div class="card">
+        <!--Header-->
+        <div class="card form-header blue">
+            <h3 id="title"><i class="fa fa-pencil"></i> My Info</h3>
+        </div>
+
+        <!--Body-->
+
+        <br>
+
+        <!--Body-->
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <br>
+
+                    <div class="md-form">
+                        <i class="fa fa-user prefix"></i>
+                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                        <label for="DisplayName" class="">Your name</label>
+                    </div>
+
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        <label for="Email">Your email</label>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="text-xs-center">
+                <button id="submitButtonId" class="btn btn-ptc waves-effect waves-light">Save</button>
+            </div>
+
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
