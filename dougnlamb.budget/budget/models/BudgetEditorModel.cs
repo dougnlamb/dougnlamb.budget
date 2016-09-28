@@ -47,7 +47,7 @@ namespace dougnlamb.budget.models {
                 return DefaultCurrencySelector.SelectedCurrency;
             }
             set {
-                DefaultCurrencySelector.SelectedItem = value?.View(mSecurityContext) ?? null;
+                DefaultCurrencySelector.SelectedCurrencyCode = value?.oid ?? 0;
             }
         }
 

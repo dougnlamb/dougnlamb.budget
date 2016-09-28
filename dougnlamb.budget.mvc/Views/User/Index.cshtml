@@ -8,6 +8,7 @@
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(m => m.oid)
+    @Html.HiddenFor(m => m.UserId)
 
     <div class="card">
         <!--Header-->
@@ -36,6 +37,12 @@
                         <i class="fa fa-envelope prefix"></i>
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                         <label for="Email">Your email</label>
+                    </div>
+
+                    <div class="md-form">
+                        <i class="fa fa-money prefix"></i>
+                        @Html.EditorFor(m => m.DefaultCurrencySelector, new { @class = "form-control" })
+                        <label for="DefaultCurrencySelector">Currency</label>
                     </div>
 
                 </div>

@@ -30,7 +30,7 @@ namespace dougnlamb.budget {
             }
             set {
                 AmountEditor.Amount = value?.Value ?? 0;
-                AmountEditor.CurrencySelector.SelectedItem = value?.Currency?.View(mSecurityContext) ?? null;
+                AmountEditor.CurrencySelector.SelectedCurrencyCode = value?.Currency?.oid ?? 0;
             }
         } 
         public MoneyEditorModel AmountEditor { get; set; }

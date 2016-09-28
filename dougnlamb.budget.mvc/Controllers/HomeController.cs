@@ -9,7 +9,11 @@ namespace dougnlamb.budget.mvc.Controllers {
     [Authorize]
     public class HomeController : Controller {
         public ActionResult Index() {
-            IUser usr = dougnlamb.budget.User.GetDao().Retrieve(null, 1);
+            IUser usr = dougnlamb.budget.User.GetDao().Retrieve(null, User.Identity.Name);
+
+            if(usr  == null) {
+                return RedirectToAction("Index", "User");
+            }
             List<IAccountViewModel> accounts = new List<IAccountViewModel>();
             foreach (IAccount acct in usr.Accounts) {
                 accounts.Add(acct.View(null));

@@ -10,11 +10,22 @@ namespace dougnlamb.budget.mvc.Controllers {
     public class UserController : Controller {
         // GET: User
         public ActionResult Index() {
-            IUser usr = dougnlamb.budget.User.GetDao().Retrieve(null, 1);
+            IUser usr = dougnlamb.budget.User.GetDao().Retrieve(null, User.Identity.Name);
 
-            return View(new UserEditorModel(usr));
+            if (usr == null) {
+                ICurrency curr = dougnlamb.budget.Currency.GetDao().Retrieve(null, 1);
+                return View(new UserEditorModel() {
+                    UserId = User.Identity.Name,
+                    Email = User.Identity.Name,
+                    DefaultCurrency = curr
+                });
+            }
+            else {
+                return View(new UserEditorModel(usr));
+            }
         }
 
+        [ValidateAntiForgeryToken]
         public ActionResult Save(UserEditorModel mdl) {
             mdl.Save(null);
 

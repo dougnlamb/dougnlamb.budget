@@ -25,7 +25,7 @@ namespace dougnlamb.budget {
             }
             set {
                 TransactionAmountEditor.Amount = value?.Value ?? 0;
-                TransactionAmountEditor.CurrencySelector.SelectedItem = value?.Currency?.View(securityContext) ?? null;
+                TransactionAmountEditor.CurrencySelector.SelectedCurrencyCode = value?.Currency?.oid ?? 0;
             }
         }
         public MoneyEditorModel TransactionAmountEditor { get; set; }

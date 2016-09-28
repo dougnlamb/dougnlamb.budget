@@ -25,7 +25,7 @@ namespace dougnlamb.budget.models {
         }
 
         public int oid { get; set; }
-        public string UserId { get; protected set; }
+        public string UserId { get; set; }
 
         public string DisplayName { get; set; }
 
@@ -36,7 +36,7 @@ namespace dougnlamb.budget.models {
                 return DefaultCurrencySelector.SelectedCurrency;
             }
             set {
-                DefaultCurrencySelector.SelectedItem = value?.View(null) ?? null;
+                DefaultCurrencySelector.SelectedCurrencyCode = value?.oid ?? 0;
             }
         }
 

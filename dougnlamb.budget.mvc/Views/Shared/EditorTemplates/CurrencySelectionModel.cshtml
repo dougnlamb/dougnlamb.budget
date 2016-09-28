@@ -1,0 +1,10 @@
+﻿@model dougnlamb.budget.models.CurrencySelectionModel
+
+@{
+    var selectList = new List<SelectListItem>();
+    foreach (dougnlamb.budget.models.ICurrencyViewModel mdl in Model.Currencies) {
+        selectList.Add(new SelectListItem { Text = $"{mdl.Code} - {mdl.Description}", Value = mdl.oid.ToString() });
+    }
+}
+
+@Html.DropDownListFor(m => m.SelectedCurrencyCode, selectList: selectList)

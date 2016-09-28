@@ -35,6 +35,26 @@ namespace dougnlamb.budget.dao {
             return currency;
         }
 
+        public IList<ICurrency> RetrieveAll(ISecurityContext securityContext) {
+            IList<ICurrency> currencies = new List<ICurrency>();
+            using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
+                sqlConn.Open();
+                String query = @"select oid currency_oid,
+                                        code currency_code, 
+                                        description currency_description 
+                                    from budget.dbo.currency";
+                using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
+                    using (SqlDataReader reader = cmd.ExecuteReader()) {
+                        while (reader.Read()) {
+                            currencies.Add(BuildCurrency(reader, securityContext));
+                        }
+                    }
+                }
+
+            }
+            return currencies;
+        }
+
         public ICurrency BuildCurrency(SqlDataReader reader, ISecurityContext securityContext) {
             Currency usr = new Currency(securityContext);
             usr.oid = (int)reader["currency_oid"];

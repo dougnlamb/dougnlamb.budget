@@ -132,7 +132,8 @@ namespace dougnlamb.budget.dao {
                                     left join budget.dbo.[user] owner on budget.owner = owner.oid
                                     left join budget.dbo.[user] creator on budget.createdBy = creator.oid
                                     left join budget.dbo.[user] updater on budget.updatedBy = updater.oid
-                                        where owner = @owner";
+                                        where owner = @owner
+                                        order by budget_name";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
                     cmd.Parameters.AddWithValue("owner", user.oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {

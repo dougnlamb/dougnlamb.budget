@@ -22,7 +22,7 @@ namespace dougnlamb.budget.models {
                 return CurrencySelector.SelectedCurrency;
             }
             set {
-                CurrencySelector.SelectedItem = value?.View(null) ?? null; 
+                CurrencySelector.SelectedCurrencyCode = value?.oid ?? 0;
             }
         }
 

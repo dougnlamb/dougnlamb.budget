@@ -51,6 +51,38 @@ namespace dougnlamb.budget.dao {
             return usr;
         }
 
+        public IUser Retrieve(ISecurityContext securityContext, string userId) {
+            IUser usr = null;
+            using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
+                sqlConn.Open();
+                string query = @"select oid, 
+                                        createdBy, 
+                                        createdDate, 
+                                        defaultCurrency, 
+                                        displayName, 
+                                        email, 
+                                        updatedBy, 
+                                        updatedDate, 
+                                        userId
+                                    from budget.dbo.[user] where userId = @userId";
+                using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
+                    cmd.Parameters.AddWithValue("userId", userId);
+                    using (SqlDataReader reader = cmd.ExecuteReader()) {
+                        while (reader.Read()) {
+                            if (usr == null) {
+                                usr = BuildUser(reader, securityContext,"");
+                            }
+                            else {
+                                throw new Exception("Too many records found.");
+                            }
+                        }
+                    }
+                }
+
+            }
+            return usr;
+        }
+
         public IUser BuildUser(SqlDataReader reader, ISecurityContext securityContext, string columnPrefix) {
             User usr = new User(securityContext);
             usr.oid = (int)reader[$"{columnPrefix}oid"];
@@ -92,12 +124,12 @@ namespace dougnlamb.budget.dao {
                         SET @ID=SCOPE_IDENTITY()",
                     sqlConn)) {
                     cmd.Parameters.AddWithValue("createdBy", user.CreatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("createdDate", user.CreatedDate);
+                    AddDateParameter(cmd, "createdDate", user.CreatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", user.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("displayName", user.DisplayName);
                     cmd.Parameters.AddWithValue("email", user.Email);
                     cmd.Parameters.AddWithValue("updatedBy", 0);
-                    cmd.Parameters.AddWithValue("updatedDate", user.UpdatedDate);
+                    AddDateParameter(cmd, "updatedDate", user.UpdatedDate);
                     cmd.Parameters.AddWithValue("userId", user.UserId);
 
                     SqlParameter p = new SqlParameter();
@@ -128,12 +160,12 @@ namespace dougnlamb.budget.dao {
                             oid = @oid",
                     sqlConn)) {
                     cmd.Parameters.AddWithValue("createdBy", user.CreatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("createdDate", user.CreatedDate);
+                    AddDateParameter(cmd, "createdDate", user.UpdatedDate);
                     cmd.Parameters.AddWithValue("defaultCurrency", user.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("displayName", user.DisplayName);
                     cmd.Parameters.AddWithValue("email", user.Email);
                     cmd.Parameters.AddWithValue("updatedBy", user.UpdatedBy?.oid ?? 0);
-                    cmd.Parameters.AddWithValue("updatedDate", user.UpdatedDate);
+                    AddDateParameter(cmd, "updatedDate", user.UpdatedDate);
                     cmd.Parameters.AddWithValue("userId", user.UserId);
                     cmd.Parameters.AddWithValue("oid", user.oid);
 

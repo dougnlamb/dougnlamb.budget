@@ -12,14 +12,14 @@ using dougnlamb.budget.mvc.Models;
 
 namespace dougnlamb.budget.mvc.Controllers {
     [Authorize]
-    public class AccountController : Controller {
+    public class UserAccountController : Controller {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController() {
+        public UserAccountController() {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) {
+        public UserAccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) {
             UserManager = userManager;
             SignInManager = signInManager;
         }
@@ -43,7 +43,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/Login
+        // GET: /UserAccount/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
@@ -51,7 +51,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // POST: /Account/Login
+        // POST: /UserAccount/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -78,7 +78,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/VerifyCode
+        // GET: /UserAccount/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe) {
             // Require that the user has already logged in via username/password or external login
@@ -89,7 +89,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // POST: /Account/VerifyCode
+        // POST: /UserAccount/VerifyCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -116,14 +116,14 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/Register
+        // GET: /UserAccount/Register
         [AllowAnonymous]
         public ActionResult Register() {
             return View();
         }
 
         //
-        // POST: /Account/Register
+        // POST: /UserAccount/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -150,7 +150,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/ConfirmEmail
+        // GET: /UserAccount/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code) {
             if (userId == null || code == null) {
@@ -161,14 +161,14 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/ForgotPassword
+        // GET: /UserAccount/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword() {
             return View();
         }
 
         //
-        // POST: /Account/ForgotPassword
+        // POST: /UserAccount/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -193,21 +193,21 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /UserAccount/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation() {
             return View();
         }
 
         //
-        // GET: /Account/ResetPassword
+        // GET: /UserAccount/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code) {
             return code == null ? View("Error") : View();
         }
 
         //
-        // POST: /Account/ResetPassword
+        // POST: /UserAccount/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -229,14 +229,14 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/ResetPasswordConfirmation
+        // GET: /UserAccount/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation() {
             return View();
         }
 
         //
-        // POST: /Account/ExternalLogin
+        // POST: /UserAccount/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -246,7 +246,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/SendCode
+        // GET: /UserAccount/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe) {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
@@ -259,7 +259,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // POST: /Account/SendCode
+        // POST: /UserAccount/SendCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -276,7 +276,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/ExternalLoginCallback
+        // GET: /UserAccount/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl) {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -303,7 +303,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // POST: /Account/ExternalLoginConfirmation
+        // POST: /UserAccount/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -335,7 +335,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // POST: /Account/LogOff
+        // POST: /UserAccount/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff() {
@@ -344,7 +344,7 @@ namespace dougnlamb.budget.mvc.Controllers {
         }
 
         //
-        // GET: /Account/ExternalLoginFailure
+        // GET: /UserAccount/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure() {
             return View();
