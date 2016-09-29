@@ -10,6 +10,7 @@ namespace dougnlamb.core.collections {
 
         public PagedList(IList<T> list) {
             mList = new List<T>(list);
+            PageSize = 10;
         }
 
         public int PageCount {

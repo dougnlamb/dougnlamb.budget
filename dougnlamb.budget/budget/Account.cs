@@ -72,9 +72,13 @@ namespace dougnlamb.budget {
             return new AccountDao();
         }
 
+        private IPagedList<ITransaction> mTransactions;
         public IPagedList<ITransaction> Transactions {
             get {
-                throw new NotImplementedException();
+                if (mTransactions == null) {
+                    mTransactions = Transaction.GetDao().Retrieve(mSecurityContext, this);
+                }
+                return mTransactions;
             }
         }
 
@@ -147,13 +151,18 @@ namespace dougnlamb.budget {
             this.Owner = account.Owner;
             this.DefaultCurrency = account.DefaultCurrency;
 
+            this.mTransactions = null;
+
             base.RefreshFrom(account);
         }
 
         public ITransaction AddTransaction(ISecurityContext securityContext, ITransactionEditorModel model) {
-            model.Account = this;
+            //model.Account = this;
             ITransaction transaction = model.Save(securityContext);
-            //Transactions.Add(transaction);
+            if (mTransactions != null) {
+                //mTransactions.Add(transaction);
+                mTransactions = null;
+            }
             return transaction;
         }
     }

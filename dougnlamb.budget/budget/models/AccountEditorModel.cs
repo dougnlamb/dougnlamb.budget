@@ -8,6 +8,9 @@ namespace dougnlamb.budget.models {
         private ISecurityContext mSecurityContext;
         private IAccount mAccount;
 
+        public AccountEditorModel() {
+        }
+
         public AccountEditorModel(ISecurityContext securityContext, IUser user) {
             this.mSecurityContext = securityContext;
             this.mAccount = new Account(securityContext);

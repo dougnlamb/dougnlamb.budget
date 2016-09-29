@@ -31,9 +31,13 @@
             <div class="card-block">
                 <ul>
                     @foreach (IAccountViewModel mdl in Model.Accounts) {
-                        <li>@mdl.oid : @mdl.Name : @mdl.DefaultCurrency.Description : @mdl.Owner.DisplayName</li>
+                        <li>@Html.ActionLink("Add", "Create", "Transaction", new { accountId = mdl.oid }, null) : 
+                            @Html.ActionLink(mdl.oid.ToString(), "View", "Account", new { accountId = mdl.oid }, null) : 
+                            @mdl.Name : @mdl.DefaultCurrency.Description : @mdl.Owner.DisplayName</li>
                     }
                 </ul>
+
+                @Html.ActionLink("Add Account", "Create", "Account")
             </div>
         </div>
     </div>
@@ -48,6 +52,8 @@
                         <li>@mdl.oid : @mdl.Name : @mdl.DefaultCurrency.Description : @mdl.Owner.DisplayName</li>
                     }
                 </ul>
+
+                @Html.ActionLink("Add Budget", "Create", "Budget")
             </div>
         </div>
     </div>

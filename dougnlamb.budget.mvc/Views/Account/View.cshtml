@@ -1,0 +1,23 @@
+﻿@model dougnlamb.budget.models.AccountViewModel
+
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card form-header green">
+            <h3><i class="fa fa-lock"></i> @Model.Name</h3>
+        </div>
+        <div class="card-block">
+            <h4>@Model.Owner.DisplayName</h4>
+            <ul>
+                @foreach (dougnlamb.budget.models.ITransactionViewModel transaction in Model.Transactions.AllItems) {
+                    <li><b>@transaction.Note</b> @Html.DisplayFor(model => transaction.TransactionAmount.Amount) @transaction.TransactionAmount.Currency.Code <em>@Html.DisplayFor(model => transaction.TransactionDate)</em></li>
+                }
+            </ul>
+
+            @Html.ActionLink("Add Transaction", "Create", "Transaction", new { accountId = Model.oid }, null)
+        </div>
+    </div>
+</div>

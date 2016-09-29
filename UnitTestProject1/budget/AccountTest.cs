@@ -81,9 +81,11 @@ namespace test.budget.budget {
             Assert.IsNotNull(usr);
             IAccount account = Account.GetDao().Retrieve(null, 1);
             Assert.IsNotNull(account);
-            ITransactionEditorModel model = new TransactionEditorModel(null, usr, account);
+            TransactionEditorModel model = new TransactionEditorModel(null, usr, account);
 
-            model.TransactionAmount = new Money() { Value = 100, Currency = account.DefaultCurrency };
+            model.TransactionAmountEditor.Amount = 100;
+            model.TransactionAmountEditor.CurrencySelector.SelectedCurrencyCode = account.DefaultCurrency.oid;
+
             ITransaction transaction = account.AddTransaction(null, model);
 
             transaction = Transaction.GetDao().Retrieve(null, transaction.oid);

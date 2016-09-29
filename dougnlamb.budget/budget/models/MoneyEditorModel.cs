@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public class MoneyEditorModel : IMoneyEditorModel {
+        public MoneyEditorModel() {
+        }
+
         public MoneyEditorModel(decimal amount, ICurrency currency) {
             CurrencySelector = new CurrencySelectionModel();
             Currency = currency;
@@ -21,11 +24,11 @@ namespace dougnlamb.budget.models {
             get {
                 return CurrencySelector.SelectedCurrency;
             }
-            set {
+            internal set {
                 CurrencySelector.SelectedCurrencyCode = value?.oid ?? 0;
             }
         }
 
-        public ICurrencySelectionModel CurrencySelector { get; set; }
+        public CurrencySelectionModel CurrencySelector { get; set; }
     }
 }

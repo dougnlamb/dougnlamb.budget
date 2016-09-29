@@ -1,4 +1,5 @@
-﻿using dougnlamb.core.security;
+﻿using dougnlamb.core.collections;
+using dougnlamb.core.security;
 
 namespace dougnlamb.budget.models {
     public interface IAccountViewModel {
@@ -8,6 +9,8 @@ namespace dougnlamb.budget.models {
 
         IUserViewModel Owner { get; }
         ICurrencyViewModel DefaultCurrency { get; }
+
+        IPagedList<ITransactionViewModel> Transactions { get; }
 
     }
 }

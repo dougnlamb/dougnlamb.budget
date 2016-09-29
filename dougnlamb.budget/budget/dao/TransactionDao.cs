@@ -52,8 +52,8 @@ namespace dougnlamb.budget.dao {
             return transaction;
         }
 
-        public IObservableList<ITransaction> Retrieve(ISecurityContext securityContext, IBudget budget) {
-            IObservableList<ITransaction> transactions = new ObservableList<ITransaction>();
+        public IPagedList<ITransaction> Retrieve(ISecurityContext securityContext, IAccount account) {
+            IList<ITransaction> transactions = new List<ITransaction>();
 
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
@@ -74,9 +74,9 @@ namespace dougnlamb.budget.dao {
                                         createdDate, 
                                         updatedBy, 
                                         updatedDate  
-                                    from budget.dbo.[transaction] where budget = @budget";
+                                    from budget.dbo.[transaction] where account = @account";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
-                    cmd.Parameters.AddWithValue("budget", budget.oid);
+                    cmd.Parameters.AddWithValue("account", account.oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
                             transactions.Add(BuildTransaction(reader, securityContext));
@@ -85,10 +85,10 @@ namespace dougnlamb.budget.dao {
                 }
 
             }
-            return transactions;
+            return new PagedList<ITransaction>(transactions);
         }
 
-        public IObservableList<ITransaction> RetrieveOpen(ISecurityContext securityContext, IBudget budget) {
+        public IObservableList<ITransaction> RetrieveOpen(ISecurityContext securityContext, IAccount account) {
             IObservableList<ITransaction> transactions = new ObservableList<ITransaction>();
 
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
@@ -110,9 +110,9 @@ namespace dougnlamb.budget.dao {
                                         createdDate, 
                                         updatedBy, 
                                         updatedDate  
-                                    from budget.dbo.[transaction] where budget = @budget and (isclosed = 0 or isclosed is null)";
+                                    from budget.dbo.[transaction] where account = @account and (isclosed = 0 or isclosed is null)";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
-                    cmd.Parameters.AddWithValue("budget", budget.oid);
+                    cmd.Parameters.AddWithValue("account", account.oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
                             transactions.Add(BuildTransaction(reader, securityContext));

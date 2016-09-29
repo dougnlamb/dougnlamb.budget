@@ -17,13 +17,13 @@ namespace dougnlamb.budget {
         }
 
         public int oid { get; internal set; }
-        public IAccountSelectionModel AccountSelector { get; set; }
+        public AccountSelectionModel AccountSelector { get; set; }
         public string Note { get; set; }
         public IMoney TransactionAmount {
             get {
                 return new Money() { Value = TransactionAmountEditor.Amount, Currency = TransactionAmountEditor.Currency };
             }
-            set {
+            internal set {
                 TransactionAmountEditor.Amount = value?.Value ?? 0;
                 TransactionAmountEditor.CurrencySelector.SelectedCurrencyCode = value?.Currency?.oid ?? 0;
             }
@@ -41,7 +41,7 @@ namespace dougnlamb.budget {
                     return null;
                 }
             }
-            set {
+            internal set {
                 AccountSelector.SelectedAccountId = value?.oid ?? 0;
             }
         }

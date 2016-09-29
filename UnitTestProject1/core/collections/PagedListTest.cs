@@ -58,6 +58,12 @@ namespace test.core.collections {
             foreach (int x in list.AllItems) {
                 Trace.WriteLine(x);
             }
+
+            list = new TestPagedList(1);
+            foreach (int x in list.AllItems) {
+                Trace.WriteLine(x);
+            }
+
         }
 
         private void testPageContents(TestPagedList list) {

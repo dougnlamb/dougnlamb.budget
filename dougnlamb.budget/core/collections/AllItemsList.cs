@@ -18,10 +18,7 @@ namespace dougnlamb.core.collections {
                 int pageId = index / mPagedList.PageSize;
                 int indexOnPage = index % mPagedList.PageSize;
 
-                foreach(T bubba in this) {
-
-                }
-                return mPagedList[index][indexOnPage];
+                return mPagedList[pageId][indexOnPage];
             }
         }
 
@@ -31,7 +28,7 @@ namespace dougnlamb.core.collections {
             }
         }
 
-        private int mCurrentId = 0;
+        private int mCurrentId = -1;
         public T Current {
             get {
                 return this[mCurrentId];
@@ -45,7 +42,7 @@ namespace dougnlamb.core.collections {
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            mPagedList = null;
         }
 
         public IEnumerator<T> GetEnumerator() {
@@ -53,13 +50,8 @@ namespace dougnlamb.core.collections {
         }
 
         public bool MoveNext() {
-            if (mCurrentId + 1 > Count) {
-                return false;
-            }
-            else {
-                mCurrentId += 1;
-                return true;
-            }
+            mCurrentId += 1;
+            return mCurrentId < Count;
         }
 
         public void Reset() {

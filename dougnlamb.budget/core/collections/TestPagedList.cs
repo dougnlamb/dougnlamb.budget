@@ -13,6 +13,7 @@ namespace dougnlamb.core.collections {
             for (int idx = 1; idx <= count; idx++) {
                 mInts.Add(idx);
             }
+            PageSize = 10;
         }
 
         public int PageCount {
@@ -31,7 +32,7 @@ namespace dougnlamb.core.collections {
 
         public IReadOnlyList<int> AllItems {
             get {
-                return mInts;
+                return new AllPagedItemsList<int>(this);
             }
         }
 

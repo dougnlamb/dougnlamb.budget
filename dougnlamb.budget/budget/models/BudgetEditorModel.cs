@@ -7,6 +7,9 @@ namespace dougnlamb.budget.models {
         private ISecurityContext mSecurityContext;
         private IBudget mBudget;
 
+        public BudgetEditorModel() { 
+        }
+
         public BudgetEditorModel(ISecurityContext securityContext, IUser user) {
             this.mSecurityContext = securityContext;
             this.mBudget = new Budget(securityContext);
