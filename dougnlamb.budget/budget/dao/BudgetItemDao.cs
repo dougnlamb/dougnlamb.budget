@@ -127,8 +127,8 @@ namespace dougnlamb.budget.dao {
         private IBudgetItem BuildBudgetItem(SqlDataReader reader, ISecurityContext securityContext) {
             BudgetItem budgetItem = new BudgetItem(securityContext);
             budgetItem.oid = (int)reader["oid"];
-            budgetItem.BudgetAmount = BuildMoney(reader, "budgetAmount", "currency");
-            budgetItem.Balance = BuildMoney(reader, "balance", "currency");
+            budgetItem.BudgetAmount = GetMoney(reader, "budgetAmount", "currency");
+            budgetItem.Balance = GetMoney(reader, "balance", "currency");
             budgetItem.Budget = new Budget(securityContext, (int)reader["budget"]);
             budgetItem.ClosedBy = new User(securityContext, (int)reader["closedBy"]);
             budgetItem.ClosedDate = GetDateTime(reader, "closedDate");

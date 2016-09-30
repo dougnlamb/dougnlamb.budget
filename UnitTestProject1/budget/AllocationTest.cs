@@ -34,11 +34,11 @@ namespace test.budget.budget {
             Assert.AreEqual(balance - 25.25M, allocation.BudgetItem.Balance.Value);
 
             Assert.IsTrue(allocation.oid > 0);
-            IAllocation a = Allocation.GetDao().Retrieve(null, allocation.oid);
+            IAllocation retrievedAllocation = Allocation.GetDao().Retrieve(null, allocation.oid);
 
-            Assert.AreEqual(a.Notes, allocation.Notes);
-            Assert.AreEqual(a.Amount.Value, allocation.Amount.Value);
-            Assert.AreEqual(a.Amount.Currency.Code, allocation.Amount.Currency.Code);
+            Assert.AreEqual(retrievedAllocation.Notes, allocation.Notes);
+            Assert.AreEqual(retrievedAllocation.Amount.Value, allocation.Amount.Value);
+            Assert.AreEqual(retrievedAllocation.Amount.Currency.Code, allocation.Amount.Currency.Code);
         }
 
 

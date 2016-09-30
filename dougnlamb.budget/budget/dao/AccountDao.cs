@@ -28,6 +28,8 @@ namespace dougnlamb.budget.dao {
                                         account.owner account_owner, 
                                         account.updatedBy account_updatedBy, 
                                         account.updatedDate account_updatedDate,
+                                        account.balance account_balance,
+                                        account.clearedBalance account_clearedBalance,
                                         currency.oid currency_oid,
                                         currency.code currency_code,
                                         currency.description currency_description,
@@ -95,6 +97,8 @@ namespace dougnlamb.budget.dao {
                                         account.owner account_owner, 
                                         account.updatedBy account_updatedBy, 
                                         account.updatedDate account_updatedDate,
+                                        account.balance account_balance,
+                                        account.clearedBalance account_clearedBalance,
                                         currency.oid currency_oid,
                                         currency.code currency_code,
                                         currency.description currency_description,
@@ -155,6 +159,8 @@ namespace dougnlamb.budget.dao {
             }
             account.Name = (string)reader["account_name"];
             account.UpdatedDate = GetDateTime(reader, "account_updatedDate");
+            account.Balance = GetMoney(reader, "account_balance", "account_defaultCurrency");
+            account.ClearedBalance = GetMoney(reader, "account_clearedBalance", "account_defaultCurrency");
 
             int createdById = reader["account_createdBy"] != DBNull.Value ? (int)reader["account_createdBy"] : 0;
             if (createdById > 0) {
@@ -187,18 +193,17 @@ namespace dougnlamb.budget.dao {
             using (SqlConnection sqlConn = new SqlConnection(GetConnectionString())) {
                 sqlConn.Open();
                 using (SqlCommand cmd = new SqlCommand(@"insert into budget.dbo.account 
-                        (createdBy, createdDate, defaultCurrency, name, owner, updatedBy, updatedDate)
+                        (createdBy, createdDate, defaultCurrency, balance, clearedBalance, name, owner, updatedBy, updatedDate)
                         values
-                        (@createdBy, @createdDate, @defaultCurrency, @name, @owner, @updatedBy, @updatedDate);
+                        (@createdBy, @createdDate, @defaultCurrency, @balance, @clearedBalance, @name, @owner, @updatedBy, @updatedDate);
                         SET @ID=SCOPE_IDENTITY()",
                     sqlConn)) {
-                    cmd.Parameters.AddWithValue("createdBy", account.CreatedBy.oid);
-                    cmd.Parameters.AddWithValue("createdDate", account.CreatedDate);
-                    cmd.Parameters.AddWithValue("defaultCurrency", account.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("name", account.Name);
+                    cmd.Parameters.AddWithValue("defaultCurrency", account.DefaultCurrency.oid);
+                    cmd.Parameters.AddWithValue("balance", account.Balance.Value);
+                    cmd.Parameters.AddWithValue("clearedBalance", account.ClearedBalance.Value);
                     cmd.Parameters.AddWithValue("owner", account.Owner.oid);
-                    cmd.Parameters.AddWithValue("updatedBy", 0);
-                    cmd.Parameters.AddWithValue("updatedDate", DBNull.Value);
+                    AddBaseParameters(cmd, account);
 
                     SqlParameter p = new SqlParameter();
                     p.ParameterName = "@ID";
@@ -220,15 +225,19 @@ namespace dougnlamb.budget.dao {
                             createdDate = @createdDate,
                             defaultCurrency = @defaultCurrency,
                             name = @name,
+                            balance = @balance,
+                            clearedBalance = @clearedBalance,
                             owner = @owner,
                             updatedBy = @updatedBy,
                             updatedDate = @updatedDate
                         where
                             oid = @oid",
                     sqlConn)) {
-                    cmd.Parameters.AddWithValue("defaultCurrency", account.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("name", account.Name);
+                    cmd.Parameters.AddWithValue("defaultCurrency", account.DefaultCurrency.oid);
                     cmd.Parameters.AddWithValue("owner", account.Owner.oid);
+                    cmd.Parameters.AddWithValue("balance", account.Balance.Value);
+                    cmd.Parameters.AddWithValue("clearedBalance", account.ClearedBalance.Value);
                     AddBaseParameters(cmd, account);
                     cmd.Parameters.AddWithValue("oid", account.oid);
 

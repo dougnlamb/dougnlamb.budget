@@ -102,7 +102,7 @@ namespace dougnlamb.budget.dao {
             Allocation allocation = new Allocation(securityContext);
             allocation.oid = (int)reader["oid"];
             allocation.Notes = (string)reader["notes"];
-            allocation.Amount = BuildMoney(reader, "amount", "currency");
+            allocation.Amount = GetMoney(reader, "amount", "currency");
             allocation.BudgetItem = new BudgetItem(securityContext, (int)reader["budgetitem"]);
             allocation.Transaction = new Transaction(securityContext, (int)reader["transaction"]);
             allocation.CreatedBy = new User(securityContext, (int)reader["createdBy"]);

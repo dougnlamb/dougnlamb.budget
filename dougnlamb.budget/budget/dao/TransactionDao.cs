@@ -132,8 +132,8 @@ namespace dougnlamb.budget.dao {
             if (accountId > 0) {
                 transaction.Account = new Account(securityContext, accountId);
             }
-            transaction.TransactionAmount = BuildMoney(reader, "transactionAmount", "currency");
-            transaction.AllocatedAmount = BuildMoney(reader, "allocatedAmount", "allocatedCurrency");
+            transaction.TransactionAmount = GetMoney(reader, "transactionAmount", "currency");
+            transaction.AllocatedAmount = GetMoney(reader, "allocatedAmount", "allocatedCurrency");
             transaction.TransactionDate = GetDateTime(reader, "transactionDate");
             transaction.ReportedBy = new User(securityContext, (int)reader["reportedBy"]);
             transaction.ReportedDate = GetDateTime(reader, "reportedDate");

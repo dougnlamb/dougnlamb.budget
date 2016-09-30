@@ -10,6 +10,8 @@ namespace dougnlamb.budget.models {
         IUserViewModel Owner { get; }
         ICurrencyViewModel DefaultCurrency { get; }
 
+        IMoneyViewModel Balance { get; }
+
         IPagedList<ITransactionViewModel> Transactions { get; }
 
     }

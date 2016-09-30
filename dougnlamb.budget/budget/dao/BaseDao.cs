@@ -17,9 +17,13 @@ namespace dougnlamb.budget.dao {
             return reader[column] != DBNull.Value ? (DateTime)reader[column] : new DateTime();
         }
 
-        protected IMoney BuildMoney(SqlDataReader reader, string valueColumn, string currencyColumn) {
+        protected IMoney GetMoney(SqlDataReader reader, string valueColumn, string currencyColumn) {
+            decimal value = 0;
+            if(reader[valueColumn] != DBNull.Value) {
+                value = (decimal)reader[valueColumn];
+            }
             Money money = new Money() {
-                Value = (decimal)reader[valueColumn],
+                Value = value,
                 Currency = new Currency(null, (int)reader[currencyColumn])
             };
             return money;

@@ -56,15 +56,23 @@ namespace dougnlamb.budget {
             }
         }
 
+        private IMoney mBalance;
         public IMoney Balance {
             get {
-                throw new NotImplementedException();
+                return mBalance;
+            }
+            internal set {
+                mBalance = value;
             }
         }
 
+        private IMoney mClearedBalance;
         public IMoney ClearedBalance {
             get {
-                throw new NotImplementedException();
+                return mClearedBalance;
+            }
+            internal set {
+                mClearedBalance = value;
             }
         }
 
@@ -163,7 +171,23 @@ namespace dougnlamb.budget {
                 //mTransactions.Add(transaction);
                 mTransactions = null;
             }
+
+            UpdateBalance(securityContext);
             return transaction;
+        }
+
+        private void UpdateBalance(ISecurityContext securityContext) {
+            IAccount account = GetDao().Retrieve(securityContext, oid);
+            IMoney balance = new Money() { Currency = DefaultCurrency };
+            foreach(ITransaction trans in account.Transactions.AllItems) {
+                balance.Add(trans.TransactionAmount);
+            }
+
+            ((Account)account).mBalance = balance;
+
+            GetDao().Save(securityContext, account);
+
+            RefreshFrom(account);
         }
     }
 }

@@ -11,6 +11,7 @@
         </div>
         <div class="card-block">
             <h4>@Model.Owner.DisplayName</h4>
+            <h5>Balance: @Html.DisplayFor(m => m.Balance)</h5>
             <ul>
                 @foreach (dougnlamb.budget.models.ITransactionViewModel transaction in Model.Transactions.AllItems) {
                     <li><b>@transaction.Note</b> @Html.DisplayFor(model => transaction.TransactionAmount.Amount) @transaction.TransactionAmount.Currency.Code <em>@Html.DisplayFor(model => transaction.TransactionDate)</em></li>

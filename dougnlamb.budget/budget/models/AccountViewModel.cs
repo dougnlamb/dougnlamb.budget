@@ -19,11 +19,13 @@ namespace dougnlamb.budget.models {
             DefaultCurrency = account?.DefaultCurrency?.View(securityContext) ?? new CurrencyViewModel(securityContext, null);
             Name = account?.Name ?? "";
             Owner = account?.Owner?.View(securityContext) ?? new UserViewModel(securityContext, null);
+            Balance = account?.Balance?.View(securityContext) ?? new MoneyViewModel(securityContext, null);
         }
         public ICurrencyViewModel DefaultCurrency { get; internal set; }
         public string Name { get; internal set;}
         public int oid { get; internal set;}
         public IUserViewModel Owner { get; internal set;}
+        public IMoneyViewModel Balance { get; internal set;}
 
         private IPagedList<ITransactionViewModel> mTransactions;
         public IPagedList<ITransactionViewModel> Transactions {
