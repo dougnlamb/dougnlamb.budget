@@ -64,9 +64,9 @@ namespace dougnlamb.budget.dao {
                                     left join budget.dbo.[user] owner on budget.owner = owner.oid
                                     left join budget.dbo.[user] creator on budget.createdBy = creator.oid
                                     left join budget.dbo.[user] updater on budget.updatedBy = updater.oid
-                                        where oid = @oid";
+                                        where budget.oid = @budget_oid";
                 using (SqlCommand cmd = new SqlCommand(query, sqlConn)) {
-                    cmd.Parameters.AddWithValue("oid", oid);
+                    cmd.Parameters.AddWithValue("budget_oid", oid);
                     using (SqlDataReader reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
                             if (budget == null) {

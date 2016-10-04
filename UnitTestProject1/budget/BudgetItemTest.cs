@@ -21,7 +21,7 @@ namespace test.budget.budget {
             IBudget budget = Budget.GetDao().Retrieve(null, 1);
             int numItems = budget.BudgetItems.Count;
 
-            IBudgetItemEditorModel model = new BudgetItemEditorModel(null, budget.Owner, null);
+            IBudgetItemEditorModel model = new BudgetItemEditorModel(null, budget.Owner, budget);
 
             model.Name = "Movies";
             model.Notes = "Raiders of the Lost Ark";

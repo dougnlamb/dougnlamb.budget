@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace dougnlamb.budget.models {
     public class MoneyEditorModel : IMoneyEditorModel {
         public MoneyEditorModel() {
+            CurrencySelector = new CurrencySelectionModel();
         }
 
         public MoneyEditorModel(decimal amount, ICurrency currency) {

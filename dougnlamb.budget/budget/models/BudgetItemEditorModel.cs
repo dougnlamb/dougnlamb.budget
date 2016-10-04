@@ -7,6 +7,26 @@ namespace dougnlamb.budget {
         private IBudgetItem mBudgetItem;
         private ISecurityContext mSecurityContext;
 
+        public BudgetItemEditorModel() {
+            this.DefaultAccountSelector = new AccountSelectionModel();
+            this.BudgetSelector = new BudgetSelectionModel();
+        }
+
+        public BudgetItemEditorModel(ISecurityContext securityContext, IUser user, IBudget budget) {
+            this.mSecurityContext = securityContext;
+            this.mBudgetItem = new BudgetItem(securityContext);
+            this.Name = "";
+            this.Notes = "";
+            this.AmountEditor = new MoneyEditorModel();
+            this.IsClosed = false;
+            this.ClosedBy = null;
+            this.DueDate = DateTime.Now.AddMonths(1);
+            this.ReminderDate = DueDate.AddDays(-7);
+
+            this.DefaultAccountSelector = new AccountSelectionModel(mSecurityContext, user, null);
+            this.BudgetSelector = new BudgetSelectionModel(mSecurityContext, user, budget);
+        }
+
         public BudgetItemEditorModel(ISecurityContext securityContext, IUser user, IBudgetItem budgetItem) {
             this.mSecurityContext = securityContext;
             this.mBudgetItem = budgetItem;

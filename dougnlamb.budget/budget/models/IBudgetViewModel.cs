@@ -1,4 +1,5 @@
 ﻿using dougnlamb.core.security;
+using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public interface IBudgetViewModel {
@@ -9,5 +10,7 @@ namespace dougnlamb.budget.models {
         ICurrencyViewModel DefaultCurrency { get; }
         IUserViewModel Owner { get; }
         IBudgetPeriodViewModel Period { get; }
+
+        IList<IBudgetItemViewModel> BudgetItems { get; }
     }
 }

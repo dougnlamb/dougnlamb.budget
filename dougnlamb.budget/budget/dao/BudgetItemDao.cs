@@ -177,7 +177,7 @@ namespace dougnlamb.budget.dao {
                     cmd.Parameters.AddWithValue("budgetAmount", budgetItem.BudgetAmount?.Value ?? 0);
                     cmd.Parameters.AddWithValue("currency", budgetItem.BudgetAmount?.Currency?.oid ?? 0);
                     cmd.Parameters.AddWithValue("balance", budgetItem.Balance?.Value ?? 0);
-                    cmd.Parameters.AddWithValue("notes", budgetItem.Notes);
+                    cmd.Parameters.AddWithValue("notes", budgetItem?.Notes ?? "");
                     AddDateParameter(cmd, "reminderDate", budgetItem.ReminderDate);
                     AddDateParameter(cmd, "dueDate", budgetItem.DueDate);
                     cmd.Parameters.AddWithValue("isclosed", budgetItem.IsClosed);
@@ -229,7 +229,7 @@ namespace dougnlamb.budget.dao {
                     cmd.Parameters.AddWithValue("budgetAmount", budgetItem.BudgetAmount?.Value ?? 0);
                     cmd.Parameters.AddWithValue("currency", budgetItem.BudgetAmount?.Currency?.oid ?? 0);
                     cmd.Parameters.AddWithValue("balance", budgetItem.Balance?.Value ?? 0);
-                    cmd.Parameters.AddWithValue("notes", budgetItem.Notes);
+                    cmd.Parameters.AddWithValue("notes", budgetItem?.Notes ?? "");
                     AddDateParameter(cmd, "reminderDate", budgetItem.ReminderDate);
                     AddDateParameter(cmd, "dueDate", budgetItem.DueDate);
                     cmd.Parameters.AddWithValue("isclosed", budgetItem.IsClosed);

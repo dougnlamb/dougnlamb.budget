@@ -1,0 +1,23 @@
+﻿@model dougnlamb.budget.models.IBudgetViewModel
+
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card form-header green">
+            <h3><i class="fa fa-lock"></i> @Model.Name</h3>
+        </div>
+        <div class="card-block">
+            <h4>@Model.Owner.DisplayName</h4>
+            <ul>
+                @foreach (dougnlamb.budget.models.IBudgetItemViewModel budgetItem in Model.BudgetItems) {
+                    <li><b>@budgetItem.Name</b> @Html.DisplayFor(model => budgetItem.Amount) <em>@Html.DisplayFor(model => budgetItem.DueDate)</em></li>
+                }
+            </ul>
+
+            @Html.ActionLink("Add Budget Item", "AddBudgetItem", "Budget", new { budgetId = Model.oid }, null)
+        </div>
+    </div>
+</div>

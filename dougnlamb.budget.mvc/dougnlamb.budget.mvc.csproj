@@ -257,6 +257,9 @@
     <Content Include="Views\Transaction\Create.cshtml" />
     <Content Include="Views\Account\View.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MoneyViewModel.cshtml" />
+    <Content Include="Views\Budget\AddBudgetItem.cshtml" />
+    <Content Include="Views\Budget\Index.cshtml" />
+    <Content Include="Views\Budget\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,12 +1,15 @@
 ﻿using dougnlamb.core.security;
 using System;
+using System.Collections.Generic;
 
 namespace dougnlamb.budget.models {
     public class BudgetViewModel : IBudgetViewModel {
 
+        private ISecurityContext mSecurityContext;
         private IBudget mBudget;
 
         public BudgetViewModel(ISecurityContext securityContext, IBudget budget) {
+            this.mSecurityContext = securityContext;
             this.mBudget = budget;
             this.oid = budget.oid;
             this.Name = budget.Name;
@@ -34,6 +37,19 @@ namespace dougnlamb.budget.models {
                     mDefaultCurrency = mBudget?.DefaultCurrency?.View(null);
                 }
                 return mDefaultCurrency;
+            }
+        }
+
+        private IList<IBudgetItemViewModel> mBudgetItems;
+        public IList<IBudgetItemViewModel> BudgetItems {
+            get {
+                if (mBudgetItems == null) {
+                    mBudgetItems = new List<IBudgetItemViewModel>();
+                    foreach(IBudgetItem item in mBudget.BudgetItems) {
+                        mBudgetItems.Add(item.View(mSecurityContext));
+                    }
+                }
+                return mBudgetItems;
             }
         }
     }

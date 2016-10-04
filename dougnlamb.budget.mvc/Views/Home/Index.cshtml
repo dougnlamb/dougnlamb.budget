@@ -49,7 +49,8 @@
             <div class="card-block">
                 <ul>
                     @foreach (IBudgetViewModel mdl in Model.Budgets) {
-                        <li>@mdl.oid : @mdl.Name : @mdl.DefaultCurrency.Description : @mdl.Owner.DisplayName</li>
+                        <li>@Html.ActionLink("Add", "AddBudgetItem", "Budget", new { budgetId = mdl.oid }, null) : 
+                            @Html.ActionLink(mdl.Name, "View", "Budget", new { id = mdl.oid }, null)</li>
                     }
                 </ul>
 
