@@ -21,6 +21,10 @@
                 margin: 0;
                 padding: .7rem;
             }
+
+        .top-margin-md {
+            margin-top: 2em;
+        }
     </style>
 
 </head>
@@ -60,13 +64,15 @@
         </nav>
     </header>
     <main>
-        <div class="container body-content">
+        <div class="container">
             @RenderBody()
-            <hr />
         </div>
     </main>
     <footer>
-        <p>&copy; @DateTime.Now.Year - In Control</p>
+        <hr />
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - Doug Lamb</p>
+        </div>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")

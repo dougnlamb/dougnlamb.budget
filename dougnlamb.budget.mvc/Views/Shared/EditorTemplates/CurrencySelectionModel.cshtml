@@ -7,4 +7,5 @@
     }
 }
 
-@Html.DropDownListFor(m => m.SelectedCurrencyCode, selectList: selectList)
+@Html.DropDownListFor(m => m.SelectedCurrencyCode, selectList: selectList, htmlAttributes: ViewData["htmlAttributes"])
+
